@@ -1,0 +1,35 @@
+{
+  "name": "react-dadata",
+  "version": "1.0.0",
+  "description": "React-компонент для подсказок адресов с помощью сервиса DaData.ru",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vitalybaev/react-dadata.git"
+  },
+  "keywords": [
+    "react",
+    "dadata",
+    "suggestion"
+  ],
+  "author": "Vitaly Baev <hello@vitalybaev.ru>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vitalybaev/react-dadata/issues"
+  },
+  "homepage": "https://github.com/vitalybaev/react-dadata#readme",
+  "devDependencies": {
+    "typescript": "^2.4.2"
+  },
+  "dependencies": {
+    "@types/react": "^16.0.2",
+    "react": "^15.6.1",
+    "react-highlight-words": "^0.8.1"
+  }
+}
