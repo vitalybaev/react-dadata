@@ -16,6 +16,7 @@ export declare namespace ReactDadata {
         token: string;
         placeholder?: string;
         query?: string;
+        autoload?: boolean;
         onChange?: (suggestion: DadataSuggestion) => void;
     }
     interface State {
@@ -28,9 +29,16 @@ export declare namespace ReactDadata {
     }
 }
 export declare class ReactDadata extends React.Component<ReactDadata.Props, ReactDadata.State> {
+    /**
+     * HTML-input
+     */
     protected textInput: HTMLInputElement;
+    /**
+     * XMLHttpRequest instance
+     */
     protected xhr: XMLHttpRequest;
     constructor(props: ReactDadata.Props);
+    componentDidMount(): void;
     onInputFocus: () => void;
     onInputBlur: () => void;
     onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -38,7 +46,7 @@ export declare class ReactDadata extends React.Component<ReactDadata.Props, Reac
     fetchSuggestions: () => void;
     onSuggestionClick: (index: number, event: React.MouseEvent<HTMLDivElement>) => void;
     selectSuggestion: (index: number) => void;
-    setCursorToEnd: (ele: any) => void;
+    setCursorToEnd: (element: any) => void;
     getHighlightWords: () => string[];
     render(): JSX.Element;
 }

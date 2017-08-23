@@ -19,6 +19,7 @@ export namespace ReactDadata {
     token: string
     placeholder?: string
     query?: string
+    autoload?: boolean
     onChange?: (suggestion: DadataSuggestion) => void
   }
 
@@ -34,8 +35,14 @@ export namespace ReactDadata {
 
 export class ReactDadata extends React.Component<ReactDadata.Props, ReactDadata.State> {
 
+  /**
+   * HTML-input
+   */
   protected textInput: HTMLInputElement;
 
+  /**
+   * XMLHttpRequest instance
+   */
   protected xhr: XMLHttpRequest;
 
   constructor(props: ReactDadata.Props) {
@@ -50,6 +57,12 @@ export class ReactDadata extends React.Component<ReactDadata.Props, ReactDadata.
       suggestionsVisible: true
     }
   }
+
+  componentDidMount() {
+    if (this.props.autoload && this.state.query) {
+      this.fetchSuggestions();
+    }
+  };
 
   onInputFocus = () => {
     this.setState({inputFocused: true});
@@ -142,13 +155,13 @@ export class ReactDadata extends React.Component<ReactDadata.Props, ReactDadata.
     }
   };
 
-  setCursorToEnd = (ele) => {
-    const valueLength = ele.value.length;
-    if (ele.selectionStart || ele.selectionStart == '0') {
+  setCursorToEnd = (element) => {
+    const valueLength = element.value.length;
+    if (element.selectionStart || element.selectionStart == '0') {
       // Firefox/Chrome
-      ele.selectionStart = valueLength;
-      ele.selectionEnd = valueLength;
-      ele.focus();
+      element.selectionStart = valueLength;
+      element.selectionEnd = valueLength;
+      element.focus();
     }
   };
 

@@ -100,13 +100,13 @@ var ReactDadata = (function (_super) {
                 }
             }
         };
-        _this.setCursorToEnd = function (ele) {
-            var valueLength = ele.value.length;
-            if (ele.selectionStart || ele.selectionStart == '0') {
+        _this.setCursorToEnd = function (element) {
+            var valueLength = element.value.length;
+            if (element.selectionStart || element.selectionStart == '0') {
                 // Firefox/Chrome
-                ele.selectionStart = valueLength;
-                ele.selectionEnd = valueLength;
-                ele.focus();
+                element.selectionStart = valueLength;
+                element.selectionEnd = valueLength;
+                element.focus();
             }
         };
         _this.getHighlightWords = function () {
@@ -127,6 +127,12 @@ var ReactDadata = (function (_super) {
         };
         return _this;
     }
+    ReactDadata.prototype.componentDidMount = function () {
+        if (this.props.autoload && this.state.query) {
+            this.fetchSuggestions();
+        }
+    };
+    ;
     ReactDadata.prototype.render = function () {
         var _this = this;
         return (React.createElement("div", { className: "react-dadata react-dadata__container" },
