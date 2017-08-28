@@ -150,5 +150,5 @@ var ReactDadata = (function (_super) {
                 }))));
     };
     return ReactDadata;
-}(React.Component));
+}(React.PureComponent));
 exports.ReactDadata = ReactDadata;
