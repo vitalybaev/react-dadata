@@ -3,10 +3,18 @@ React компонент для подсказок адресов с помощ�
 
 <img width="728" alt="React Dadata" src="https://user-images.githubusercontent.com/724423/29621151-9ea462b6-8828-11e7-88ba-07f9619c0182.png">
 
+### Установка
+```
+npm install react-dadata
+```
+или
+```
+yarn react-dadata
+```
 
 ### Пример
 ```javascript
-import ReactDadata from 'react-dadata';
+import { ReactDadata } from 'react-dadata';
 
 // ...
 
