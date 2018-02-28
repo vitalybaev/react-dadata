@@ -25,11 +25,14 @@
   },
   "homepage": "https://github.com/vitalybaev/react-dadata#readme",
   "devDependencies": {
+    "@types/react": "^16.0.2",
     "typescript": "^2.4.2"
   },
   "dependencies": {
-    "@types/react": "^16.0.2",
-    "react": "^15.6.1",
     "react-highlight-words": "^0.8.1"
+  },
+  "peerDependencies": {
+    "react": "^15.6.0 || ^16.0.0-rc || ^16.0 || ^16.2",
+    "react-dom": "^15.6.0 || ^16.0.0-rc || ^16.0 || ^16.2"
   }
 }
