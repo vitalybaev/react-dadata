@@ -137,7 +137,7 @@ var ReactDadata = (function (_super) {
         var _this = this;
         return (React.createElement("div", { className: "react-dadata react-dadata__container" },
             React.createElement("div", null,
-                React.createElement("input", { className: "react-dadata__input", placeholder: this.props.placeholder ? this.props.placeholder : '', value: this.state.query, ref: function (input) { _this.textInput = input; }, onChange: this.onInputChange, onKeyPress: this.onKeyPress, onKeyDown: this.onKeyPress, onFocus: this.onInputFocus, onBlur: this.onInputBlur })),
+                React.createElement("input", { className: "react-dadata__input", placeholder: this.props.placeholder ? this.props.placeholder : '', value: this.state.query, ref: function (input) { _this.textInput = input; }, onChange: this.onInputChange, onKeyPress: this.onKeyPress, onKeyDown: this.onKeyPress, onFocus: this.onInputFocus, onBlur: this.onInputBlur, autoComplete: this.props.autocomplete ? this.props.autocomplete : 'off' })),
             this.state.inputFocused && this.state.suggestionsVisible && this.state.suggestions && this.state.suggestions.length > 0 && React.createElement("div", { className: "react-dadata__suggestions" },
                 React.createElement("div", { className: "react-dadata__suggestion-note" }, "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0430\u0440\u0438\u0430\u043D\u0442 \u0438\u043B\u0438 \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u0435 \u0432\u0432\u043E\u0434"),
                 this.state.suggestions.map(function (suggestion, index) {

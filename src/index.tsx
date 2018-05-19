@@ -92,6 +92,7 @@ export namespace ReactDadata {
     query?: string
     autoload?: boolean
     onChange?: (suggestion: DadataSuggestion) => void
+    autocomplete?: string
   }
 
   export interface State {
@@ -258,6 +259,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
                  onKeyDown={this.onKeyPress}
                  onFocus={this.onInputFocus}
                  onBlur={this.onInputBlur}
+                 autoComplete={this.props.autocomplete ? this.props.autocomplete : 'off'}
           />
         </div>
         {this.state.inputFocused && this.state.suggestionsVisible && this.state.suggestions && this.state.suggestions.length > 0 && <div className="react-dadata__suggestions">
