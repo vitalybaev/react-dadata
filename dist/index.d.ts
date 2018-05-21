@@ -1,6 +1,11 @@
 /// <reference types="react" />
 import * as React from 'react';
 import './react-dadata.css';
+declare module 'react' {
+    interface InputHTMLAttributes<T> {
+        validate?: (value: string) => void;
+    }
+}
 export declare namespace ReactDadata {
     type DadataSuggestion = {
         value: string;
@@ -90,6 +95,7 @@ export declare namespace ReactDadata {
         autoload?: boolean;
         onChange?: (suggestion: DadataSuggestion) => void;
         autocomplete?: string;
+        validate?: (value: string) => void;
     }
     interface State {
         query: string;
@@ -98,6 +104,7 @@ export declare namespace ReactDadata {
         suggestions: Array<DadataSuggestion>;
         suggestionIndex: number;
         suggestionsVisible: boolean;
+        isValid: boolean;
     }
 }
 export declare class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDadata.State> {

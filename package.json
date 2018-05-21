@@ -7,6 +7,7 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "tsc",
+    "start": "cross-env NODE_ENV=development webpack --watch --config webpack.dev.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,12 +25,23 @@
     "url": "https://github.com/vitalybaev/react-dadata/issues"
   },
   "homepage": "https://github.com/vitalybaev/react-dadata#readme",
-  "devDependencies": {
-    "@types/react": "^16.0.2",
-    "typescript": "^2.4.2"
-  },
   "dependencies": {
     "react-highlight-words": "^0.8.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.1.4",
+    "@types/react": "^16.0.2",
+    "typescript": "^2.4.2",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "less": "^2.7.3",
+    "css-loader": "^0.28.10",
+    "less-loader": "^4.0.6",
+    "style-loader": "^0.19.1",
+    "webpack-dev-server": "2.4.1",
+    "webpack": "^3.11.0",
+    "webpack-merge": "^4.1.2"
   },
   "peerDependencies": {
     "react": "^15.6.0 || ^16.0.0-rc || ^16.0 || ^16.2",
