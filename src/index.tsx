@@ -2,6 +2,17 @@ import * as React from 'react';
 import * as Highlighter from 'react-highlight-words';
 import './react-dadata.css';
 
+// declare module 'react' {
+//      interface DetailedHTMLProps<T> {
+//         validate?: (value: string) => void
+//     }
+// }
+
+declare module 'react' {
+     interface InputHTMLAttributes<T> {
+        validate?: (value: string) => void
+    }
+}
 export namespace ReactDadata {
   export type DadataSuggestion = {
     value: string
@@ -92,6 +103,8 @@ export namespace ReactDadata {
     query?: string
     autoload?: boolean
     onChange?: (suggestion: DadataSuggestion) => void
+    autocomplete?: string
+    validate?: (value: string) => void
   }
 
   export interface State {
@@ -101,6 +114,7 @@ export namespace ReactDadata {
     suggestions: Array<DadataSuggestion>
     suggestionIndex: number
     suggestionsVisible: boolean
+    isValid:boolean
   }
 }
 
@@ -125,7 +139,8 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
       inputFocused: false,
       suggestions: [],
       suggestionIndex: -1,
-      suggestionsVisible: true
+      suggestionsVisible: true,
+      isValid: false
     }
   }
 
@@ -151,7 +166,12 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
 
   onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    this.setState({query: value, inputQuery: value, suggestionsVisible: true}, () => this.fetchSuggestions());
+    this.setState({query: value, inputQuery: value, suggestionsVisible: true}, () => {
+      if (this.props.validate){
+        this.props.validate(value);
+      };
+      this.fetchSuggestions();
+    });
   };
 
   onKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -258,6 +278,8 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
                  onKeyDown={this.onKeyPress}
                  onFocus={this.onInputFocus}
                  onBlur={this.onInputBlur}
+                 validate={this.props.validate}
+                 autoComplete={this.props.autocomplete ? this.props.autocomplete : 'off'}
           />
         </div>
         {this.state.inputFocused && this.state.suggestionsVisible && this.state.suggestions && this.state.suggestions.length > 0 && <div className="react-dadata__suggestions">
