@@ -96,6 +96,7 @@ export declare namespace ReactDadata {
         onChange?: (suggestion: DadataSuggestion) => void;
         autocomplete?: string;
         validate?: (value: string) => void;
+        disabled?: boolean;
     }
     interface State {
         query: string;
