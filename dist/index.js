@@ -159,7 +159,7 @@ var ReactDadata = /** @class */ (function (_super) {
                         suggestionClass += ' react-dadata__suggestion--current';
                     }
                     return React.createElement("div", { key: suggestion.value, onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
-                        React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }));
+                        React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }));
                 }))));
     };
     return ReactDadata;
