@@ -96,6 +96,7 @@ export declare namespace ReactDadata {
         onChange?: (suggestion: DadataSuggestion) => void;
         autocomplete?: string;
         validate?: (value: string) => void;
+        className?: string;
         disabled?: boolean;
     }
     interface State {
@@ -112,11 +113,11 @@ export declare class ReactDadata extends React.PureComponent<ReactDadata.Props, 
     /**
      * HTML-input
      */
-    protected textInput: HTMLInputElement;
+    protected textInput?: HTMLInputElement;
     /**
      * XMLHttpRequest instance
      */
-    protected xhr: XMLHttpRequest;
+    protected xhr?: XMLHttpRequest;
     constructor(props: ReactDadata.Props);
     componentDidMount(): void;
     onInputFocus: () => void;

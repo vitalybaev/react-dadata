@@ -2,12 +2,6 @@ import * as React from 'react';
 import * as Highlighter from 'react-highlight-words';
 import './react-dadata.css';
 
-// declare module 'react' {
-//      interface DetailedHTMLProps<T> {
-//         validate?: (value: string) => void
-//     }
-// }
-
 declare module 'react' {
      interface InputHTMLAttributes<T> {
         validate?: (value: string) => void
@@ -105,6 +99,8 @@ export namespace ReactDadata {
     onChange?: (suggestion: DadataSuggestion) => void
     autocomplete?: string
     validate?: (value: string) => void
+    className?: string
+    disabled?: boolean
   }
 
   export interface State {
@@ -123,12 +119,12 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
   /**
    * HTML-input
    */
-  protected textInput: HTMLInputElement;
+  protected textInput?: HTMLInputElement;
 
   /**
    * XMLHttpRequest instance
    */
-  protected xhr: XMLHttpRequest;
+  protected xhr?: XMLHttpRequest;
 
   constructor(props: ReactDadata.Props) {
     super(props);
@@ -169,7 +165,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     this.setState({query: value, inputQuery: value, suggestionsVisible: true}, () => {
       if (this.props.validate){
         this.props.validate(value);
-      };
+      }
       this.fetchSuggestions();
     });
   };
@@ -215,7 +211,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     }));
 
     this.xhr.onreadystatechange = () => {
-      if (this.xhr.readyState != 4) {
+      if (!this.xhr || this.xhr.readyState != 4) {
         return;
       }
 
@@ -266,10 +262,16 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
   };
 
   render() {
+    let classNames = ['react-dadata__input'];
+    if (this.props.className) {
+      classNames.push(this.props.className)
+    }
+
     return (
       <div className="react-dadata react-dadata__container">
         <div>
-          <input className="react-dadata__input"
+          <input className={classNames.join(' ')}
+                 disabled={this.props.disabled}
                  placeholder={this.props.placeholder ? this.props.placeholder : ''}
                  value={this.state.query}
                  ref={ (input) => { this.textInput = input as HTMLInputElement; } }

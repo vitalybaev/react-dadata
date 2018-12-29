@@ -2,5 +2,6 @@ node_modules/
 *.log
 *.tgz
 
+.idea
 src/
 tsconfig.json
