@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import * as React from 'react';
 import './react-dadata.css';
 declare module 'react' {
@@ -125,7 +124,7 @@ export declare class ReactDadata extends React.PureComponent<ReactDadata.Props, 
     onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     fetchSuggestions: () => void;
-    onSuggestionClick: (index: number, event: React.MouseEvent<HTMLDivElement>) => void;
+    onSuggestionClick: (index: number, event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
     selectSuggestion: (index: number) => void;
     setCursorToEnd: (element: any) => void;
     getHighlightWords: () => string[];

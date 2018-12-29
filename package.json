@@ -26,17 +26,17 @@
   },
   "homepage": "https://github.com/vitalybaev/react-dadata#readme",
   "dependencies": {
-    "react-highlight-words": "^0.8.1"
+    "react-highlight-words": "^0.15.0"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
-    "babel-loader": "^7.1.4",
-    "@types/react": "^16.0.2",
-    "typescript": "^2.4.2",
-    "webpack-dev-server": "2.4.1",
-    "webpack": "^3.11.0",
-    "webpack-merge": "^4.1.2"
+    "babel-loader": "^8.0.4",
+    "@types/react": "^16.7.18",
+    "typescript": "^3.2.2",
+    "webpack-dev-server": "^3.1.14",
+    "webpack": "^4.28.2",
+    "webpack-merge": "^4.1.5"
   },
   "peerDependencies": {
     "react": "^15.6.0 || ^16.0.0-rc || ^16.0 || ^16.2",
