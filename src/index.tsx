@@ -239,6 +239,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
           location.street_fias_id = this.props.address.data.street_fias_id;
         }
         requestPayload.locations = [location];
+        requestPayload.restrict_value = true;
       }
     }
     this.xhr.send(JSON.stringify(requestPayload));

@@ -105,6 +105,7 @@ var ReactDadata = /** @class */ (function (_super) {
                         location_1.street_fias_id = _this.props.address.data.street_fias_id;
                     }
                     requestPayload.locations = [location_1];
+                    requestPayload.restrict_value = true;
                 }
             }
             _this.xhr.send(JSON.stringify(requestPayload));
