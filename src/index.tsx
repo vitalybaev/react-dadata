@@ -91,16 +91,22 @@ export namespace ReactDadata {
     unparsed_parts: null
   }
 
+  export type BoundsType = 'region' | 'area' | 'city' | 'settlement' | 'street' | 'house'
+
   export interface Props  {
     token: string
     placeholder?: string
     query?: string
     autoload?: boolean
+    count?: number
     onChange?: (suggestion: DadataSuggestion) => void
     autocomplete?: string
     validate?: (value: string) => void
     className?: string
     disabled?: boolean
+    fromBound?: BoundsType
+    toBound?: BoundsType
+    address?: DadataSuggestion
   }
 
   export interface State {
@@ -205,10 +211,35 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     this.xhr.setRequestHeader("Accept", "application/json");
     this.xhr.setRequestHeader("Authorization", `Token ${this.props.token}`);
     this.xhr.setRequestHeader("Content-Type", "application/json");
-    this.xhr.send(JSON.stringify({
+    let requestPayload: any = {
       query: this.state.query,
-      count: 10
-    }));
+      count: this.props.count ? this.props.count : 10,
+    };
+    // Checking for granular suggestions
+    if (this.props.fromBound && this.props.toBound) {
+      // When using granular suggestion, all dadata components have to receive address property that contains shared address info.
+      if (!this.props.address) {
+        throw new Error("You have to pass address property with DaData address object to connect separate components");
+      }
+      requestPayload.from_bound = {value: this.props.fromBound};
+      requestPayload.to_bound = {value: this.props.toBound};
+      // Define location limitation
+      let location: any = {};
+      if (this.props.address.data.region_fias_id) {
+        location.region_fias_id = this.props.address.data.region_fias_id;
+      }
+      if (this.props.address.data.city_fias_id) {
+        location.city_fias_id = this.props.address.data.city_fias_id;
+      }
+      if (this.props.address.data.settlement_fias_id) {
+        location.settlement_fias_id = this.props.address.data.settlement_fias_id;
+      }
+      if (this.props.address.data.street_fias_id) {
+        location.street_fias_id = this.props.address.data.street_fias_id;
+      }
+      requestPayload.locations = [location];
+    }
+    this.xhr.send(JSON.stringify(requestPayload));
 
     this.xhr.onreadystatechange = () => {
       if (!this.xhr || this.xhr.readyState != 4) {

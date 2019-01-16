@@ -87,16 +87,21 @@ export declare namespace ReactDadata {
         timezone: null;
         unparsed_parts: null;
     };
+    type BoundsType = 'region' | 'area' | 'city' | 'settlement' | 'street' | 'house';
     interface Props {
         token: string;
         placeholder?: string;
         query?: string;
         autoload?: boolean;
+        count?: number;
         onChange?: (suggestion: DadataSuggestion) => void;
         autocomplete?: string;
         validate?: (value: string) => void;
         className?: string;
         disabled?: boolean;
+        fromBound?: BoundsType;
+        toBound?: BoundsType;
+        address?: DadataSuggestion;
     }
     interface State {
         query: string;

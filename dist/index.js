@@ -77,10 +77,35 @@ var ReactDadata = /** @class */ (function (_super) {
             _this.xhr.setRequestHeader("Accept", "application/json");
             _this.xhr.setRequestHeader("Authorization", "Token " + _this.props.token);
             _this.xhr.setRequestHeader("Content-Type", "application/json");
-            _this.xhr.send(JSON.stringify({
+            var requestPayload = {
                 query: _this.state.query,
-                count: 10
-            }));
+                count: _this.props.count ? _this.props.count : 10,
+            };
+            // Checking for granular suggestions
+            if (_this.props.fromBound && _this.props.toBound) {
+                // When using granular suggestion, all dadata components have to receive address property that contains shared address info.
+                if (!_this.props.address) {
+                    throw new Error("You have to pass address property with DaData address object to connect separate components");
+                }
+                requestPayload.from_bound = { value: _this.props.fromBound };
+                requestPayload.to_bound = { value: _this.props.toBound };
+                // Define location limitation
+                var location_1 = {};
+                if (_this.props.address.data.region_fias_id) {
+                    location_1.region_fias_id = _this.props.address.data.region_fias_id;
+                }
+                if (_this.props.address.data.city_fias_id) {
+                    location_1.city_fias_id = _this.props.address.data.city_fias_id;
+                }
+                if (_this.props.address.data.settlement_fias_id) {
+                    location_1.settlement_fias_id = _this.props.address.data.settlement_fias_id;
+                }
+                if (_this.props.address.data.street_fias_id) {
+                    location_1.street_fias_id = _this.props.address.data.street_fias_id;
+                }
+                requestPayload.locations = [location_1];
+            }
+            _this.xhr.send(JSON.stringify(requestPayload));
             _this.xhr.onreadystatechange = function () {
                 if (!_this.xhr || _this.xhr.readyState != 4) {
                     return;
