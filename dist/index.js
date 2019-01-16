@@ -87,9 +87,10 @@ var ReactDadata = /** @class */ (function (_super) {
                 if (!_this.props.address) {
                     throw new Error("You have to pass address property with DaData address object to connect separate components");
                 }
+                requestPayload.from_bound = { value: _this.props.fromBound };
+                requestPayload.to_bound = { value: _this.props.toBound };
+                requestPayload.restrict_value = true;
                 if (_this.props.address.data) {
-                    requestPayload.from_bound = { value: _this.props.fromBound };
-                    requestPayload.to_bound = { value: _this.props.toBound };
                     // Define location limitation
                     var location_1 = {};
                     if (_this.props.address.data.region_fias_id) {
@@ -105,7 +106,6 @@ var ReactDadata = /** @class */ (function (_super) {
                         location_1.street_fias_id = _this.props.address.data.street_fias_id;
                     }
                     requestPayload.locations = [location_1];
-                    requestPayload.restrict_value = true;
                 }
             }
             _this.xhr.send(JSON.stringify(requestPayload));

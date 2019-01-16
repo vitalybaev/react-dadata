@@ -221,9 +221,11 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
       if (!this.props.address) {
         throw new Error("You have to pass address property with DaData address object to connect separate components");
       }
+      requestPayload.from_bound = {value: this.props.fromBound};
+      requestPayload.to_bound = {value: this.props.toBound};
+      requestPayload.restrict_value = true;
+
       if (this.props.address.data) {
-        requestPayload.from_bound = {value: this.props.fromBound};
-        requestPayload.to_bound = {value: this.props.toBound};
         // Define location limitation
         let location: any = {};
         if (this.props.address.data.region_fias_id) {
@@ -239,7 +241,6 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
           location.street_fias_id = this.props.address.data.street_fias_id;
         }
         requestPayload.locations = [location];
-        requestPayload.restrict_value = true;
       }
     }
     this.xhr.send(JSON.stringify(requestPayload));
