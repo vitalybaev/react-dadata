@@ -87,23 +87,25 @@ var ReactDadata = /** @class */ (function (_super) {
                 if (!_this.props.address) {
                     throw new Error("You have to pass address property with DaData address object to connect separate components");
                 }
-                requestPayload.from_bound = { value: _this.props.fromBound };
-                requestPayload.to_bound = { value: _this.props.toBound };
-                // Define location limitation
-                var location_1 = {};
-                if (_this.props.address.data.region_fias_id) {
-                    location_1.region_fias_id = _this.props.address.data.region_fias_id;
+                if (_this.props.address.data) {
+                    requestPayload.from_bound = { value: _this.props.fromBound };
+                    requestPayload.to_bound = { value: _this.props.toBound };
+                    // Define location limitation
+                    var location_1 = {};
+                    if (_this.props.address.data.region_fias_id) {
+                        location_1.region_fias_id = _this.props.address.data.region_fias_id;
+                    }
+                    if (_this.props.address.data.city_fias_id) {
+                        location_1.city_fias_id = _this.props.address.data.city_fias_id;
+                    }
+                    if (_this.props.address.data.settlement_fias_id) {
+                        location_1.settlement_fias_id = _this.props.address.data.settlement_fias_id;
+                    }
+                    if (_this.props.address.data.street_fias_id) {
+                        location_1.street_fias_id = _this.props.address.data.street_fias_id;
+                    }
+                    requestPayload.locations = [location_1];
                 }
-                if (_this.props.address.data.city_fias_id) {
-                    location_1.city_fias_id = _this.props.address.data.city_fias_id;
-                }
-                if (_this.props.address.data.settlement_fias_id) {
-                    location_1.settlement_fias_id = _this.props.address.data.settlement_fias_id;
-                }
-                if (_this.props.address.data.street_fias_id) {
-                    location_1.street_fias_id = _this.props.address.data.street_fias_id;
-                }
-                requestPayload.locations = [location_1];
             }
             _this.xhr.send(JSON.stringify(requestPayload));
             _this.xhr.onreadystatechange = function () {
