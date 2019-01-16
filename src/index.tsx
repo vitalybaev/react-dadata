@@ -221,23 +221,25 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
       if (!this.props.address) {
         throw new Error("You have to pass address property with DaData address object to connect separate components");
       }
-      requestPayload.from_bound = {value: this.props.fromBound};
-      requestPayload.to_bound = {value: this.props.toBound};
-      // Define location limitation
-      let location: any = {};
-      if (this.props.address.data.region_fias_id) {
-        location.region_fias_id = this.props.address.data.region_fias_id;
+      if (this.props.address.data) {
+        requestPayload.from_bound = {value: this.props.fromBound};
+        requestPayload.to_bound = {value: this.props.toBound};
+        // Define location limitation
+        let location: any = {};
+        if (this.props.address.data.region_fias_id) {
+          location.region_fias_id = this.props.address.data.region_fias_id;
+        }
+        if (this.props.address.data.city_fias_id) {
+          location.city_fias_id = this.props.address.data.city_fias_id;
+        }
+        if (this.props.address.data.settlement_fias_id) {
+          location.settlement_fias_id = this.props.address.data.settlement_fias_id;
+        }
+        if (this.props.address.data.street_fias_id) {
+          location.street_fias_id = this.props.address.data.street_fias_id;
+        }
+        requestPayload.locations = [location];
       }
-      if (this.props.address.data.city_fias_id) {
-        location.city_fias_id = this.props.address.data.city_fias_id;
-      }
-      if (this.props.address.data.settlement_fias_id) {
-        location.settlement_fias_id = this.props.address.data.settlement_fias_id;
-      }
-      if (this.props.address.data.street_fias_id) {
-        location.street_fias_id = this.props.address.data.street_fias_id;
-      }
-      requestPayload.locations = [location];
     }
     this.xhr.send(JSON.stringify(requestPayload));
 
