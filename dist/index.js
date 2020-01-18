@@ -128,7 +128,6 @@ var ReactDadata = /** @class */ (function (_super) {
             _this.selectSuggestion(index);
         };
         _this.selectSuggestion = function (index) {
-            console.log(index, _this.state.suggestions);
             if (_this.state.suggestions.length >= index - 1) {
                 _this.setState({ query: _this.state.suggestions[index].value, suggestionsVisible: false, inputQuery: _this.state.suggestions[index].value }, function () {
                     _this.fetchSuggestions();

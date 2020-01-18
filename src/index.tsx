@@ -167,7 +167,6 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     }
 
     const { onBlur = () => {} } = this.props;
-    console.log(e)
     onBlur(e);
   };
 
@@ -270,7 +269,6 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
   };
 
   selectSuggestion = (index: number) => {
-    console.log(index, this.state.suggestions)
     if (this.state.suggestions.length >= index - 1) {
       this.setState({query: this.state.suggestions[index].value, suggestionsVisible: false, inputQuery: this.state.suggestions[index].value}, () => {
         this.fetchSuggestions();
