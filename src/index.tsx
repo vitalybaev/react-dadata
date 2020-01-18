@@ -269,10 +269,11 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
   };
 
   selectSuggestion = (index: number) => {
+    console.log(index, this.state.suggestions)
     if (this.state.suggestions.length >= index - 1) {
       this.setState({query: this.state.suggestions[index].value, suggestionsVisible: false, inputQuery: this.state.suggestions[index].value}, () => {
         this.fetchSuggestions();
-        this.setCursorToEnd(this.textInput);
+        setTimeout(() => this.setCursorToEnd(this.textInput), 500);
       });
 
       if (this.props.onChange) {
