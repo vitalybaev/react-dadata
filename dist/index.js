@@ -26,13 +26,13 @@ var ReactDadata = /** @class */ (function (_super) {
                 _this.fetchSuggestions();
             }
         };
-        _this.onInputBlur = function () {
+        _this.onInputBlur = function (e) {
             _this.setState({ inputFocused: false });
             if (_this.state.suggestions.length == 0) {
                 _this.fetchSuggestions();
             }
             var _a = _this.props.onBlur, onBlur = _a === void 0 ? function () { } : _a;
-            onBlur(_this.state.query);
+            onBlur(e);
         };
         _this.onInputChange = function (event) {
             var value = event.target.value;
