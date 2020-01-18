@@ -265,7 +265,6 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
 
   onSuggestionClick = (index: number, event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
-    console.log(index, this.state.suggestions)
     this.selectSuggestion(index);
   };
 
@@ -273,7 +272,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     if (this.state.suggestions.length >= index - 1) {
       this.setState({query: this.state.suggestions[index].value, suggestionsVisible: false, inputQuery: this.state.suggestions[index].value}, () => {
         this.fetchSuggestions();
-        setTimeout(() => this.setCursorToEnd(this.textInput), 100);
+        this.setCursorToEnd(this.textInput);
       });
 
       if (this.props.onChange) {
