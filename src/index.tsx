@@ -160,7 +160,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     }
   };
 
-  onInputBlur = e => {
+  onInputBlur = () => {
     this.setState({inputFocused: false});
     if (this.state.suggestions.length == 0) {
       this.fetchSuggestions();
@@ -272,7 +272,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     if (this.state.suggestions.length >= index - 1) {
       this.setState({query: this.state.suggestions[index].value, suggestionsVisible: false, inputQuery: this.state.suggestions[index].value}, () => {
         this.fetchSuggestions();
-        setTimeout(() => this.setCursorToEnd(this.textInput), 100);
+        this.setCursorToEnd(this.textInput)
       });
 
       if (this.props.onChange) {
