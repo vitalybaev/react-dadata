@@ -98,6 +98,7 @@ export declare namespace ReactDadata {
         autocomplete?: string;
         validate?: (value: string) => void;
         className?: string;
+        onBlur?: (inputValue: string) => void;
         disabled?: boolean;
         fromBound?: BoundsType;
         toBound?: BoundsType;

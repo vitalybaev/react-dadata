@@ -107,6 +107,7 @@ export namespace ReactDadata {
     fromBound?: BoundsType
     toBound?: BoundsType
     address?: DadataSuggestion
+    onBlur?: (inputValue: string) => void;
   }
 
   export interface State {
@@ -159,11 +160,14 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     }
   };
 
-  onInputBlur = () => {
+  onInputBlur = e => {
     this.setState({inputFocused: false});
     if (this.state.suggestions.length == 0) {
       this.fetchSuggestions();
     }
+
+    const { onBlur = () => {} } = this.props;
+    onBlur(e);
   };
 
   onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
