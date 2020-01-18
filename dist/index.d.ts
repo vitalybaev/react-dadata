@@ -98,11 +98,11 @@ export declare namespace ReactDadata {
         autocomplete?: string;
         validate?: (value: string) => void;
         className?: string;
-        onBlur?: (inputValue: string) => void;
         disabled?: boolean;
         fromBound?: BoundsType;
         toBound?: BoundsType;
         address?: DadataSuggestion;
+        onBlur?: (inputValue: string) => void;
     }
     interface State {
         query: string;
@@ -126,7 +126,7 @@ export declare class ReactDadata extends React.PureComponent<ReactDadata.Props, 
     constructor(props: ReactDadata.Props);
     componentDidMount(): void;
     onInputFocus: () => void;
-    onInputBlur: () => void;
+    onInputBlur: (e: any) => void;
     onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     fetchSuggestions: () => void;
