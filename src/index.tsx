@@ -167,6 +167,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     }
 
     const { onBlur = () => {} } = this.props;
+    console.log(e)
     onBlur(e);
   };
 
