@@ -167,7 +167,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     }
 
     const { onBlur = () => {} } = this.props;
-    onBlur(e);
+    onBlur(this.state.query);
   };
 
   onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

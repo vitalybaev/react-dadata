@@ -32,7 +32,7 @@ var ReactDadata = /** @class */ (function (_super) {
                 _this.fetchSuggestions();
             }
             var _a = _this.props.onBlur, onBlur = _a === void 0 ? function () { } : _a;
-            onBlur(e);
+            onBlur(_this.state.query);
         };
         _this.onInputChange = function (event) {
             var value = event.target.value;
