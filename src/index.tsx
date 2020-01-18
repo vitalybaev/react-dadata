@@ -160,14 +160,14 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     }
   };
 
-  onInputBlur = () => {
+  onInputBlur = e => {
     this.setState({inputFocused: false});
     if (this.state.suggestions.length == 0) {
       this.fetchSuggestions();
     }
 
     const { onBlur = () => {} } = this.props;
-    onBlur(this.state.query);
+    onBlur(e);
   };
 
   onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
