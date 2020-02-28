@@ -34,12 +34,12 @@ var ReactDadata = /** @class */ (function (_super) {
         };
         _this.onInputChange = function (event) {
             var value = event.target.value;
+            var _a = _this.props, onInputChange = _a.onInputChange, validate = _a.validate;
             _this.setState({ query: value, inputQuery: value, suggestionsVisible: true }, function () {
-                if (_this.props.validate) {
-                    _this.props.validate(value);
-                }
+                validate && validate(value);
                 _this.fetchSuggestions();
             });
+            onInputChange && onInputChange(event);
         };
         _this.onKeyPress = function (event) {
             if (event.which == 40) {

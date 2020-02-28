@@ -100,6 +100,7 @@ export namespace ReactDadata {
     autoload?: boolean
     count?: number
     onChange?: (suggestion: DadataSuggestion) => void
+    onInputChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
     autocomplete?: string
     validate?: (value: string) => void
     className?: string
@@ -168,12 +169,13 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
 
   onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
+    const { onInputChange, validate } = this.props;
+
     this.setState({query: value, inputQuery: value, suggestionsVisible: true}, () => {
-      if (this.props.validate){
-        this.props.validate(value);
-      }
+      validate && validate(value);
       this.fetchSuggestions();
     });
+    onInputChange && onInputChange(event);
   };
 
   onKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {

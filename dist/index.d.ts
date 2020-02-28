@@ -95,6 +95,7 @@ export declare namespace ReactDadata {
         autoload?: boolean;
         count?: number;
         onChange?: (suggestion: DadataSuggestion) => void;
+        onInputChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
         autocomplete?: string;
         validate?: (value: string) => void;
         className?: string;
