@@ -1,4 +1,9 @@
 node_modules/
+yarn-error.log
+yarn.lock
+
+.editorconfig
+
 *.log
 *.tgz
 
