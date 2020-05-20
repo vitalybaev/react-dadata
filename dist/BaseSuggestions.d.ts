@@ -1,7 +1,7 @@
 import React from 'react';
 import { CommonProps, DaDataSuggestion } from './types';
-declare type Props<SuggestionType> = CommonProps<SuggestionType>;
-interface State<SuggestionType> {
+export declare type BaseProps<SuggestionType> = CommonProps<SuggestionType>;
+export interface BaseState<SuggestionType> {
     /**
      * Текущая строка в поле ввода
      */
@@ -23,7 +23,7 @@ interface State<SuggestionType> {
      */
     suggestionIndex: number;
 }
-export declare class BaseSuggestions<SuggestionType> extends React.PureComponent<Props<SuggestionType>, State<SuggestionType>> {
+export declare class BaseSuggestions<SuggestionType> extends React.PureComponent<BaseProps<SuggestionType>, BaseState<SuggestionType>> {
     /**
      * URL для загрузки подсказок, переопределяется в конкретном компоненте
      */
@@ -36,7 +36,7 @@ export declare class BaseSuggestions<SuggestionType> extends React.PureComponent
      * XMLHttpRequest instance
      */
     private xhr?;
-    constructor(props: Props<SuggestionType>);
+    constructor(props: BaseProps<SuggestionType>);
     private handleInputFocus;
     private handleInputBlur;
     private handleInputChange;
@@ -44,7 +44,7 @@ export declare class BaseSuggestions<SuggestionType> extends React.PureComponent
     /**
      * Функция, которая вернет данные для отправки для получения подсказок
      */
-    protected getLoadSuggestionsData: () => {};
+    protected getLoadSuggestionsData: () => any;
     private fetchSuggestions;
     private onSuggestionClick;
     private selectSuggestion;
@@ -52,4 +52,3 @@ export declare class BaseSuggestions<SuggestionType> extends React.PureComponent
     private getHighlightWords;
     render(): JSX.Element;
 }
-export {};

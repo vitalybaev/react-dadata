@@ -34,7 +34,8 @@ var BaseSuggestions = /** @class */ (function (_super) {
         _this.loadSuggestionsUrl = '';
         _this.handleInputFocus = function (event) {
             _this.setState({ isFocused: true });
-            if (_this.state.suggestions.length == 0) {
+            var suggestions = _this.state.suggestions;
+            if (suggestions.length === 0) {
                 _this.fetchSuggestions();
             }
             var inputProps = _this.props.inputProps;
@@ -43,8 +44,9 @@ var BaseSuggestions = /** @class */ (function (_super) {
             }
         };
         _this.handleInputBlur = function (event) {
+            var suggestions = _this.state.suggestions;
             _this.setState({ isFocused: false });
-            if (_this.state.suggestions.length == 0) {
+            if (suggestions.length === 0) {
                 _this.fetchSuggestions();
             }
             var inputProps = _this.props.inputProps;
@@ -59,29 +61,30 @@ var BaseSuggestions = /** @class */ (function (_super) {
             });
         };
         _this.onKeyPress = function (event) {
-            if (event.which == 40) {
+            var _a = _this.state, suggestions = _a.suggestions, suggestionIndex = _a.suggestionIndex, inputQuery = _a.inputQuery;
+            if (event.which === 40) {
                 // Arrow down
                 event.preventDefault();
-                if (_this.state.suggestionIndex < _this.state.suggestions.length) {
-                    var newSuggestionIndex = _this.state.suggestionIndex + 1;
-                    var newInputQuery = _this.state.suggestions[newSuggestionIndex].value;
+                if (suggestionIndex < suggestions.length) {
+                    var newSuggestionIndex = suggestionIndex + 1;
+                    var newInputQuery = suggestions[newSuggestionIndex].value;
                     _this.setState({ suggestionIndex: newSuggestionIndex, query: newInputQuery });
                 }
             }
-            else if (event.which == 38) {
+            else if (event.which === 38) {
                 // Arrow up
                 event.preventDefault();
-                if (_this.state.suggestionIndex >= 0) {
-                    var newSuggestionIndex = _this.state.suggestionIndex - 1;
-                    var newInputQuery = newSuggestionIndex == -1 ? _this.state.inputQuery : _this.state.suggestions[newSuggestionIndex].value;
+                if (suggestionIndex >= 0) {
+                    var newSuggestionIndex = suggestionIndex - 1;
+                    var newInputQuery = newSuggestionIndex === -1 ? inputQuery : suggestions[newSuggestionIndex].value;
                     _this.setState({ suggestionIndex: newSuggestionIndex, query: newInputQuery });
                 }
             }
-            else if (event.which == 13) {
+            else if (event.which === 13) {
                 // Enter
                 event.preventDefault();
-                if (_this.state.suggestionIndex >= 0) {
-                    _this.selectSuggestion(_this.state.suggestionIndex);
+                if (suggestionIndex >= 0) {
+                    _this.selectSuggestion(suggestionIndex);
                 }
             }
         };
@@ -101,10 +104,10 @@ var BaseSuggestions = /** @class */ (function (_super) {
             _this.xhr.setRequestHeader("Content-Type", "application/json");
             _this.xhr.send(JSON.stringify(_this.getLoadSuggestionsData()));
             _this.xhr.onreadystatechange = function () {
-                if (!_this.xhr || _this.xhr.readyState != 4) {
+                if (!_this.xhr || _this.xhr.readyState !== 4) {
                     return;
                 }
-                if (_this.xhr.status == 200) {
+                if (_this.xhr.status === 200) {
                     var responseJson = JSON.parse(_this.xhr.response);
                     if (responseJson && responseJson.suggestions) {
                         _this.setState({ suggestions: responseJson.suggestions, suggestionIndex: -1 });
@@ -134,15 +137,18 @@ var BaseSuggestions = /** @class */ (function (_super) {
             if (element) {
                 var valueLength = element.value.length;
                 if (element.selectionStart || element.selectionStart === 0) {
+                    // eslint-disable-next-line no-param-reassign
                     element.selectionStart = valueLength;
+                    // eslint-disable-next-line no-param-reassign
                     element.selectionEnd = valueLength;
                     element.focus();
                 }
             }
         };
         _this.getHighlightWords = function () {
+            var inputQuery = _this.state.inputQuery;
             var wordsToPass = ['г', 'респ', 'ул', 'р-н', 'село', 'деревня', 'поселок', 'пр-д', 'пл', 'к', 'кв', 'обл', 'д'];
-            var words = _this.state.inputQuery.replace(',', '').split(' ');
+            var words = inputQuery.replace(',', '').split(' ');
             words = words.filter(function (word) {
                 return wordsToPass.indexOf(word) < 0;
             });
@@ -161,15 +167,15 @@ var BaseSuggestions = /** @class */ (function (_super) {
     BaseSuggestions.prototype.render = function () {
         var _this = this;
         var inputProps = this.props.inputProps;
-        var _a = this.state, isFocused = _a.isFocused, suggestions = _a.suggestions;
+        var _a = this.state, query = _a.query, isFocused = _a.isFocused, suggestions = _a.suggestions, suggestionIndex = _a.suggestionIndex;
         return (React.createElement("div", { className: "react-dadata react-dadata__container" },
             React.createElement("div", null,
-                React.createElement("input", __assign({ autoComplete: "off", className: "react-dadata__input" }, inputProps, { value: this.state.query, ref: function (input) { _this.textInput = input; }, onChange: this.handleInputChange, onKeyPress: this.onKeyPress, onKeyDown: this.onKeyPress, onFocus: this.handleInputFocus, onBlur: this.handleInputBlur }))),
+                React.createElement("input", __assign({ autoComplete: "off", className: "react-dadata__input" }, inputProps, { value: query, ref: function (input) { _this.textInput = input; }, onChange: this.handleInputChange, onKeyPress: this.onKeyPress, onKeyDown: this.onKeyPress, onFocus: this.handleInputFocus, onBlur: this.handleInputBlur }))),
             isFocused && suggestions && suggestions.length > 0 && (React.createElement("div", { className: "react-dadata__suggestions" },
                 React.createElement("div", { className: "react-dadata__suggestion-note" }, "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0430\u0440\u0438\u0430\u043D\u0442 \u0438\u043B\u0438 \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u0435 \u0432\u0432\u043E\u0434"),
                 suggestions.map(function (suggestion, index) {
                     var suggestionClass = 'react-dadata__suggestion';
-                    if (index == _this.state.suggestionIndex) {
+                    if (index === suggestionIndex) {
                         suggestionClass += ' react-dadata__suggestion--current';
                     }
                     return (React.createElement("button", { key: suggestion.value, onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
