@@ -12,6 +12,8 @@ export interface CommonProps<SuggestionType> {
   onChange?: (suggestion?: DaDataSuggestion<SuggestionType>) => void;
   inputProps?: HTMLProps<HTMLInputElement>;
   renderOption?: (suggestion: DaDataSuggestion<SuggestionType>) => ReactNode;
+  optionClassName?: string;
+  currentOptionClassName?: string;
 }
 
 type Nullable<T> = T | null;
@@ -101,3 +103,5 @@ export interface DaDataAddress {
   timezone: Nullable<string>;
   unparsed_parts: null;
 }
+
+export type DaDataAddressBounds = 'country' | 'region' | 'area' | 'city' | 'settlement' | 'street' | 'houses';

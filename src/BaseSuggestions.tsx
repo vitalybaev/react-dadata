@@ -31,7 +31,7 @@ export interface BaseState<SuggestionType> {
   suggestionIndex: number;
 }
 
-export class BaseSuggestions<SuggestionType> extends React.PureComponent<BaseProps<SuggestionType>, BaseState<SuggestionType>> {
+export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureComponent<BaseProps<SuggestionType> & OwnProps, BaseState<SuggestionType>> {
   /**
    * URL для загрузки подсказок, переопределяется в конкретном компоненте
    */
@@ -47,14 +47,14 @@ export class BaseSuggestions<SuggestionType> extends React.PureComponent<BasePro
    */
   private xhr?: XMLHttpRequest;
 
-  constructor(props: BaseProps<SuggestionType>) {
+  constructor(props: BaseProps<SuggestionType> & OwnProps) {
     super(props);
 
     const { defaultQuery } = this.props;
 
     this.state = {
-      query: defaultQuery || '',
-      inputQuery: defaultQuery || '',
+      query: defaultQuery as string | undefined || '',
+      inputQuery: defaultQuery as string | undefined || '',
       isFocused: false,
       suggestions: [],
       suggestionIndex: -1,
@@ -202,7 +202,7 @@ export class BaseSuggestions<SuggestionType> extends React.PureComponent<BasePro
   };
 
   public render() {
-    const { inputProps } = this.props;
+    const { inputProps, optionClassName, currentOptionClassName, renderOption } = this.props;
     const { query, isFocused, suggestions, suggestionIndex } = this.state;
 
     return (
@@ -225,9 +225,9 @@ export class BaseSuggestions<SuggestionType> extends React.PureComponent<BasePro
           <div className="react-dadata__suggestions">
             <div className="react-dadata__suggestion-note">Выберите вариант или продолжите ввод</div>
             {suggestions.map((suggestion, index) => {
-              let suggestionClass = 'react-dadata__suggestion';
+              let suggestionClass = optionClassName || 'react-dadata__suggestion';
               if (index === suggestionIndex) {
-                suggestionClass += ' react-dadata__suggestion--current';
+                suggestionClass += ` ${currentOptionClassName || 'react-dadata__suggestion--current'}`;
               }
               return (
                 <button
@@ -235,12 +235,14 @@ export class BaseSuggestions<SuggestionType> extends React.PureComponent<BasePro
                   onMouseDown={this.onSuggestionClick.bind(this, index)}
                   className={suggestionClass}
                 >
-                  <Highlighter
-                    highlightClassName="react-dadata--highlighted"
-                    autoEscape
-                    searchWords={this.getHighlightWords()}
-                    textToHighlight={suggestion.value}
-                  />
+                  {renderOption ? renderOption(suggestion) : (
+                    <Highlighter
+                      highlightClassName="react-dadata--highlighted"
+                      autoEscape
+                      searchWords={this.getHighlightWords()}
+                      textToHighlight={suggestion.value}
+                    />
+                  )}
                 </button>
               )
             })}
