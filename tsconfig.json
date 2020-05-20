@@ -1,12 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
     "jsx": "react",
-    "declaration": true,
-    "outDir": "./dist",
+    "lib": ["es6", "dom"],
+    "module": "es6",
+    "moduleResolution": "node",
     "strict": true,
-    "noImplicitAny": false,
-    "noImplicitReturns": false
+    "target": "esnext",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": false,
+    "typeRoots": ["node_modules/@types", "typings"]
   }
 }
