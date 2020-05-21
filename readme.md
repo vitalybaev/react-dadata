@@ -38,12 +38,11 @@ const [value, setValue] = useState();
 | Свойство  | Обязательный | Тип | Описание |
 | ------------- | ------------- | ------------- | ------------- |
 | token  | Да  | string  | Авторизационный токен DaData.ru  |
-| placeholder  | Нет  | string  | Текст placeholder  |
 | defaultQuery  | Нет  | string  | Начальное значение поля ввода  |
 | count  | Нет  | number  | Количество подсказок, которое требуется получит от DaData. По-умолчанию: **10**  |
 | autoload  | Нет  | boolean  | Если `true`, то запрос на получение подсказок будет инициирован в фоне сразу, после монтирования компонента  |
 | onChange  | Нет  | function(suggestion: DaDataSuggestion<Type>)  | Функция, вызываемая при выборе подсказки  |
-| inputProps  | Нет  | HTMLProps<HTMLInputElement>  | любые стандартные пропсы для input. Свойство `value` игнорируется |
+| inputProps  | Нет  | Object of HTMLInputElement Props  | любые стандартные пропсы для input. Свойство `value` игнорируется. Используйте его для передачи инпуту определенных атрибутов или для отслеживания событий |
 | hintText  | Нет  | ReactNode  | Если передано, отображается в виде подсказки над списком подсказок |
 | renderOption  | Нет  | function(suggestion: DaDataSuggestion<Type>) => ReactNode  | Реализуйте этот callback, чтобы вернуть компонент для отображения подсказки |
 | containerClassName  | Нет  | string  | CSS класс для контейнера компонента, если не передан, используется класс для стилей из коробки.  |
