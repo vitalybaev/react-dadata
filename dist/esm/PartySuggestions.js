@@ -47,10 +47,11 @@ var PartySuggestions = /** @class */ (function (_super) {
         _this.getSuggestionKey = function (suggestion) { return "" + suggestion.data.inn; };
         _this.renderOption = function (suggestion) {
             var _a = _this.props, renderOption = _a.renderOption, highlightClassName = _a.highlightClassName;
-            return renderOption ? renderOption(suggestion) : (React.createElement("div", null,
-                React.createElement(Highlighter, { highlightClassName: highlightClassName || 'react-dadata--highlighted', autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }),
+            return renderOption ? (renderOption(suggestion)) : (React.createElement("div", null,
+                React.createElement("div", { className: suggestion.data.state.status === 'LIQUIDATED' ? 'react-dadata__suggestion--line-through' : undefined },
+                    React.createElement(Highlighter, { highlightClassName: highlightClassName || 'react-dadata--highlighted', autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value })),
                 React.createElement("div", { className: "react-dadata__suggestion-subtitle" },
-                    suggestion.data.inn && (React.createElement("div", { className: "react-dadata__suggestion-subtitle-item" }, suggestion.data.inn)),
+                    suggestion.data.inn && React.createElement("div", { className: "react-dadata__suggestion-subtitle-item" }, suggestion.data.inn),
                     suggestion.data.address && suggestion.data.address.value && (React.createElement("div", { className: "react-dadata__suggestion-subtitle-item" },
                         React.createElement(Highlighter, { highlightClassName: highlightClassName || 'react-dadata--highlighted', autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.data.address.value }))))));
         };

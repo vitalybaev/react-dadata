@@ -53,10 +53,11 @@ var PartySuggestions = /** @class */ (function (_super) {
         _this.getSuggestionKey = function (suggestion) { return "" + suggestion.data.inn; };
         _this.renderOption = function (suggestion) {
             var _a = _this.props, renderOption = _a.renderOption, highlightClassName = _a.highlightClassName;
-            return renderOption ? renderOption(suggestion) : (react_1.default.createElement("div", null,
-                react_1.default.createElement(react_highlight_words_1.default, { highlightClassName: highlightClassName || 'react-dadata--highlighted', autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }),
+            return renderOption ? (renderOption(suggestion)) : (react_1.default.createElement("div", null,
+                react_1.default.createElement("div", { className: suggestion.data.state.status === 'LIQUIDATED' ? 'react-dadata__suggestion--line-through' : undefined },
+                    react_1.default.createElement(react_highlight_words_1.default, { highlightClassName: highlightClassName || 'react-dadata--highlighted', autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value })),
                 react_1.default.createElement("div", { className: "react-dadata__suggestion-subtitle" },
-                    suggestion.data.inn && (react_1.default.createElement("div", { className: "react-dadata__suggestion-subtitle-item" }, suggestion.data.inn)),
+                    suggestion.data.inn && react_1.default.createElement("div", { className: "react-dadata__suggestion-subtitle-item" }, suggestion.data.inn),
                     suggestion.data.address && suggestion.data.address.value && (react_1.default.createElement("div", { className: "react-dadata__suggestion-subtitle-item" },
                         react_1.default.createElement(react_highlight_words_1.default, { highlightClassName: highlightClassName || 'react-dadata--highlighted', autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.data.address.value }))))));
         };
