@@ -22,7 +22,10 @@
     "react",
     "reactjs",
     "dadata",
-    "suggestion"
+    "suggestions",
+    "autocomplete",
+    "address",
+    "party"
   ],
   "author": "Vitaly Baev <vitaly@baev.dev>",
   "license": "MIT",
