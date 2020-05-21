@@ -45,27 +45,31 @@ export class PartySuggestions extends BaseSuggestions<DaDataParty, Props> {
     }
 
     return requestPayload;
-  }
+  };
 
   protected getSuggestionKey = (suggestion: DaDataSuggestion<DaDataParty>) => `${suggestion.data.inn}`;
 
   protected renderOption = (suggestion: DaDataSuggestion<DaDataParty>) => {
     const { renderOption, highlightClassName } = this.props;
 
-    return renderOption ? renderOption(suggestion) : (
+    return renderOption ? (
+      renderOption(suggestion)
+    ) : (
       <div>
-        <Highlighter
-          highlightClassName={highlightClassName || 'react-dadata--highlighted'}
-          autoEscape
-          searchWords={this.getHighlightWords()}
-          textToHighlight={suggestion.value}
-        />
+        <div
+          className={
+            suggestion.data.state.status === 'LIQUIDATED' ? 'react-dadata__suggestion--line-through' : undefined
+          }
+        >
+          <Highlighter
+            highlightClassName={highlightClassName || 'react-dadata--highlighted'}
+            autoEscape
+            searchWords={this.getHighlightWords()}
+            textToHighlight={suggestion.value}
+          />
+        </div>
         <div className="react-dadata__suggestion-subtitle">
-          {suggestion.data.inn && (
-            <div className="react-dadata__suggestion-subtitle-item">
-              {suggestion.data.inn}
-            </div>
-          )}
+          {suggestion.data.inn && <div className="react-dadata__suggestion-subtitle-item">{suggestion.data.inn}</div>}
           {suggestion.data.address && suggestion.data.address.value && (
             <div className="react-dadata__suggestion-subtitle-item">
               <Highlighter

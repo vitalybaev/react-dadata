@@ -47,6 +47,10 @@
   text-align: left;
 }
 
+.react-dadata__suggestion--line-through {
+  text-decoration: line-through;
+}
+
 .react-dadata__suggestion-subtitle {
   font-size: 14px;
   margin-top: 4px;
