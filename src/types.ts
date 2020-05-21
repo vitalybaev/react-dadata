@@ -14,8 +14,9 @@ export interface CommonProps<SuggestionType> {
   hintText?: ReactNode;
   renderOption?: (suggestion: DaDataSuggestion<SuggestionType>) => ReactNode;
   containerClassName?: string;
-  optionClassName?: string;
-  currentOptionClassName?: string;
+  suggestionsClassName?: string;
+  suggestionClassName?: string;
+  currentSuggestionClassName?: string;
   hintClassName?: string;
   highlightClassName?: string;
 }

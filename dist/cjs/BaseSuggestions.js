@@ -179,19 +179,19 @@ var BaseSuggestions = /** @class */ (function (_super) {
     }
     BaseSuggestions.prototype.render = function () {
         var _this = this;
-        var _a = this.props, inputProps = _a.inputProps, hintText = _a.hintText, containerClassName = _a.containerClassName, hintClassName = _a.hintClassName, optionClassName = _a.optionClassName, currentOptionClassName = _a.currentOptionClassName, children = _a.children;
+        var _a = this.props, inputProps = _a.inputProps, hintText = _a.hintText, containerClassName = _a.containerClassName, hintClassName = _a.hintClassName, suggestionsClassName = _a.suggestionsClassName, suggestionClassName = _a.suggestionClassName, currentSuggestionClassName = _a.currentSuggestionClassName, children = _a.children;
         var _b = this.state, query = _b.query, isFocused = _b.isFocused, suggestions = _b.suggestions, suggestionIndex = _b.suggestionIndex;
         return (react_1.default.createElement("div", { className: containerClassName || 'react-dadata react-dadata__container' },
             react_1.default.createElement("div", null,
                 react_1.default.createElement("input", __assign({ autoComplete: "off", className: "react-dadata__input" }, inputProps, { value: query, ref: function (input) {
                         _this.textInput = input;
                     }, onChange: this.handleInputChange, onKeyPress: this.handleInputKeyPress, onKeyDown: this.handleInputKeyPress, onFocus: this.handleInputFocus, onBlur: this.handleInputBlur }))),
-            isFocused && suggestions && suggestions.length > 0 && (react_1.default.createElement("div", { className: "react-dadata__suggestions" },
+            isFocused && suggestions && suggestions.length > 0 && (react_1.default.createElement("div", { className: suggestionsClassName || 'react-dadata__suggestions' },
                 typeof hintText !== 'undefined' && (react_1.default.createElement("div", { className: hintClassName || 'react-dadata__suggestion-note' }, hintText)),
                 suggestions.map(function (suggestion, index) {
-                    var suggestionClass = optionClassName || 'react-dadata__suggestion';
+                    var suggestionClass = suggestionClassName || 'react-dadata__suggestion';
                     if (index === suggestionIndex) {
-                        suggestionClass += " " + (currentOptionClassName || 'react-dadata__suggestion--current');
+                        suggestionClass += " " + (currentSuggestionClassName || 'react-dadata__suggestion--current');
                     }
                     return (react_1.default.createElement("button", { key: _this.getSuggestionKey(suggestion), onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass }, _this.renderOption(suggestion)));
                 }))),

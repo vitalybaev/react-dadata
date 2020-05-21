@@ -219,8 +219,9 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
       hintText,
       containerClassName,
       hintClassName,
-      optionClassName,
-      currentOptionClassName,
+      suggestionsClassName,
+      suggestionClassName,
+      currentSuggestionClassName,
       children,
     } = this.props;
     const { query, isFocused, suggestions, suggestionIndex } = this.state;
@@ -244,14 +245,14 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
           />
         </div>
         {isFocused && suggestions && suggestions.length > 0 && (
-          <div className="react-dadata__suggestions">
+          <div className={suggestionsClassName || 'react-dadata__suggestions'}>
             {typeof hintText !== 'undefined' && (
               <div className={hintClassName || 'react-dadata__suggestion-note'}>{hintText}</div>
             )}
             {suggestions.map((suggestion, index) => {
-              let suggestionClass = optionClassName || 'react-dadata__suggestion';
+              let suggestionClass = suggestionClassName || 'react-dadata__suggestion';
               if (index === suggestionIndex) {
-                suggestionClass += ` ${currentOptionClassName || 'react-dadata__suggestion--current'}`;
+                suggestionClass += ` ${currentSuggestionClassName || 'react-dadata__suggestion--current'}`;
               }
               return (
                 <button
