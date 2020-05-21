@@ -14,11 +14,11 @@
 
 ## Установка
 ```
-npm install react-dadata
+npm install react-dadata@2.0.0-beta.1
 ```
 или
 ```
-yarn react-dadata
+yarn react-dadata@2.0.0-beta.1
 ```
 
 ## Пример использования
@@ -123,6 +123,16 @@ import 'react-dadata/dist/react-dadata.css';
 ## TypeScript
 
 `react-dadata` написан на TypeScript, поэтому типы встроены.
+
+```typescript
+import React, { useState } from 'react';
+import { AddressSuggestions, DaDataSuggestion, DaDataAddress } from 'react-dadata';
+import 'react-dadata/dist/react-dadata.css';
+
+const [value, setValue] = useState<DaDataSuggestion<DaDataAddress> | undefined>();
+
+<AddressSuggestions token="API_KEY" value={value} onChange={setValue} />
+```
 
 ## Лицензия
 
