@@ -49,12 +49,12 @@
 
 .react-dadata__suggestion-subtitle {
   font-size: 14px;
-  display: flex;
-  flex-wrap: wrap;
+  margin-top: 4px;
   color: #777777;
 }
 
 .react-dadata__suggestion-subtitle-item {
+  display: inline-block;
   margin-right: 20px;
   margin-bottom: 4px;
 }
