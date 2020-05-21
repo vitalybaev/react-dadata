@@ -23,7 +23,6 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import React from 'react';
-import Highlighter from 'react-highlight-words';
 var BaseSuggestions = /** @class */ (function (_super) {
     __extends(BaseSuggestions, _super);
     function BaseSuggestions(props) {
@@ -60,7 +59,7 @@ var BaseSuggestions = /** @class */ (function (_super) {
                 _this.fetchSuggestions();
             });
         };
-        _this.onKeyPress = function (event) {
+        _this.handleInputKeyPress = function (event) {
             var _a = _this.state, suggestions = _a.suggestions, suggestionIndex = _a.suggestionIndex, inputQuery = _a.inputQuery;
             if (event.which === 40) {
                 // Arrow down
@@ -98,10 +97,10 @@ var BaseSuggestions = /** @class */ (function (_super) {
                 _this.xhr.abort();
             }
             _this.xhr = new XMLHttpRequest();
-            _this.xhr.open("POST", _this.loadSuggestionsUrl);
-            _this.xhr.setRequestHeader("Accept", "application/json");
-            _this.xhr.setRequestHeader("Authorization", "Token " + token);
-            _this.xhr.setRequestHeader("Content-Type", "application/json");
+            _this.xhr.open('POST', _this.loadSuggestionsUrl);
+            _this.xhr.setRequestHeader('Accept', 'application/json');
+            _this.xhr.setRequestHeader('Authorization', "Token " + token);
+            _this.xhr.setRequestHeader('Content-Type', 'application/json');
             _this.xhr.send(JSON.stringify(_this.getLoadSuggestionsData()));
             _this.xhr.onreadystatechange = function () {
                 if (!_this.xhr || _this.xhr.readyState !== 4) {
@@ -154,6 +153,9 @@ var BaseSuggestions = /** @class */ (function (_super) {
             });
             return words;
         };
+        _this.renderOption = function (suggestion) {
+            return null;
+        };
         var defaultQuery = _this.props.defaultQuery;
         _this.state = {
             query: defaultQuery || '',
@@ -166,20 +168,23 @@ var BaseSuggestions = /** @class */ (function (_super) {
     }
     BaseSuggestions.prototype.render = function () {
         var _this = this;
-        var _a = this.props, inputProps = _a.inputProps, optionClassName = _a.optionClassName, currentOptionClassName = _a.currentOptionClassName, renderOption = _a.renderOption;
+        var _a = this.props, inputProps = _a.inputProps, hintText = _a.hintText, containerClassName = _a.containerClassName, hintClassName = _a.hintClassName, optionClassName = _a.optionClassName, currentOptionClassName = _a.currentOptionClassName, children = _a.children;
         var _b = this.state, query = _b.query, isFocused = _b.isFocused, suggestions = _b.suggestions, suggestionIndex = _b.suggestionIndex;
-        return (React.createElement("div", { className: "react-dadata react-dadata__container" },
+        return (React.createElement("div", { className: containerClassName || 'react-dadata react-dadata__container' },
             React.createElement("div", null,
-                React.createElement("input", __assign({ autoComplete: "off", className: "react-dadata__input" }, inputProps, { value: query, ref: function (input) { _this.textInput = input; }, onChange: this.handleInputChange, onKeyPress: this.onKeyPress, onKeyDown: this.onKeyPress, onFocus: this.handleInputFocus, onBlur: this.handleInputBlur }))),
+                React.createElement("input", __assign({ autoComplete: "off", className: "react-dadata__input" }, inputProps, { value: query, ref: function (input) {
+                        _this.textInput = input;
+                    }, onChange: this.handleInputChange, onKeyPress: this.handleInputKeyPress, onKeyDown: this.handleInputKeyPress, onFocus: this.handleInputFocus, onBlur: this.handleInputBlur }))),
             isFocused && suggestions && suggestions.length > 0 && (React.createElement("div", { className: "react-dadata__suggestions" },
-                React.createElement("div", { className: "react-dadata__suggestion-note" }, "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0430\u0440\u0438\u0430\u043D\u0442 \u0438\u043B\u0438 \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u0435 \u0432\u0432\u043E\u0434"),
+                typeof hintText !== 'undefined' && (React.createElement("div", { className: hintClassName || 'react-dadata__suggestion-note' }, hintText)),
                 suggestions.map(function (suggestion, index) {
                     var suggestionClass = optionClassName || 'react-dadata__suggestion';
                     if (index === suggestionIndex) {
                         suggestionClass += " " + (currentOptionClassName || 'react-dadata__suggestion--current');
                     }
-                    return (React.createElement("button", { key: suggestion.value, onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass }, renderOption ? renderOption(suggestion) : (React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }))));
-                })))));
+                    return (React.createElement("button", { key: suggestion.value, onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass }, _this.renderOption(suggestion)));
+                }))),
+            children));
     };
     return BaseSuggestions;
 }(React.PureComponent));

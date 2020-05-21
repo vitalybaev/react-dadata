@@ -11,9 +11,13 @@ export interface CommonProps<SuggestionType> {
   count?: number;
   onChange?: (suggestion?: DaDataSuggestion<SuggestionType>) => void;
   inputProps?: HTMLProps<HTMLInputElement>;
+  hintText?: ReactNode;
   renderOption?: (suggestion: DaDataSuggestion<SuggestionType>) => ReactNode;
+  containerClassName?: string;
   optionClassName?: string;
   currentOptionClassName?: string;
+  hintClassName?: string;
+  highlightClassName?: string;
 }
 
 type Nullable<T> = T | null;
@@ -105,3 +109,47 @@ export interface DaDataAddress {
 }
 
 export type DaDataAddressBounds = 'country' | 'region' | 'area' | 'city' | 'settlement' | 'street' | 'houses';
+
+export type DaDataPartyType = 'LEGAL' | 'INDIVIDUAL';
+
+export type DaDataPartyBranchType = 'MAIN' | 'BRANCH';
+
+export type DaDataPartyStatus = 'ACTIVE' | 'LIQUIDATING' | 'LIQUIDATED' | 'REORGANIZING';
+
+export interface DaDataParty {
+  inn: string;
+  kpp: string;
+  ogrn: string;
+  ogrn_date: number;
+  hid: string;
+  type: DaDataPartyType;
+  name: {
+    full_with_opf: string;
+    short_with_opf: string;
+    latin: Nullable<string>;
+    full: string;
+    short: string;
+  };
+  okpo: null;
+  okved: string;
+  okved_type: string;
+  opf: {
+    code: string;
+    type: string;
+    full: string;
+    short: string;
+  };
+  management?: {
+    name: string;
+    post: string;
+  };
+  branch_count?: number;
+  branch_type?: DaDataPartyBranchType;
+  address: DaDataSuggestion<DaDataAddress>;
+  state: {
+    actuality_date: number;
+    registration_date: number;
+    liquidation_date: Nullable<number>;
+    status: DaDataPartyStatus;
+  };
+}

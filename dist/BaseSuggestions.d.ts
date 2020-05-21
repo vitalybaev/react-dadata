@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { CommonProps, DaDataSuggestion } from './types';
 export declare type BaseProps<SuggestionType> = CommonProps<SuggestionType>;
 export interface BaseState<SuggestionType> {
@@ -40,7 +40,7 @@ export declare class BaseSuggestions<SuggestionType, OwnProps> extends React.Pur
     private handleInputFocus;
     private handleInputBlur;
     private handleInputChange;
-    onKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+    private handleInputKeyPress;
     /**
      * Функция, которая вернет данные для отправки для получения подсказок
      */
@@ -49,6 +49,7 @@ export declare class BaseSuggestions<SuggestionType, OwnProps> extends React.Pur
     private onSuggestionClick;
     private selectSuggestion;
     private setCursorToEnd;
-    private getHighlightWords;
+    protected getHighlightWords: () => string[];
+    protected renderOption: (suggestion: DaDataSuggestion<SuggestionType>) => ReactNode;
     render(): JSX.Element;
 }

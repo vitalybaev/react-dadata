@@ -1,5 +1,4 @@
-import React, { ChangeEvent, MouseEvent, FocusEvent } from 'react';
-import Highlighter from 'react-highlight-words';
+import React, { ChangeEvent, MouseEvent, FocusEvent, ReactNode } from 'react';
 import { CommonProps, DaDataSuggestion } from './types';
 
 export type BaseProps<SuggestionType> = CommonProps<SuggestionType>;
@@ -31,7 +30,10 @@ export interface BaseState<SuggestionType> {
   suggestionIndex: number;
 }
 
-export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureComponent<BaseProps<SuggestionType> & OwnProps, BaseState<SuggestionType>> {
+export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureComponent<
+  BaseProps<SuggestionType> & OwnProps,
+  BaseState<SuggestionType>
+> {
   /**
    * URL для загрузки подсказок, переопределяется в конкретном компоненте
    */
@@ -53,8 +55,8 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
     const { defaultQuery } = this.props;
 
     this.state = {
-      query: defaultQuery as string | undefined || '',
-      inputQuery: defaultQuery as string | undefined || '',
+      query: (defaultQuery as string | undefined) || '',
+      inputQuery: (defaultQuery as string | undefined) || '',
       isFocused: false,
       suggestions: [],
       suggestionIndex: -1,
@@ -97,7 +99,7 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
     });
   };
 
-  onKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  private handleInputKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const { suggestions, suggestionIndex, inputQuery } = this.state;
     if (event.which === 40) {
       // Arrow down
@@ -105,7 +107,7 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
       if (suggestionIndex < suggestions.length) {
         const newSuggestionIndex = suggestionIndex + 1;
         const newInputQuery = suggestions[newSuggestionIndex].value;
-        this.setState({suggestionIndex: newSuggestionIndex, query: newInputQuery})
+        this.setState({ suggestionIndex: newSuggestionIndex, query: newInputQuery });
       }
     } else if (event.which === 38) {
       // Arrow up
@@ -113,7 +115,7 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
       if (suggestionIndex >= 0) {
         const newSuggestionIndex = suggestionIndex - 1;
         const newInputQuery = newSuggestionIndex === -1 ? inputQuery : suggestions[newSuggestionIndex].value;
-        this.setState({ suggestionIndex: newSuggestionIndex, query: newInputQuery })
+        this.setState({ suggestionIndex: newSuggestionIndex, query: newInputQuery });
       }
     } else if (event.which === 13) {
       // Enter
@@ -127,7 +129,7 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
   /**
    * Функция, которая вернет данные для отправки для получения подсказок
    */
-  protected getLoadSuggestionsData = (): any => ({})
+  protected getLoadSuggestionsData = (): any => ({});
 
   private fetchSuggestions = () => {
     const { token } = this.props;
@@ -136,10 +138,10 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
       this.xhr.abort();
     }
     this.xhr = new XMLHttpRequest();
-    this.xhr.open("POST", this.loadSuggestionsUrl);
-    this.xhr.setRequestHeader("Accept", "application/json");
-    this.xhr.setRequestHeader("Authorization", `Token ${token}`);
-    this.xhr.setRequestHeader("Content-Type", "application/json");
+    this.xhr.open('POST', this.loadSuggestionsUrl);
+    this.xhr.setRequestHeader('Accept', 'application/json');
+    this.xhr.setRequestHeader('Authorization', `Token ${token}`);
+    this.xhr.setRequestHeader('Content-Type', 'application/json');
     this.xhr.send(JSON.stringify(this.getLoadSuggestionsData()));
 
     this.xhr.onreadystatechange = () => {
@@ -150,7 +152,7 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
       if (this.xhr.status === 200) {
         const responseJson = JSON.parse(this.xhr.response);
         if (responseJson && responseJson.suggestions) {
-          this.setState({suggestions: responseJson.suggestions, suggestionIndex: -1});
+          this.setState({ suggestions: responseJson.suggestions, suggestionIndex: -1 });
         }
       }
     };
@@ -191,7 +193,7 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
     }
   };
 
-  private getHighlightWords = (): string[] => {
+  protected getHighlightWords = (): string[] => {
     const { inputQuery } = this.state;
     const wordsToPass = ['г', 'респ', 'ул', 'р-н', 'село', 'деревня', 'поселок', 'пр-д', 'пл', 'к', 'кв', 'обл', 'д'];
     let words = inputQuery.replace(',', '').split(' ');
@@ -201,29 +203,45 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
     return words;
   };
 
+  protected renderOption = (suggestion: DaDataSuggestion<SuggestionType>): ReactNode => {
+    return null;
+  };
+
   public render() {
-    const { inputProps, optionClassName, currentOptionClassName, renderOption } = this.props;
+    const {
+      inputProps,
+      hintText,
+      containerClassName,
+      hintClassName,
+      optionClassName,
+      currentOptionClassName,
+      children,
+    } = this.props;
     const { query, isFocused, suggestions, suggestionIndex } = this.state;
 
     return (
-      <div className="react-dadata react-dadata__container">
+      <div className={containerClassName || 'react-dadata react-dadata__container'}>
         <div>
           <input
             autoComplete="off"
             className="react-dadata__input"
             {...inputProps}
             value={query}
-            ref={ (input) => { this.textInput = input as HTMLInputElement; } }
+            ref={(input) => {
+              this.textInput = input as HTMLInputElement;
+            }}
             onChange={this.handleInputChange}
-            onKeyPress={this.onKeyPress}
-            onKeyDown={this.onKeyPress}
+            onKeyPress={this.handleInputKeyPress}
+            onKeyDown={this.handleInputKeyPress}
             onFocus={this.handleInputFocus}
             onBlur={this.handleInputBlur}
           />
         </div>
         {isFocused && suggestions && suggestions.length > 0 && (
           <div className="react-dadata__suggestions">
-            <div className="react-dadata__suggestion-note">Выберите вариант или продолжите ввод</div>
+            {typeof hintText !== 'undefined' && (
+              <div className={hintClassName || 'react-dadata__suggestion-note'}>{hintText}</div>
+            )}
             {suggestions.map((suggestion, index) => {
               let suggestionClass = optionClassName || 'react-dadata__suggestion';
               if (index === suggestionIndex) {
@@ -235,19 +253,13 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
                   onMouseDown={this.onSuggestionClick.bind(this, index)}
                   className={suggestionClass}
                 >
-                  {renderOption ? renderOption(suggestion) : (
-                    <Highlighter
-                      highlightClassName="react-dadata--highlighted"
-                      autoEscape
-                      searchWords={this.getHighlightWords()}
-                      textToHighlight={suggestion.value}
-                    />
-                  )}
+                  {this.renderOption(suggestion)}
                 </button>
-              )
+              );
             })}
           </div>
         )}
+        {children}
       </div>
     );
   }

@@ -1,2 +1,3 @@
 import { AddressSuggestions } from './AddressSuggestions';
-export { AddressSuggestions };
+import { PartySuggestions } from './PartySuggestions';
+export { AddressSuggestions, PartySuggestions, };

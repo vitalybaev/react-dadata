@@ -1,6 +1,27 @@
-import { DaDataAddress, DaDataSuggestion } from './types';
+import {
+  DaDataAddress,
+  DaDataParty,
+  DaDataSuggestion,
+  DaDataAddressBounds,
+  DaDataPartyType,
+  DaDataPartyBranchType,
+  DaDataPartyStatus,
+} from './types';
 import { AddressSuggestions } from './AddressSuggestions';
+import { PartySuggestions } from './PartySuggestions';
 
 type DaDataAddressSuggestion = DaDataSuggestion<DaDataAddress>;
+type DaDataPartySuggestion = DaDataSuggestion<DaDataParty>;
 
-export { AddressSuggestions, DaDataAddressSuggestion };
+export {
+  AddressSuggestions,
+  PartySuggestions,
+  DaDataAddress,
+  DaDataAddressSuggestion,
+  DaDataParty,
+  DaDataPartySuggestion,
+  DaDataAddressBounds,
+  DaDataPartyType,
+  DaDataPartyBranchType,
+  DaDataPartyStatus,
+};
