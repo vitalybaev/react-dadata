@@ -64,11 +64,11 @@
 }
 
 .react-dadata__suggestion--current {
-  background-color: rgba(0, 124, 214, 0.1);
+  background-color: #FFF5E7;
 }
 
 .react-dadata__suggestion:hover {
-  background-color: rgba(0, 124, 214, 0.1);
+  background-color: #FFF9F0;
 }
 
 .react-dadata mark {
