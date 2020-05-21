@@ -47,6 +47,7 @@ export class PartySuggestions extends BaseSuggestions<DaDataParty, Props> {
     return requestPayload;
   }
 
+  protected getSuggestionKey = (suggestion: DaDataSuggestion<DaDataParty>) => `${suggestion.data.inn}`;
 
   protected renderOption = (suggestion: DaDataSuggestion<DaDataParty>) => {
     const { renderOption, highlightClassName } = this.props;

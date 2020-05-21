@@ -30,7 +30,7 @@ export interface BaseState<SuggestionType> {
   suggestionIndex: number;
 }
 
-export class BaseSuggestions<SuggestionType, OwnProps> extends React.Component<
+export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureComponent<
   BaseProps<SuggestionType> & OwnProps,
   BaseState<SuggestionType>
 > {
@@ -206,6 +206,12 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.Component<
   protected renderOption = (suggestion: DaDataSuggestion<SuggestionType>): ReactNode => {
     return null;
   };
+
+  /**
+   * Функция, которая вернет уникальный key для списка React
+   * @param suggestion
+   */
+  protected getSuggestionKey = (suggestion: DaDataSuggestion<SuggestionType>): string => suggestion.value;
 
   public render() {
     const {
