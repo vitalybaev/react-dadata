@@ -1,5 +1,5 @@
 import Highlighter from 'react-highlight-words';
-import React from 'react';
+import React, { FC } from 'react';
 import { BaseProps, BaseSuggestions } from './BaseSuggestions';
 import { DaDataParty, DaDataPartyStatus, DaDataPartyType, DaDataSuggestion } from './types';
 
@@ -12,7 +12,7 @@ interface Props extends BaseProps<DaDataParty> {
   filterLocationsBoost?: Dictionary[];
 }
 
-export class PartySuggestions extends BaseSuggestions<DaDataParty, Props> {
+export class InternalPartySuggestions extends BaseSuggestions<DaDataParty, Props> {
   loadSuggestionsUrl = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/party';
 
   getLoadSuggestionsData = () => {
@@ -47,8 +47,6 @@ export class PartySuggestions extends BaseSuggestions<DaDataParty, Props> {
     return requestPayload;
   }
 
-  protected getSuggestionKey = (suggestion: DaDataSuggestion<DaDataParty>) => `${suggestion.data.inn}`;
-
   protected renderOption = (suggestion: DaDataSuggestion<DaDataParty>) => {
     const { renderOption, highlightClassName } = this.props;
 
@@ -81,3 +79,13 @@ export class PartySuggestions extends BaseSuggestions<DaDataParty, Props> {
     );
   };
 }
+
+export const PartySuggestions: FC<Props> = (props) => {
+  const getSuggestionKey = (suggestion: DaDataSuggestion<DaDataParty>): string => `${suggestion.data.inn}`;
+  return (
+    <InternalPartySuggestions
+      getSuggestionKey={getSuggestionKey}
+      {...props}
+    />
+  )
+};

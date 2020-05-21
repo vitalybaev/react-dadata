@@ -1,6 +1,10 @@
 import React, { ChangeEvent, MouseEvent, FocusEvent, ReactNode } from 'react';
 import { CommonProps, DaDataSuggestion } from './types';
 
+interface AdditionalProps<SuggestionType> {
+  getSuggestionKey: (suggestion: DaDataSuggestion<SuggestionType>) => string;
+}
+
 export type BaseProps<SuggestionType> = CommonProps<SuggestionType>;
 
 export interface BaseState<SuggestionType> {
@@ -31,7 +35,7 @@ export interface BaseState<SuggestionType> {
 }
 
 export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureComponent<
-  BaseProps<SuggestionType> & OwnProps,
+  BaseProps<SuggestionType> & OwnProps & AdditionalProps<SuggestionType>,
   BaseState<SuggestionType>
 > {
   /**
@@ -49,7 +53,7 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
    */
   private xhr?: XMLHttpRequest;
 
-  constructor(props: BaseProps<SuggestionType> & OwnProps) {
+  constructor(props: BaseProps<SuggestionType> & OwnProps & AdditionalProps<SuggestionType>) {
     super(props);
 
     const { defaultQuery } = this.props;
@@ -207,12 +211,6 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
     return null;
   };
 
-  /**
-   * Функция, которая вернет уникальный key для списка React
-   * @param suggestion
-   */
-  protected getSuggestionKey = (suggestion: DaDataSuggestion<SuggestionType>): string => suggestion.value;
-
   public render() {
     const {
       inputProps,
@@ -221,6 +219,7 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
       hintClassName,
       optionClassName,
       currentOptionClassName,
+      getSuggestionKey,
       children,
     } = this.props;
     const { query, isFocused, suggestions, suggestionIndex } = this.state;
@@ -243,28 +242,31 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
             onBlur={this.handleInputBlur}
           />
         </div>
-        {isFocused && suggestions && suggestions.length > 0 && (
-          <div className="react-dadata__suggestions">
-            {typeof hintText !== 'undefined' && (
-              <div className={hintClassName || 'react-dadata__suggestion-note'}>{hintText}</div>
-            )}
-            {suggestions.map((suggestion, index) => {
-              let suggestionClass = optionClassName || 'react-dadata__suggestion';
-              if (index === suggestionIndex) {
-                suggestionClass += ` ${currentOptionClassName || 'react-dadata__suggestion--current'}`;
-              }
-              return (
-                <button
-                  key={this.getSuggestionKey(suggestion)}
-                  onMouseDown={this.onSuggestionClick.bind(this, index)}
-                  className={suggestionClass}
-                >
-                  {this.renderOption(suggestion)}
-                </button>
-              );
-            })}
-          </div>
-        )}
+        {isFocused &&
+          suggestions &&
+          suggestions.length > 0 &&
+          (suggestions.length > 1 || suggestions[0].value !== query) && (
+            <div className="react-dadata__suggestions">
+              {typeof hintText !== 'undefined' && (
+                <div className={hintClassName || 'react-dadata__suggestion-note'}>{hintText}</div>
+              )}
+              {suggestions.map((suggestion, index) => {
+                let suggestionClass = optionClassName || 'react-dadata__suggestion';
+                if (index === suggestionIndex) {
+                  suggestionClass += ` ${currentOptionClassName || 'react-dadata__suggestion--current'}`;
+                }
+                return (
+                  <button
+                    key={getSuggestionKey(suggestion)}
+                    onMouseDown={this.onSuggestionClick.bind(this, index)}
+                    className={suggestionClass}
+                  >
+                    {this.renderOption(suggestion)}
+                  </button>
+                );
+              })}
+            </div>
+          )}
         {children}
       </div>
     );

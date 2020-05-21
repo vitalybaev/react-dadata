@@ -1,5 +1,5 @@
 import Highlighter from 'react-highlight-words';
-import React from 'react';
+import React, { FC } from 'react';
 import { BaseProps, BaseSuggestions } from './BaseSuggestions';
 import { DaDataAddress, DaDataAddressBounds, DaDataSuggestion } from './types';
 
@@ -12,7 +12,7 @@ interface Props extends BaseProps<DaDataAddress> {
   filterLocationsBoost?: Dictionary[];
 }
 
-export class AddressSuggestions extends BaseSuggestions<DaDataAddress, Props> {
+export class InternalAddressSuggestions extends BaseSuggestions<DaDataAddress, Props> {
   loadSuggestionsUrl = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address';
 
   getLoadSuggestionsData = () => {
@@ -57,3 +57,13 @@ export class AddressSuggestions extends BaseSuggestions<DaDataAddress, Props> {
     );
   };
 }
+
+export const AddressSuggestions: FC<Props> = (props) => {
+  const getSuggestionKey = (suggestion: DaDataSuggestion<DaDataAddress>): string => `${suggestion.value}`;
+  return (
+    <InternalAddressSuggestions
+      getSuggestionKey={getSuggestionKey}
+      {...props}
+    />
+  )
+};
