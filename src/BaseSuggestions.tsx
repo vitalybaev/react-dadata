@@ -30,7 +30,7 @@ export interface BaseState<SuggestionType> {
   suggestionIndex: number;
 }
 
-export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureComponent<
+export class BaseSuggestions<SuggestionType, OwnProps> extends React.Component<
   BaseProps<SuggestionType> & OwnProps,
   BaseState<SuggestionType>
 > {
