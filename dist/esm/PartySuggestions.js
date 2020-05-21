@@ -44,6 +44,7 @@ var PartySuggestions = /** @class */ (function (_super) {
             }
             return requestPayload;
         };
+        _this.getSuggestionKey = function (suggestion) { return "" + suggestion.data.inn; };
         _this.renderOption = function (suggestion) {
             var _a = _this.props, renderOption = _a.renderOption, highlightClassName = _a.highlightClassName;
             return renderOption ? renderOption(suggestion) : (React.createElement("div", null,

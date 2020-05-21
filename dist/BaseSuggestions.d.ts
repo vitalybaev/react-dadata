@@ -51,5 +51,10 @@ export declare class BaseSuggestions<SuggestionType, OwnProps> extends React.Pur
     private setCursorToEnd;
     protected getHighlightWords: () => string[];
     protected renderOption: (suggestion: DaDataSuggestion<SuggestionType>) => ReactNode;
+    /**
+     * Функция, которая вернет уникальный key для списка React
+     * @param suggestion
+     */
+    protected getSuggestionKey: (suggestion: DaDataSuggestion<SuggestionType>) => string;
     render(): JSX.Element;
 }

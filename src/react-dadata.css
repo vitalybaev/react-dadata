@@ -55,7 +55,7 @@
 
 .react-dadata__suggestion-subtitle-item {
   display: inline-block;
-  margin-right: 20px;
+  margin-right: 16px;
   margin-bottom: 4px;
 }
 
@@ -64,11 +64,11 @@
 }
 
 .react-dadata__suggestion--current {
-  background-color: #FFF5E7;
+  background-color: rgba(0, 124, 214, 0.15);
 }
 
 .react-dadata__suggestion:hover {
-  background-color: #FFF9F0;
+  background-color: rgba(0, 124, 214, 0.1);
 }
 
 .react-dadata mark {

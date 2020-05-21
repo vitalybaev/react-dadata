@@ -162,6 +162,11 @@ var BaseSuggestions = /** @class */ (function (_super) {
         _this.renderOption = function (suggestion) {
             return null;
         };
+        /**
+         * Функция, которая вернет уникальный key для списка React
+         * @param suggestion
+         */
+        _this.getSuggestionKey = function (suggestion) { return suggestion.value; };
         var defaultQuery = _this.props.defaultQuery;
         _this.state = {
             query: defaultQuery || '',
@@ -188,7 +193,7 @@ var BaseSuggestions = /** @class */ (function (_super) {
                     if (index === suggestionIndex) {
                         suggestionClass += " " + (currentOptionClassName || 'react-dadata__suggestion--current');
                     }
-                    return (react_1.default.createElement("button", { key: suggestion.value, onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass }, _this.renderOption(suggestion)));
+                    return (react_1.default.createElement("button", { key: _this.getSuggestionKey(suggestion), onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass }, _this.renderOption(suggestion)));
                 }))),
             children));
     };

@@ -12,6 +12,7 @@ interface Props extends BaseProps<DaDataParty> {
 export declare class PartySuggestions extends BaseSuggestions<DaDataParty, Props> {
     loadSuggestionsUrl: string;
     getLoadSuggestionsData: () => any;
+    protected getSuggestionKey: (suggestion: DaDataSuggestion<DaDataParty>) => string;
     protected renderOption: (suggestion: DaDataSuggestion<DaDataParty>) => {} | null | undefined;
 }
 export {};
