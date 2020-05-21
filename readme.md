@@ -1,9 +1,18 @@
 # React Dadata
-React компонент для подсказок адресов с помощью сервиса DaData.ru
+Легковесный (**<3 kb min gzip**), типизированный и настраиваемый React компонент для подсказок **адресов и организаций** с помощью сервиса DaData.ru
 
-<img width="728" alt="React Dadata" src="https://user-images.githubusercontent.com/724423/29621151-9ea462b6-8828-11e7-88ba-07f9619c0182.png">
+**Предоставлена документация для 2.x, версия 1.x не поддерживается**
 
-### Установка
+## Внешний вид
+
+### Адреса
+
+<img width="489" alt="React DaData адреса" src="https://user-images.githubusercontent.com/724423/82560699-9c5edf00-9b7a-11ea-83fc-d286a17c2235.png">
+
+### Организации
+<img width="497" alt="React DaData организаци" src="https://user-images.githubusercontent.com/724423/82560793-c87a6000-9b7a-11ea-9d18-6e1335e470dc.png">
+
+## Установка
 ```
 npm install react-dadata
 ```
@@ -12,27 +21,110 @@ npm install react-dadata
 yarn react-dadata
 ```
 
-### Пример
+## Пример использования
 ```javascript
-import { ReactDadata } from 'react-dadata';
+import { AddressSuggestions } from 'react-dadata';
+import 'react-dadata/dist/react-dadata.css';
 
-// ...
+const [value, setValue] = useState();
 
-<ReactDadata token="API_KEY" query="Москва" placeholder="" />
+<AddressSuggestions token="API_KEY" value={value} onChange={setValue} />
 ```
 
-### Свойства
+## Параметры
+
+### Общие параметры
 
 | Свойство  | Обязательный | Тип | Описание |
 | ------------- | ------------- | ------------- | ------------- |
 | token  | Да  | string  | Авторизационный токен DaData.ru  |
 | placeholder  | Нет  | string  | Текст placeholder  |
-| query  | Нет  | string  | Начальное значение поля ввода  |
+| defaultQuery  | Нет  | string  | Начальное значение поля ввода  |
+| count  | Нет  | number  | Количество подсказок, которое требуется получит от DaData. По-умолчанию: **10**  |
 | autoload  | Нет  | boolean  | Если `true`, то запрос на получение подсказок будет инициирован в фоне сразу, после монтирования компонента  |
-| onChange  | Нет  | function(suggestion: ReactDadata.DadataSuggestion)  | Функция, вызываемая при выборе подсказки  |
-| autocomplete  | Нет  |string  | параметр описывающий автозаполнение поля, например street-address, если не задан, будет установлен как off  |
+| onChange  | Нет  | function(suggestion: DaDataSuggestion<Type>)  | Функция, вызываемая при выборе подсказки  |
+| inputProps  | Нет  | HTMLProps<HTMLInputElement>  | любые стандартные пропсы для input. Свойство `value` игнорируется |
+| hintText  | Нет  | ReactNode  | Если передано, отображается в виде подсказки над списком подсказок |
+| renderOption  | Нет  | function(suggestion: DaDataSuggestion<Type>) => ReactNode  | Реализуйте этот callback, чтобы вернуть компонент для отображения подсказки |
+| containerClassName  | Нет  | string  | CSS класс для контейнера компонента, если не передан, используется класс для стилей из коробки.  |
+| suggestionClassName  | Нет  | string  | CSS класс для компонента подсказки в списке, если не передан, используется класс для стилей из коробки.  |
+| currentSuggestionClassName  | Нет  | string  | CSS класс который добавляется к компоненту текущей выбранной подсказки в списке, если не передан, используется класс для стилей из коробки.  |
+| hintClassName  | Нет  | string  | CSS класс блока текста-пояснения над подсказками, если не передан, используется класс для стилей из коробки.  |
+| highlightClassName  | Нет  | string  | CSS класс элемента, подсвечивающего совпадения при наборе, если не передан, используется класс для стилей из коробки.  |
 
-### Лицензия
+## Типы подсказок и примеры
+
+### Адреса
+
+```javascript
+import { AddressSuggestions } from 'react-dadata';
+import 'react-dadata/dist/react-dadata.css';
+
+const [value, setValue] = useState();
+
+<AddressSuggestions token="API_KEY" value={value} onChange={setValue} />
+```
+
+#### Дополнительные параметры для компонента адресов
+
+| Свойство  | Обязательный | Тип | Описание |
+| ------------- | ------------- | ------------- | ------------- |
+| filterFromBound  | Нет  | string  | Сужение области поиска, параметр from_bound в запросе  |
+| filterToBound  | Нет  | string  | Сужение области поиска, параметр to_bound в запросе  |
+| filterLocations  | Нет  | array  | Сужение области поиска, параметр locations в запросе  |
+| filterLocationsBoost  | Нет  | array  | Указание приоритета города, параметр locations_boost в запросе  |
+
+### Организации
+
+```javascript
+import { PartySuggestions } from 'react-dadata';
+import 'react-dadata/dist/react-dadata.css';
+
+const [value, setValue] = useState();
+
+<PartySuggestions token="API_KEY" value={value} onChange={setValue} />
+```
+
+#### Дополнительные параметры для компонента организаций
+
+| Свойство  | Обязательный | Тип | Описание |
+| ------------- | ------------- | ------------- | ------------- |
+| filterStatus  | Нет  | array  | Фильтр по статусу организации, параметр status в запросе  |
+| filterType  | Нет  | string  | Фильтр по типу организации, параметр type в запросе  |
+| filterLocations  | Нет  | array  | Сужение области поиска, параметр locations в запросе  |
+| filterLocationsBoost  | Нет  | array  | Указание приоритета города, параметр locations_boost в запросе  |
+
+## Стилизация
+
+`react-dadata` поставляется с опциональным CSS файлом, который из коробки неплохо выглядит и выполняет свои функции.
+Чтобы использовать его, укажите этот CSS файл в импорте или создайте CSS файл у себя с нужными стилями.
+
+```javascript
+import { AddressSuggestions } from 'react-dadata';
+
+// Импортируем CSS файл
+import 'react-dadata/dist/react-dadata.css';
+
+// ...
+<AddressSuggestions token="API_KEY" value={value} onChange={setValue} />
+```
+
+**Обратите внимание**, что ваш сборщик должен быть настроен соответствующим образом для обработки CSS файлов.
+
+Если у вас в проекте используется CSS-in-JS решение, то вы должны передавать CSS классы в компонент с помощью пропсов:
+* `inputProps.className` - для поля ввода
+* `containerClassName` - для контейнера компонента
+* `suggestionsClassName` - для блока с подсказками
+* `suggestionClassName` - для блока с подсказкой
+* `currentSuggestionClassName` - для блока с текущей выделенной подсказкой
+* `hintClassName` - для блока с пояснением
+* `highlightClassName` - для тега `mark`, которым выделяются совпадения с введенным текстом
+
+## TypeScript
+
+`react-dadata` написан на TypeScript, поэтому типы встроены.
+
+## Лицензия
 
 ```
 The MIT License
@@ -59,5 +151,7 @@ THE SOFTWARE.
 ```
 
 ### TODO
+* В ближайшее время добавить подсказки для имен и банков.
 * Тесты
-* Доработка функционала
+* Сайт с документацией
+* Если вам чего-то не хватает в текущем функционале - создавайте issue, попробуем помочь!
