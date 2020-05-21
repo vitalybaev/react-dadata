@@ -94,9 +94,14 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
 
   private handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
+    const { inputProps } = this.props;
     this.setState({ query: value, inputQuery: value }, () => {
       this.fetchSuggestions();
     });
+
+    if (inputProps && inputProps.onChange) {
+      inputProps.onChange(event);
+    }
   };
 
   private handleInputKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
