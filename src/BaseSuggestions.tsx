@@ -255,7 +255,7 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
               }
               return (
                 <button
-                  key={suggestion.value}
+                  key={this.getSuggestionKey(suggestion)}
                   onMouseDown={this.onSuggestionClick.bind(this, index)}
                   className={suggestionClass}
                 >
