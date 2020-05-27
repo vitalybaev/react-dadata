@@ -9,6 +9,8 @@ export interface BaseState<SuggestionType> {
    */
   query: string;
 
+  displaySuggestions: boolean;
+
   /**
    * Оригинальная строка в поле поиска, требуется для хранения значения в момент переключения подсказок стрелками
    */
@@ -58,6 +60,7 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
       query: (defaultQuery as string | undefined) || '',
       inputQuery: (defaultQuery as string | undefined) || '',
       isFocused: false,
+      displaySuggestions: true,
       suggestions: [],
       suggestionIndex: -1,
     };
@@ -95,7 +98,7 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
   private handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     const { inputProps } = this.props;
-    this.setState({ query: value, inputQuery: value }, () => {
+    this.setState({ query: value, inputQuery: value, displaySuggestions: true }, () => {
       this.fetchSuggestions();
     });
 
@@ -174,7 +177,7 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
 
     if (suggestions.length >= index - 1) {
       const suggestion = suggestions[index];
-      this.setState({ query: suggestion.value, inputQuery: suggestion.value }, () => {
+      this.setState({ query: suggestion.value, inputQuery: suggestion.value, displaySuggestions: false }, () => {
         this.fetchSuggestions();
         setTimeout(() => this.setCursorToEnd(this.textInput), 100);
       });
@@ -229,7 +232,7 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
       currentSuggestionClassName,
       children,
     } = this.props;
-    const { query, isFocused, suggestions, suggestionIndex } = this.state;
+    const { query, isFocused, suggestions, suggestionIndex, displaySuggestions } = this.state;
 
     return (
       <div className={containerClassName || 'react-dadata react-dadata__container'}>
@@ -249,7 +252,7 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
             onBlur={this.handleInputBlur}
           />
         </div>
-        {isFocused && suggestions && suggestions.length > 0 && (
+        {isFocused && suggestions && displaySuggestions && suggestions.length > 0 && (
           <div className={suggestionsClassName || 'react-dadata__suggestions'}>
             {typeof hintText !== 'undefined' && (
               <div className={hintClassName || 'react-dadata__suggestion-note'}>{hintText}</div>
