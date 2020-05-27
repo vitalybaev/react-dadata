@@ -17,11 +17,11 @@
 
 ## Установка
 ```
-npm install react-dadata@2.0.0-beta.1
+npm install react-dadata
 ```
 или
 ```
-yarn react-dadata@2.0.0-beta.1
+yarn react-dadata
 ```
 
 ## Пример использования
