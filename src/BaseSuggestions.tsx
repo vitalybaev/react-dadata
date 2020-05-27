@@ -179,7 +179,7 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
       const suggestion = suggestions[index];
       this.setState({ query: suggestion.value, inputQuery: suggestion.value, displaySuggestions: false }, () => {
         this.fetchSuggestions();
-        setTimeout(() => this.setCursorToEnd(this.textInput), 100);
+        setTimeout(() => this.setCursorToEnd(this.textInput));
       });
 
       if (onChange) {
