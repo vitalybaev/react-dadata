@@ -1,4 +1,7 @@
 # React Dadata
+
+[Демонстрация](https://vitalybaev.github.io/react-dadata/)
+
 Легковесный (**<3 kb min gzip**), типизированный и настраиваемый React компонент для подсказок **адресов и организаций** с помощью сервиса DaData.ru
 
 **Предоставлена документация для 2.x, версия 1.x не поддерживается**
@@ -10,7 +13,7 @@
 <img width="489" alt="React DaData адреса" src="https://user-images.githubusercontent.com/724423/82560699-9c5edf00-9b7a-11ea-83fc-d286a17c2235.png">
 
 ### Организации
-<img width="497" alt="React DaData организаци" src="https://user-images.githubusercontent.com/724423/82560793-c87a6000-9b7a-11ea-9d18-6e1335e470dc.png">
+<img width="497" alt="React DaData организации" src="https://user-images.githubusercontent.com/724423/82560793-c87a6000-9b7a-11ea-9d18-6e1335e470dc.png">
 
 ## Установка
 ```

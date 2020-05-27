@@ -33,7 +33,7 @@
   "bugs": {
     "url": "https://github.com/vitalybaev/react-dadata/issues"
   },
-  "homepage": "https://github.com/vitalybaev/react-dadata#readme",
+  "homepage": "https://vitalybaev.github.io/react-dadata/",
   "dependencies": {
     "react-highlight-words": "^0.16.0"
   },
