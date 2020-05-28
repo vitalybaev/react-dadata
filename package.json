@@ -36,11 +36,10 @@
   },
   "homepage": "https://vitalybaev.github.io/react-dadata/",
   "dependencies": {
-    "react-highlight-words": "^0.16.0"
+    "highlight-words": "^1.0.6"
   },
   "devDependencies": {
     "@types/react": "^16.9.23",
-    "@types/react-highlight-words": "^0.16.1",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
     "cssnano": "^4.1.10",

@@ -1,7 +1,7 @@
-import Highlighter from 'react-highlight-words';
 import React from 'react';
 import { BaseProps, BaseSuggestions } from './BaseSuggestions';
 import { DaDataParty, DaDataPartyStatus, DaDataPartyType, DaDataSuggestion } from './types';
+import { HighlightWords } from './HighlightWords';
 
 type Dictionary = { [key: string]: any };
 
@@ -61,22 +61,20 @@ export class PartySuggestions extends BaseSuggestions<DaDataParty, Props> {
             suggestion.data.state.status === 'LIQUIDATED' ? 'react-dadata__suggestion--line-through' : undefined
           }
         >
-          <Highlighter
+          <HighlightWords
             highlightClassName={highlightClassName || 'react-dadata--highlighted'}
-            autoEscape
-            searchWords={this.getHighlightWords()}
-            textToHighlight={suggestion.value}
+            words={this.getHighlightWords()}
+            text={suggestion.value}
           />
         </div>
         <div className="react-dadata__suggestion-subtitle">
           {suggestion.data.inn && <div className="react-dadata__suggestion-subtitle-item">{suggestion.data.inn}</div>}
           {suggestion.data.address && suggestion.data.address.value && (
             <div className="react-dadata__suggestion-subtitle-item">
-              <Highlighter
+              <HighlightWords
                 highlightClassName={highlightClassName || 'react-dadata--highlighted'}
-                autoEscape
-                searchWords={this.getHighlightWords()}
-                textToHighlight={suggestion.data.address.value}
+                words={this.getHighlightWords()}
+                text={suggestion.data.address.value}
               />
             </div>
           )}

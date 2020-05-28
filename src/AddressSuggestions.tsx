@@ -1,7 +1,7 @@
-import Highlighter from 'react-highlight-words';
 import React from 'react';
 import { BaseProps, BaseSuggestions } from './BaseSuggestions';
 import { DaDataAddress, DaDataAddressBounds, DaDataSuggestion } from './types';
+import { HighlightWords } from './HighlightWords';
 
 type Dictionary = { [key: string]: any };
 
@@ -48,11 +48,10 @@ export class AddressSuggestions extends BaseSuggestions<DaDataAddress, Props> {
     const { renderOption, highlightClassName } = this.props;
 
     return renderOption ? renderOption(suggestion) : (
-      <Highlighter
+      <HighlightWords
         highlightClassName={highlightClassName || 'react-dadata--highlighted'}
-        autoEscape
-        searchWords={this.getHighlightWords()}
-        textToHighlight={suggestion.value}
+        words={this.getHighlightWords()}
+        text={suggestion.value}
       />
     );
   };
