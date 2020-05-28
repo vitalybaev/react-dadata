@@ -23,7 +23,9 @@
   z-index: 10;
   background-color: #fff;
   box-shadow: 0 1px 6px 3px rgba(0,0,0,.1);
-  top: 100%;
+  top: calc(100% + 8px);
+  border-radius: 4px;
+  overflow: hidden;
   left: 0;
   right: 0;
   text-align: left;
