@@ -14,6 +14,7 @@
     "build:esm": "tsc --module es2015 --target es5 --outDir dist/esm",
     "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist",
     "build": "NODE_ENV=production yarn clean && yarn build:css && yarn build:cjs && yarn build:esm && yarn build:types",
+    "check:size-limit": "npm run build:esm && size-limit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -39,6 +40,7 @@
     "highlight-words": "^1.0.6"
   },
   "devDependencies": {
+    "@size-limit/preset-small-lib": "^4.5.0",
     "@types/react": "^16.9.23",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
@@ -57,12 +59,25 @@
     "postcss-preset-env": "^6.7.0",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
+    "size-limit": "^4.5.0",
     "typescript": "^3.8.3"
   },
   "peerDependencies": {
     "react": "^15.6.0 || ^16.0.0",
     "react-dom": "^15.6.0 || ^16.0"
   },
+  "size-limit": [
+    {
+      "path": "dist/esm/index.js",
+      "import": "{ AddressSuggestions }",
+      "limit": "3 KB"
+    },
+    {
+      "path": "dist/esm/index.js",
+      "import": "{ PartySuggestions }",
+      "limit": "3 KB"
+    }
+  ],
   "eslintConfig": {
     "extends": [
       "airbnb",
