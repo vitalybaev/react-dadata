@@ -15,6 +15,7 @@
     "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist",
     "build": "NODE_ENV=production run-s clean build:css build:cjs build:esm build:types",
     "size-build": "npm run build:esm",
+    "test:lint": "eslint src",
     "test:size-limit": "npm run build:esm && size-limit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
