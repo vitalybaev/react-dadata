@@ -1,8 +1,5 @@
 name: "size"
 on:
-  push:
-    branches:
-      - master
   pull_request:
     branches:
       - master
@@ -15,4 +12,5 @@ jobs:
       - uses: actions/checkout@v1
       - uses: andresz1/size-limit-action@v1.0.0
         with:
+          build_script: build
           github_token: ${{ secrets.GITHUB_TOKEN }}
