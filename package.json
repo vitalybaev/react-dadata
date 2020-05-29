@@ -70,11 +70,13 @@
   },
   "size-limit": [
     {
+      "name": "AddressSuggestions",
       "path": "dist/esm/index.js",
       "import": "{ AddressSuggestions }",
       "limit": "3 KB"
     },
     {
+      "name": "PartySuggestions",
       "path": "dist/esm/index.js",
       "import": "{ PartySuggestions }",
       "limit": "3 KB"
