@@ -14,8 +14,8 @@
     "build:esm": "tsc --module es2015 --target es5 --outDir dist/esm",
     "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist",
     "build": "NODE_ENV=production run-s clean build:css build:cjs build:esm build:types",
-    "size-build": "npm run build",
-    "check:size-limit": "npm run build:esm && size-limit",
+    "size-build": "npm run build:esm",
+    "test:size-limit": "npm run build:esm && size-limit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
