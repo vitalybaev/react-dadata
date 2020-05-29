@@ -7,7 +7,7 @@
   "types": "dist/index.d.ts",
   "sideEffects": false,
   "scripts": {
-    "prepublish": "npm run build",
+    "prepublishOnly": "npm run build",
     "clean": "rimraf dist",
     "build:css": "postcss src/react-dadata.css -o dist/react-dadata.css",
     "build:cjs": "tsc --module commonjs --target es5 --outDir dist/cjs",
