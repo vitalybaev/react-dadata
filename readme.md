@@ -30,7 +30,7 @@ yarn react-dadata
 ```
 
 ## Пример использования
-```javascript
+```jsx
 import { AddressSuggestions } from 'react-dadata';
 import 'react-dadata/dist/react-dadata.css';
 
@@ -63,7 +63,7 @@ const [value, setValue] = useState();
 
 ### Адреса
 
-```javascript
+```jsx
 import { AddressSuggestions } from 'react-dadata';
 import 'react-dadata/dist/react-dadata.css';
 
@@ -83,7 +83,7 @@ const [value, setValue] = useState();
 
 ### Организации
 
-```javascript
+```jsx
 import { PartySuggestions } from 'react-dadata';
 import 'react-dadata/dist/react-dadata.css';
 
@@ -106,7 +106,7 @@ const [value, setValue] = useState();
 `react-dadata` поставляется с опциональным CSS файлом, который из коробки неплохо выглядит и выполняет свои функции.
 Чтобы использовать его, укажите этот CSS файл в импорте или создайте CSS файл у себя с нужными стилями.
 
-```javascript
+```jsx
 import { AddressSuggestions } from 'react-dadata';
 
 // Импортируем CSS файл
@@ -131,7 +131,7 @@ import 'react-dadata/dist/react-dadata.css';
 
 `react-dadata` написан на TypeScript, поэтому типы встроены.
 
-```typescript
+```tsx
 import React, { useState } from 'react';
 import { AddressSuggestions, DaDataSuggestion, DaDataAddress } from 'react-dadata';
 import 'react-dadata/dist/react-dadata.css';
