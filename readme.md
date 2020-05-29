@@ -3,9 +3,10 @@
 [![dependencies](https://img.shields.io/david/vitalybaev/react-dadata)](https://www.npmjs.com/package/react-dadata)
 [![npm package](https://img.shields.io/npm/v/react-dadata.svg)](https://www.npmjs.com/package/react-dadata)
 [![npm downloads](https://img.shields.io/npm/dm/react-dadata.svg)](https://www.npmjs.com/package/react-dadata)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-dadata)
 ![licence](https://img.shields.io/npm/l/react-dadata)
 
-Легковесный (**<3 kb min gzip**), типизированный и настраиваемый React компонент для подсказок **адресов и организаций** с помощью сервиса DaData.ru
+Легковесный (**~3 kb min gzip**), типизированный и настраиваемый React компонент для подсказок **адресов и организаций** с помощью сервиса DaData.ru
 
 [Демонстрация](https://vitalybaev.github.io/react-dadata/)
 
