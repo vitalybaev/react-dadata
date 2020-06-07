@@ -139,7 +139,7 @@ import 'react-dadata/dist/react-dadata.css';
 
 const [value, setValue] = useState<DaDataSuggestion<DaDataAddress> | undefined>();
 
-// Также можно воспользоваться готовым типом DaDataAddressSuggestion для адрес или DaDataPartySuggestion для организаций
+// Также можно воспользоваться готовым типом DaDataAddressSuggestion для адреса или DaDataPartySuggestion для организаций
 // import { DaDataAddressSuggestion } from 'react-dadata';
 // const [value, setValue] = useState<DaDataAddressSuggestion | undefined>();
 
