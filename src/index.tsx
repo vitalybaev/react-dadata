@@ -14,6 +14,7 @@ type DaDataAddressSuggestion = DaDataSuggestion<DaDataAddress>;
 type DaDataPartySuggestion = DaDataSuggestion<DaDataParty>;
 
 export {
+  DaDataSuggestion,
   AddressSuggestions,
   PartySuggestions,
   DaDataAddress,
