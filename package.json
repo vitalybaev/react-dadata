@@ -1,6 +1,6 @@
 {
   "name": "react-dadata",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "React-компонент для подсказок адресов с помощью сервиса DaData.ru",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
