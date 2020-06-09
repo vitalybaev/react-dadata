@@ -16,10 +16,13 @@
 
 ### Адреса
 
-<img width="489" alt="React DaData адреса" src="https://user-images.githubusercontent.com/724423/82560699-9c5edf00-9b7a-11ea-83fc-d286a17c2235.png">
+<img width="591" alt="СReact DaData адреса" src="https://user-images.githubusercontent.com/724423/84180344-05f24f00-aa90-11ea-9844-deac7fd209a0.png">
 
 ### Организации
-<img width="497" alt="React DaData организации" src="https://user-images.githubusercontent.com/724423/82560793-c87a6000-9b7a-11ea-9d18-6e1335e470dc.png">
+<img width="587" alt="React DaData организации" src="https://user-images.githubusercontent.com/724423/84180388-199db580-aa90-11ea-8276-548dcaff641d.png">
+
+### Банки
+<img width="585" alt="React DaData банки" src="https://user-images.githubusercontent.com/724423/84180460-320dd000-aa90-11ea-9a16-62c9e230052d.png">
 
 ## Установка
 ```
