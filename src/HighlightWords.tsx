@@ -15,14 +15,22 @@ export class HighlightWords extends PureComponent<Props> {
 
     const chunks = highlightWords({ text, query });
 
-    return chunks.map(chunk => {
-      if (!chunk.match) {
-        return <span key={chunk.key}>{chunk.text}</span>
-      }
+    return (
+      <span>
+        {chunks.map((chunk) => {
+          if (!chunk.match) {
+            return <span key={chunk.key}>{chunk.text}</span>;
+          }
 
-      const Component = tagName;
+          const Component = tagName;
 
-      return <Component key={chunk.key} className={highlightClassName}>{chunk.text}</Component>
-    });
+          return (
+            <Component key={chunk.key} className={highlightClassName}>
+              {chunk.text}
+            </Component>
+          );
+        })}
+      </span>
+    );
   }
 }
