@@ -6,7 +6,7 @@
 [![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-dadata)](https://bundlephobia.com/result?p=react-dadata)
 ![licence](https://img.shields.io/npm/l/react-dadata)
 
-Легковесный (**~3 kb min gzip**), типизированный и настраиваемый React компонент для подсказок **адресов и организаций** с помощью сервиса DaData.ru
+Легковесный (**~3 kb min gzip**), типизированный и настраиваемый React компонент для подсказок **адресов, организаций и банков** с помощью сервиса DaData.ru
 
 [Демонстрация](https://vitalybaev.github.io/react-dadata/)
 
@@ -101,6 +101,27 @@ const [value, setValue] = useState();
 | filterType  | Нет  | string  | Фильтр по типу организации, параметр type в запросе  |
 | filterLocations  | Нет  | array  | Сужение области поиска, параметр locations в запросе  |
 | filterLocationsBoost  | Нет  | array  | Указание приоритета города, параметр locations_boost в запросе  |
+
+### Банки
+
+```jsx
+import { BankSuggestions } from 'react-dadata';
+import 'react-dadata/dist/react-dadata.css';
+
+const [value, setValue] = useState();
+
+<BankSuggestions token="API_KEY" value={value} onChange={setValue} />
+```
+
+#### Дополнительные параметры для компонента банков
+
+| Свойство  | Обязательный | Тип | Описание |
+| ------------- | ------------- | ------------- | ------------- |
+| filterStatus  | Нет  | array  | Фильтр по статусу банка, параметр status в запросе  |
+| filterType  | Нет  | string  | Фильтр по типу банка, параметр type в запросе  |
+| filterLocations  | Нет  | array  | Сужение области поиска, параметр locations в запросе  |
+| filterLocationsBoost  | Нет  | array  | Указание приоритета города, параметр locations_boost в запросе  |
+
 
 ## Стилизация
 
