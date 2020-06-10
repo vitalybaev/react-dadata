@@ -10,3 +10,8 @@ yarn.lock
 .idea
 src/
 tsconfig.json
+setupTests.*
+*__tests__*
+babel.config.js
+jest.config.js
+.github
