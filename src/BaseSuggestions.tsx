@@ -1,5 +1,6 @@
 import React, { ChangeEvent, MouseEvent, FocusEvent, ReactNode } from 'react';
 import { CommonProps, DaDataSuggestion } from './types';
+import { makeRequest } from './request';
 
 export type BaseProps<SuggestionType> = CommonProps<SuggestionType>;
 
@@ -45,11 +46,6 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
    * HTML-input
    */
   private textInput?: HTMLInputElement;
-
-  /**
-   * XMLHttpRequest instance
-   */
-  private xhr?: XMLHttpRequest;
 
   constructor(props: BaseProps<SuggestionType> & OwnProps) {
     super(props);
@@ -142,28 +138,16 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
   private fetchSuggestions = () => {
     const { token } = this.props;
 
-    if (this.xhr) {
-      this.xhr.abort();
-    }
-    this.xhr = new XMLHttpRequest();
-    this.xhr.open('POST', this.loadSuggestionsUrl);
-    this.xhr.setRequestHeader('Accept', 'application/json');
-    this.xhr.setRequestHeader('Authorization', `Token ${token}`);
-    this.xhr.setRequestHeader('Content-Type', 'application/json');
-    this.xhr.send(JSON.stringify(this.getLoadSuggestionsData()));
-
-    this.xhr.onreadystatechange = () => {
-      if (!this.xhr || this.xhr.readyState !== 4) {
-        return;
-      }
-
-      if (this.xhr.status === 200) {
-        const responseJson = JSON.parse(this.xhr.response);
-        if (responseJson && responseJson.suggestions) {
-          this.setState({ suggestions: responseJson.suggestions, suggestionIndex: -1 });
-        }
-      }
-    };
+    makeRequest('POST', this.loadSuggestionsUrl, {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Token ${token}`,
+        'Content-Type': 'application/json',
+      },
+      json: this.getLoadSuggestionsData(),
+    }, (suggestions) => {
+      this.setState({ suggestions, suggestionIndex: -1 });
+    });
   };
 
   private onSuggestionClick = (index: number, event: MouseEvent<HTMLButtonElement>) => {

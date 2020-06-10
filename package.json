@@ -17,7 +17,7 @@
     "size-build": "npm run build:esm",
     "test:lint": "eslint src",
     "test:size-limit": "npm run build:esm && size-limit",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -42,11 +42,22 @@
     "highlight-words": "^1.0.6"
   },
   "devDependencies": {
+    "@babel/core": "^7.10.2",
+    "@babel/helper-validator-identifier": "^7.10.1",
+    "@babel/preset-env": "^7.10.2",
+    "@babel/preset-react": "^7.10.1",
+    "@babel/preset-typescript": "^7.10.1",
     "@size-limit/preset-small-lib": "^4.5.0",
+    "@types/enzyme": "^3.10.5",
+    "@types/enzyme-adapter-react-16": "^1.0.6",
+    "@types/jest": "^26.0.0",
     "@types/react": "^16.9.23",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
+    "babel-jest": "^26.0.1",
     "cssnano": "^4.1.10",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
     "eslint": "^7.0.0",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-prettier": "^6.11.0",
@@ -56,11 +67,15 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-react": "^7.20.0",
+    "jest": "^26.0.1",
+    "jest-enzyme": "^7.1.2",
     "npm-run-all": "^4.1.5",
     "postcss": "^7.0.30",
     "postcss-cli": "^7.1.1",
     "postcss-preset-env": "^6.7.0",
     "prettier": "^2.0.5",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "rimraf": "^3.0.2",
     "size-limit": "^4.5.0",
     "typescript": "^3.8.3"
@@ -175,7 +190,8 @@
     }
   },
   "eslintIgnore": [
-    "dist/*"
+    "dist/*",
+    "setupTests.ts"
   ],
   "prettier": {
     "printWidth": 120,
