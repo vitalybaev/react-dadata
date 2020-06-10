@@ -11,5 +11,8 @@
     "forceConsistentCasingInFileNames": true,
     "declaration": false,
     "typeRoots": ["node_modules/@types", "typings"]
-  }
+  },
+  "include": [
+    "./src/*"
+  ]
 }
