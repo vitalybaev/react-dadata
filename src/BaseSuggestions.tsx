@@ -225,7 +225,7 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
   };
 
   public setInputValue = (value?: string) => {
-    this.setState({ query: value, inputQuery: value });
+    this.setState({ query: value || '', inputQuery: value || '' });
   };
 
   public render() {
