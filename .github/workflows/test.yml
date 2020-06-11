@@ -17,5 +17,12 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn install --frozen-lockfile
-      - run: yarn test
+      - name: yarn, test
+        run: |
+          yarn install --frozen-lockfile
+          yarn test
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
