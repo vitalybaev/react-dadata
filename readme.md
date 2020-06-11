@@ -50,7 +50,8 @@ const [value, setValue] = useState();
 | Свойство  | Обязательный | Тип | Описание |
 | ------------- | ------------- | ------------- | ------------- |
 | token  | Да  | string  | Авторизационный токен DaData.ru  |
-| defaultQuery  | Нет  | string  | Начальное значение поля ввода  |
+| value  | Нет  | DaDataSuggestion<*>  | Текущее значение, если передается, то в поле ввода будет установлено значение `value` подсказки (если не указан `defaultQuery`) а также при изменении будет менять значение в поле ввода.  |
+| defaultQuery  | Нет  | string  | Начальное значение поля ввода, имеет больший приоритет перед `value`. Используется только при монтировании компонента.  |
 | count  | Нет  | number  | Количество подсказок, которое требуется получит от DaData. По-умолчанию: **10**  |
 | autoload  | Нет  | boolean  | Если `true`, то запрос на получение подсказок будет инициирован в фоне сразу, после монтирования компонента  |
 | onChange  | Нет  | function(suggestion: DaDataSuggestion<Type>)  | Функция, вызываемая при выборе подсказки  |
@@ -62,6 +63,36 @@ const [value, setValue] = useState();
 | currentSuggestionClassName  | Нет  | string  | CSS класс который добавляется к компоненту текущей выбранной подсказки в списке, если не передан, используется класс для стилей из коробки.  |
 | hintClassName  | Нет  | string  | CSS класс блока текста-пояснения над подсказками, если не передан, используется класс для стилей из коробки.  |
 | highlightClassName  | Нет  | string  | CSS класс элемента, подсвечивающего совпадения при наборе, если не передан, используется класс для стилей из коробки.  |
+
+## Методы
+
+Поскольку компонент классовый, он поддерживает вызов методов с помощью `ref`.
+
+```tsx
+import React, { useRef } from 'react';
+import { AddressSuggestions } from 'react-dadata';
+import 'react-dadata/dist/react-dadata.css';
+
+//...
+
+const suggestionsRef = useRef<AddressSuggestions>(null);
+const handleClick = () => {
+  if (suggestionsRef.current) {
+    suggestionsRef.current.setInputValue('Тут пример запроса');
+  }
+};
+
+//...
+
+<AddressSuggestions ref={suggestionsRef} token="API_KEY" />
+<button onClick={handleClick}>Изменить поле ввода</button>
+```
+
+### focus()
+Вызывает событие `focus` на поле ввода
+
+### setInputValue(value: string | undefined)
+Устанавливает указанный текст в поле ввода
 
 ## Типы подсказок и примеры
 
