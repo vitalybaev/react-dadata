@@ -1,4 +1,5 @@
 import React, { ChangeEvent, MouseEvent, FocusEvent, ReactNode } from 'react';
+import shallowEqual from 'shallowequal';
 import { CommonProps, DaDataSuggestion } from './types';
 import { makeRequest } from './request';
 
@@ -50,16 +51,28 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
   constructor(props: BaseProps<SuggestionType> & OwnProps) {
     super(props);
 
-    const { defaultQuery } = this.props;
+    const { defaultQuery, value } = this.props;
+    const valueQuery = value ? value.value : undefined;
 
     this.state = {
-      query: (defaultQuery as string | undefined) || '',
-      inputQuery: (defaultQuery as string | undefined) || '',
+      query: (defaultQuery as string | undefined) || valueQuery || '',
+      inputQuery: (defaultQuery as string | undefined) || valueQuery || '',
       isFocused: false,
       displaySuggestions: true,
       suggestions: [],
       suggestionIndex: -1,
     };
+  }
+
+  componentDidUpdate(prevProps: Readonly<BaseProps<SuggestionType> & OwnProps>, prevState: Readonly<BaseState<SuggestionType>>) {
+    const { value } = this.props;
+    const { query, inputQuery } = this.state;
+    if (!shallowEqual(prevProps.value, value)) {
+      const newQuery = value ? value.value : '';
+      if (query !== newQuery || inputQuery !== newQuery) {
+        this.setState({ query: newQuery, inputQuery: newQuery });
+      }
+    }
   }
 
   private handleInputFocus = (event: FocusEvent<HTMLInputElement>) => {
@@ -204,6 +217,16 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
    * @param suggestion
    */
   protected getSuggestionKey = (suggestion: DaDataSuggestion<SuggestionType>): string => suggestion.value;
+
+  public focus = () => {
+    if (this.textInput) {
+      this.textInput.focus();
+    }
+  };
+
+  public setInputValue = (value?: string) => {
+    this.setState({ query: value, inputQuery: value });
+  };
 
   public render() {
     const {

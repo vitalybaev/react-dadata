@@ -7,7 +7,7 @@
   "types": "dist/index.d.ts",
   "sideEffects": false,
   "scripts": {
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "npm run test && npm run build",
     "clean": "rimraf dist",
     "build:css": "postcss src/react-dadata.css -o dist/react-dadata.css",
     "build:cjs": "tsc --module commonjs --target es5 --outDir dist/cjs",
@@ -40,7 +40,8 @@
   },
   "homepage": "https://vitalybaev.github.io/react-dadata/",
   "dependencies": {
-    "highlight-words": "^1.0.6"
+    "highlight-words": "^1.0.6",
+    "shallowequal": "^1.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",
@@ -53,6 +54,7 @@
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/jest": "^26.0.0",
     "@types/react": "^16.9.36",
+    "@types/shallowequal": "^1.1.1",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
     "babel-jest": "^26.0.1",
@@ -125,6 +127,7 @@
           "ignoreTemplateLiterals": true
         }
       ],
+      "react/no-did-update-set-state": "off",
       "default-case": "off",
       "arrow-body-style": "off",
       "no-restricted-globals": "off",
