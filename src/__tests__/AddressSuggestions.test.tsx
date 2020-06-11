@@ -73,4 +73,14 @@ describe('AddressSuggestions', () => {
     input = wrapper.find('input.react-dadata__input');
     expect(input).toHaveValue('Краснодарский край, Мостовский р-н');
   });
+
+  it('change value changes input query', async () => {
+    const wrapper = mount<AddressSuggestions>(<AddressSuggestions token="TEST_TOKEN" />);
+    let input = wrapper.find('input.react-dadata__input');
+    expect(input).toHaveValue('');
+    wrapper.setProps({ value: addressMockKrasnodar });
+    wrapper.update();
+    input = wrapper.find('input.react-dadata__input');
+    expect(input).toHaveValue('Краснодарский край, Мостовский р-н');
+  });
 });
