@@ -121,7 +121,7 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
     if (event.which === 40) {
       // Arrow down
       event.preventDefault();
-      if (suggestionIndex < suggestions.length) {
+      if (suggestionIndex < suggestions.length - 1) {
         const newSuggestionIndex = suggestionIndex + 1;
         const newInputQuery = suggestions[newSuggestionIndex].value;
         this.setState({ suggestionIndex: newSuggestionIndex, query: newInputQuery });
