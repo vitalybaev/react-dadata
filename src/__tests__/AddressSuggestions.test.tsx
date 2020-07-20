@@ -2,6 +2,7 @@ import React, { HTMLProps } from 'react';
 import { mount } from 'enzyme';
 import { AddressSuggestions } from '../AddressSuggestions';
 import { addressMockKrasnodar } from './mocks';
+import 'jest-enzyme';
 
 jest.mock('../request', () => {
   // eslint-disable-next-line
@@ -102,5 +103,45 @@ describe('AddressSuggestions', () => {
     wrapper.update();
     input = wrapper.find('input.react-dadata__input');
     expect(input).toHaveValue('Краснодарский край, Мостовский р-н');
+  });
+
+  it('correctly navigate by keyboard arrows', async () => {
+    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" />);
+    let input = wrapper.find('input.react-dadata__input');
+    input.simulate('focus');
+    input.simulate('change', { target: { value: 'Мо' } });
+    await delay(10);
+    wrapper.update();
+    let suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
+    expect(suggestionsWrapper.exists()).toBe(true);
+    expect(suggestionsWrapper.find('button.react-dadata__suggestion').length).toBe(7);
+    input.simulate('keypress', { which: 40 });
+    await delay(10);
+    wrapper.update();
+    suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
+    expect(suggestionsWrapper.find('button.react-dadata__suggestion').at(0)).toHaveClassName('react-dadata__suggestion--current');
+    input = wrapper.find('input.react-dadata__input');
+    expect(input).toHaveValue('г Москва');
+    input.simulate('keypress', { which: 40 });
+    await delay(10);
+    wrapper.update();
+    suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
+    expect(suggestionsWrapper.find('button.react-dadata__suggestion').at(1)).toHaveClassName('react-dadata__suggestion--current');
+    input = wrapper.find('input.react-dadata__input');
+    expect(input).toHaveValue('Московская обл');
+    input.simulate('keypress', { which: 40 });
+    input.simulate('keypress', { which: 40 });
+    input.simulate('keypress', { which: 40 });
+    input.simulate('keypress', { which: 40 });
+    input.simulate('keypress', { which: 40 });
+    input.simulate('keypress', { which: 40 });
+    input.simulate('keypress', { which: 40 });
+    input.simulate('keypress', { which: 40 });
+    await delay(10);
+    wrapper.update();
+    suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
+    expect(suggestionsWrapper.find('button.react-dadata__suggestion').at(6)).toHaveClassName('react-dadata__suggestion--current');
+    input = wrapper.find('input.react-dadata__input');
+    expect(input).toHaveValue('Удмуртская Респ, г Можга');
   });
 });
