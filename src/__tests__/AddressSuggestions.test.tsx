@@ -43,11 +43,25 @@ describe('AddressSuggestions', () => {
     expect(input).toHaveProp('aria-label', 'Test aria label');
   });
 
+  it('correctly fire onChange callback', async () => {
+    const handleChangeMock = jest.fn();
+    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" inputProps={{ onChange: handleChangeMock }} />);
+    const input = wrapper.find('input.react-dadata__input');
+    input.simulate('focus');
+    input.simulate('change', { target: { value: 'Мо' } });
+    await delay(10);
+    expect(handleChangeMock.mock.calls.length).toBe(1);
+    expect(handleChangeMock.mock.calls[0][0].target.value).toBe('Мо');
+  });
+
   it('correctly type and select suggestions', async () => {
     const handleFocusMock = jest.fn();
     const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" inputProps={{ onFocus: handleFocusMock }} />);
     const input = wrapper.find('input.react-dadata__input');
     input.simulate('focus');
+    await delay(10);
+    wrapper.update();
+    expect(wrapper).toHaveState('isFocused', true);
     expect(handleFocusMock.mock.calls.length).toBe(1);
     input.simulate('change', { target: { value: 'Мо' } });
     await delay(10);
@@ -55,6 +69,17 @@ describe('AddressSuggestions', () => {
     const suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
     expect(suggestionsWrapper).toExist();
     expect(suggestionsWrapper.find('button.react-dadata__suggestion').length).toBe(7);
+  });
+
+  it('correctly fire blur', async () => {
+    const handleBlurMock = jest.fn();
+    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" inputProps={{ onBlur: handleBlurMock }} />);
+    const input = wrapper.find('input.react-dadata__input');
+    input.simulate('focus');
+    expect(wrapper).toHaveState('isFocused', true);
+    input.simulate('blur');
+    expect(wrapper).toHaveState('isFocused', false);
+    expect(handleBlurMock.mock.calls.length).toBe(1);
   });
 
   it('correctly show 0 suggestions with minChars', async () => {
