@@ -154,6 +154,7 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
 
     // Проверяем на минимальное количество символов для отправки
     if (typeof minChars === 'number' && minChars > 0 && query.length < minChars) {
+      this.setState({ suggestions: [], suggestionIndex: -1 });
       return;
     }
 
