@@ -149,7 +149,13 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
   protected getLoadSuggestionsData = (): any => ({});
 
   private fetchSuggestions = () => {
-    const { token } = this.props;
+    const { minChars, token } = this.props;
+    const { query } = this.state;
+
+    // Проверяем на минимальное количество символов для отправки
+    if (typeof minChars === 'number' && minChars > 0 && query.length < minChars) {
+      return;
+    }
 
     makeRequest('POST', this.loadSuggestionsUrl, {
       headers: {
