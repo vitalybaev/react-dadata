@@ -56,6 +56,26 @@ describe('AddressSuggestions', () => {
     expect(suggestionsWrapper.find('button.react-dadata__suggestion').length).toBe(7);
   });
 
+  it('correctly show 0 suggestions with minChars', async () => {
+    const handleFocusMock = jest.fn();
+    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" inputProps={{ onFocus: handleFocusMock }} minChars={3} />);
+    const input = wrapper.find('input.react-dadata__input');
+    input.simulate('focus');
+    expect(handleFocusMock.mock.calls.length).toBe(1);
+    input.simulate('change', { target: { value: 'Мо' } });
+    await delay(10);
+    wrapper.update();
+    let suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
+    expect(suggestionsWrapper.exists()).toBe(false);
+
+    input.simulate('change', { target: { value: 'Мос' } });
+    await delay(10);
+    wrapper.update();
+    suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
+    expect(suggestionsWrapper.exists()).toBe(true);
+    expect(suggestionsWrapper.find('button.react-dadata__suggestion').length).toBe(7);
+  });
+
   it('it respects defaultQuery or value on mount', async () => {
     let wrapper = mount(<AddressSuggestions token="TEST_TOKEN" />);
     let input = wrapper.find('input.react-dadata__input');
