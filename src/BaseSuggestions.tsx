@@ -116,7 +116,25 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
     }
   };
 
+  private handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    this.handleKeyboard(event);
+
+    const { inputProps } = this.props;
+    if (inputProps && inputProps.onKeyDown) {
+      inputProps.onKeyDown(event);
+    }
+  }
+
   private handleInputKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    this.handleKeyboard(event);
+
+    const { inputProps } = this.props;
+    if (inputProps && inputProps.onKeyPress) {
+      inputProps.onKeyPress(event);
+    }
+  };
+
+  private handleKeyboard = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const { suggestions, suggestionIndex, inputQuery } = this.state;
     if (event.which === 40) {
       // Arrow down
@@ -261,7 +279,7 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
             }}
             onChange={this.handleInputChange}
             onKeyPress={this.handleInputKeyPress}
-            onKeyDown={this.handleInputKeyPress}
+            onKeyDown={this.handleInputKeyDown}
             onFocus={this.handleInputFocus}
             onBlur={this.handleInputBlur}
           />
