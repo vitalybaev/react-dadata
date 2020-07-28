@@ -206,4 +206,25 @@ describe('AddressSuggestions', () => {
     expect(input).toHaveValue('Мо');
     expect(wrapper).toHaveState('suggestionIndex', -1);
   });
+
+  it('correctly fire onChange by Enter', async () => {
+    const handleChangeMock = jest.fn();
+    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" onChange={handleChangeMock} />);
+    let input = wrapper.find('input.react-dadata__input');
+    input.simulate('focus');
+    input.simulate('change', { target: { value: 'Мо' } });
+    await delay(10);
+    wrapper.update();
+    const suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
+    expect(suggestionsWrapper.exists()).toBe(true);
+    expect(suggestionsWrapper.find('button.react-dadata__suggestion').length).toBe(7);
+    input.simulate('keypress', { which: 13 });
+    input = wrapper.find('input.react-dadata__input');
+    expect(handleChangeMock.mock.calls.length).toBe(0);
+    input.simulate('keypress', { which: 40 });
+    input = wrapper.find('input.react-dadata__input');
+    input.simulate('keypress', { which: 13 });
+    expect(handleChangeMock.mock.calls.length).toBe(1);
+    expect(handleChangeMock.mock.calls[0][0].value).toBe('г Москва');
+  });
 });
