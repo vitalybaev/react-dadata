@@ -34,7 +34,7 @@ export interface BaseState<SuggestionType> {
   suggestionIndex: number;
 }
 
-export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureComponent<
+export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.PureComponent<
   BaseProps<SuggestionType> & OwnProps,
   BaseState<SuggestionType>
 > {
@@ -64,7 +64,7 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
     };
   }
 
-  componentDidUpdate(prevProps: Readonly<BaseProps<SuggestionType> & OwnProps>, prevState: Readonly<BaseState<SuggestionType>>) {
+  componentDidUpdate(prevProps: Readonly<BaseProps<SuggestionType> & OwnProps>) {
     const { value } = this.props;
     const { query, inputQuery } = this.state;
     if (!shallowEqual(prevProps.value, value)) {
@@ -74,6 +74,11 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
       }
     }
   }
+
+  /**
+   * Функция, которая вернет данные для отправки для получения подсказок
+   */
+  protected abstract getLoadSuggestionsData(): any;
 
   private handleInputFocus = (event: FocusEvent<HTMLInputElement>) => {
     this.setState({ isFocused: true });
@@ -161,11 +166,6 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
     }
   };
 
-  /**
-   * Функция, которая вернет данные для отправки для получения подсказок
-   */
-  protected getLoadSuggestionsData = (): any => ({});
-
   private fetchSuggestions = () => {
     const { minChars, token } = this.props;
     const { query } = this.state;
@@ -182,7 +182,7 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
         Authorization: `Token ${token}`,
         'Content-Type': 'application/json',
       },
-      json: this.getLoadSuggestionsData(),
+      json: this.getLoadSuggestionsData() || {},
     }, (suggestions) => {
       this.setState({ suggestions, suggestionIndex: -1 });
     });
@@ -233,10 +233,6 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
     return words;
   };
 
-  protected renderOption = (suggestion: DaDataSuggestion<SuggestionType>): ReactNode => {
-    return null;
-  };
-
   /**
    * Функция, которая вернет уникальный key для списка React
    * @param suggestion
@@ -252,6 +248,8 @@ export class BaseSuggestions<SuggestionType, OwnProps> extends React.PureCompone
   public setInputValue = (value?: string) => {
     this.setState({ query: value || '', inputQuery: value || '' });
   };
+
+  protected abstract renderOption (suggestion: DaDataSuggestion<SuggestionType>): ReactNode;
 
   public render() {
     const {
