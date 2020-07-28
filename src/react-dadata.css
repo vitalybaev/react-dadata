@@ -11,6 +11,7 @@
   width: 100%;
   font-size: 16px;
   padding: 0 10px;
+  outline: none;
 }
 
 .react-dadata__input:focus {
