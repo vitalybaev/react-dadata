@@ -1,5 +1,6 @@
 import React, { ChangeEvent, MouseEvent, FocusEvent, ReactNode } from 'react';
 import shallowEqual from 'shallowequal';
+import debounce from 'lodash.debounce';
 import { CommonProps, DaDataSuggestion } from './types';
 import { makeRequest } from './request';
 
@@ -51,8 +52,10 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
   constructor(props: BaseProps<SuggestionType> & OwnProps) {
     super(props);
 
-    const { defaultQuery, value } = this.props;
+    const { defaultQuery, value, delay } = this.props;
     const valueQuery = value ? value.value : undefined;
+
+    this.setupDebounce(delay);
 
     this.state = {
       query: (defaultQuery as string | undefined) || valueQuery || '',
@@ -65,7 +68,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
   }
 
   componentDidUpdate(prevProps: Readonly<BaseProps<SuggestionType> & OwnProps>) {
-    const { value } = this.props;
+    const { value, delay } = this.props;
     const { query, inputQuery } = this.state;
     if (!shallowEqual(prevProps.value, value)) {
       const newQuery = value ? value.value : '';
@@ -73,12 +76,28 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
         this.setState({ query: newQuery, inputQuery: newQuery });
       }
     }
+
+    if (delay !== prevProps.delay) {
+      this.setupDebounce(delay);
+    }
+  }
+
+  protected setupDebounce = (delay: number | undefined) => {
+    if (typeof delay === 'number' && delay > 0) {
+      this.fetchSuggestions = debounce(this.performFetchSuggestions, delay);
+    } else {
+      this.fetchSuggestions = this.performFetchSuggestions;
+    }
   }
 
   /**
    * Функция, которая вернет данные для отправки для получения подсказок
    */
   protected abstract getLoadSuggestionsData(): any;
+
+  protected fetchSuggestions = () => {
+    this.performFetchSuggestions();
+  };
 
   private handleInputFocus = (event: FocusEvent<HTMLInputElement>) => {
     this.setState({ isFocused: true });
@@ -166,7 +185,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
     }
   };
 
-  private fetchSuggestions = () => {
+  private performFetchSuggestions = () => {
     const { minChars, token } = this.props;
     const { query } = this.state;
 

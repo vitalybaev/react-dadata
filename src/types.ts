@@ -8,6 +8,7 @@ export interface CommonProps<SuggestionType> {
   value?: DaDataSuggestion<SuggestionType>;
   defaultQuery?: string;
   autoload?: boolean;
+  delay?: number;
   count?: number;
   onChange?: (suggestion?: DaDataSuggestion<SuggestionType>) => void;
   inputProps?: HTMLProps<HTMLInputElement>;
