@@ -178,6 +178,27 @@ describe('AddressSuggestions', () => {
     expect(input).toHaveValue('Удмуртская Респ, г Можга');
   });
 
+  it('correctly fire onKeyDown and onKeyPress', async () => {
+    const handleKeyDownMock = jest.fn();
+    const handleKeyPressMock = jest.fn();
+    const wrapper = mount(
+      <AddressSuggestions
+        token="TEST_TOKEN"
+        inputProps={{
+          onKeyDown: handleKeyDownMock,
+          onKeyPress: handleKeyPressMock,
+        }}
+      />
+    );
+    const input = wrapper.find('input.react-dadata__input');
+    input.simulate('focus');
+    input.simulate('change', { target: { value: 'Мо' } });
+    input.simulate('keypress', { which: 40 });
+    input.simulate('keydown', { which: 40 });
+    expect(handleKeyDownMock.mock.calls.length).toBe(1);
+    expect(handleKeyPressMock.mock.calls.length).toBe(1);
+  });
+
   it('correctly navigate by keyboard up arrow', async () => {
     const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" />);
     let input = wrapper.find('input.react-dadata__input');
@@ -290,5 +311,27 @@ describe('AddressSuggestions', () => {
     await delay(50);
     expect(requestCalls.length).toBe(4);
     expect(requestCalls[3].data.json.query).toBe('Мо');
+  });
+
+  it('fires ref method setInputValue fired', async () => {
+    const wrapper = mount<AddressSuggestions>(<AddressSuggestions token="TEST_TOKEN" />);
+    wrapper.instance().setInputValue('Test Value');
+    wrapper.update();
+    const input = wrapper.find('input.react-dadata__input');
+    expect(input).toHaveValue('Test Value');
+  });
+
+  it('fires ref method focus fired', async () => {
+    const handleFocusMock = jest.fn();
+    const wrapper = mount<AddressSuggestions>(
+      <AddressSuggestions
+        token="TEST_TOKEN"
+        inputProps={{
+          onFocus: handleFocusMock,
+        }}
+      />
+    );
+    wrapper.update();
+    wrapper.instance().focus();
   });
 });
