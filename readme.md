@@ -1,5 +1,6 @@
 # React Dadata
 
+[![Coverage Status](https://coveralls.io/repos/github/vitalybaev/react-dadata/badge.svg)](https://coveralls.io/github/vitalybaev/react-dadata)
 [![dependencies](https://img.shields.io/david/vitalybaev/react-dadata)](https://www.npmjs.com/package/react-dadata)
 [![npm package](https://img.shields.io/npm/v/react-dadata.svg)](https://www.npmjs.com/package/react-dadata)
 [![npm downloads](https://img.shields.io/npm/dm/react-dadata.svg)](https://www.npmjs.com/package/react-dadata)
