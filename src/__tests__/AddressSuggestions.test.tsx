@@ -225,12 +225,29 @@ describe('AddressSuggestions', () => {
     input.simulate('keypress', { which: 13 });
     input = wrapper.find('input.react-dadata__input');
     expect(handleChangeMock.mock.calls.length).toBe(0);
-    input.simulate('keypress', { which: 40 });
+    input.simulate('keydown', { which: 40 });
     input = wrapper.find('input.react-dadata__input');
     input.simulate('keypress', { which: 13 });
     await delay(10);
     expect(handleChangeMock.mock.calls.length).toBe(1);
     expect(handleChangeMock.mock.calls[0][0].value).toBe('г Москва');
+  });
+
+  it('correctly fire onChange by suggestion click', async () => {
+    const handleChangeMock = jest.fn();
+    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" onChange={handleChangeMock} />);
+    const input = wrapper.find('input.react-dadata__input');
+    input.simulate('focus');
+    input.simulate('change', { target: { value: 'Мо' } });
+    await delay(10);
+    wrapper.update();
+    const suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
+    expect(suggestionsWrapper.exists()).toBe(true);
+    expect(suggestionsWrapper.find('button.react-dadata__suggestion').length).toBe(7);
+    const firstSuggestion = suggestionsWrapper.find('button.react-dadata__suggestion').at(1);
+    firstSuggestion.simulate('mousedown');
+    expect(handleChangeMock.mock.calls.length).toBe(1);
+    expect(handleChangeMock.mock.calls[0][0].value).toBe('Московская обл');
   });
 
   it('correctly send http parameters', async () => {
