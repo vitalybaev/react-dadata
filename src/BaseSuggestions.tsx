@@ -96,7 +96,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
   protected abstract getLoadSuggestionsData(): any;
 
   protected fetchSuggestions = () => {
-    this.performFetchSuggestions();
+    //
   };
 
   private handleInputFocus = (event: FocusEvent<HTMLInputElement>) => {
