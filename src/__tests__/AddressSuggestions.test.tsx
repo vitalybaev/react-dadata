@@ -244,7 +244,7 @@ describe('AddressSuggestions', () => {
         filterLocationsBoost={[{ kladr_id: "77" }]}
       />
     );
-    let input = wrapper.find('input.react-dadata__input');
+    const input = wrapper.find('input.react-dadata__input');
     input.simulate('focus');
     expect(requestCalls.length).toBe(1);
     expect(requestCalls[0].data.json.query).toBe('');
