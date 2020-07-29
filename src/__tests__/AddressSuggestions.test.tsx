@@ -224,6 +224,7 @@ describe('AddressSuggestions', () => {
     input.simulate('keypress', { which: 40 });
     input = wrapper.find('input.react-dadata__input');
     input.simulate('keypress', { which: 13 });
+    await delay(10);
     expect(handleChangeMock.mock.calls.length).toBe(1);
     expect(handleChangeMock.mock.calls[0][0].value).toBe('г Москва');
   });
