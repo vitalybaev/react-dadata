@@ -2014,7 +2014,11 @@ const addressMocks: { [query: string]: DaDataSuggestion<DaDataAddress>[] } = {
   ],
 };
 
+export const requestCalls: any[] = [];
+
 export const createAddressMock = (wait?: number) => (method: string, endpoint: string, data: RequestOptions, onReceiveData: (response: any) => void) => {
+  requestCalls.push({ method, endpoint, data });
+
   if (data.json.query) {
     if (addressMocks[data.json.query]) {
       setTimeout(() => {

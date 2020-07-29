@@ -1,8 +1,12 @@
 import React, { HTMLProps } from 'react';
 import { mount } from 'enzyme';
 import { AddressSuggestions } from '../AddressSuggestions';
-import { addressMockKrasnodar } from './mocks';
+import { addressMockKrasnodar, requestCalls } from './mocks';
 import 'jest-enzyme';
+
+beforeEach(() => {
+  requestCalls.length = 0;
+});
 
 jest.mock('../request', () => {
   // eslint-disable-next-line
@@ -227,5 +231,30 @@ describe('AddressSuggestions', () => {
     await delay(10);
     expect(handleChangeMock.mock.calls.length).toBe(1);
     expect(handleChangeMock.mock.calls[0][0].value).toBe('г Москва');
+  });
+
+  it('correctly send http parameters', async () => {
+    const wrapper = mount(
+      <AddressSuggestions
+        token="TEST_TOKEN"
+        count={20}
+        filterFromBound="country"
+        filterToBound="street"
+        filterLocations={[{ kladr_id: "65" }]}
+        filterLocationsBoost={[{ kladr_id: "77" }]}
+      />
+    );
+    let input = wrapper.find('input.react-dadata__input');
+    input.simulate('focus');
+    expect(requestCalls.length).toBe(1);
+    expect(requestCalls[0].data.json.query).toBe('');
+    expect(requestCalls[0].endpoint).toBe('https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address');
+    input.simulate('change', { target: { value: 'Мо' } });
+    expect(requestCalls.length).toBe(2);
+    expect(requestCalls[1].data.json.query).toBe('Мо');
+    expect(requestCalls[1].data.json.from_bound).toEqual({ value: "country" });
+    expect(requestCalls[1].data.json.to_bound).toEqual({ value: "street" });
+    expect(requestCalls[1].data.json.locations).toEqual([{ kladr_id: "65" }]);
+    expect(requestCalls[1].data.json.locations_boost).toEqual([{ kladr_id: "77" }]);
   });
 });
