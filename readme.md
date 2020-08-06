@@ -17,7 +17,7 @@
 
 ### Адреса
 
-<img width="591" alt="СReact DaData адреса" src="https://user-images.githubusercontent.com/724423/84180344-05f24f00-aa90-11ea-9844-deac7fd209a0.png">
+<img width="591" alt="СReact DaData адреса" src="https://user-images.githubusercontent.com/724423/89572756-3e18d280-d832-11ea-8e52-08d35ad8abc0.gif">
 
 ### Организации
 <img width="587" alt="React DaData организации" src="https://user-images.githubusercontent.com/724423/84180388-199db580-aa90-11ea-8276-548dcaff641d.png">
