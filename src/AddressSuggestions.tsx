@@ -6,6 +6,7 @@ import { HighlightWords } from './HighlightWords';
 type Dictionary = { [key: string]: any };
 
 interface Props extends BaseProps<DaDataAddress> {
+  filterLanguage?: 'ru' | 'en';
   filterFromBound?: DaDataAddressBounds;
   filterToBound?: DaDataAddressBounds;
   filterLocations?: Dictionary[];
@@ -16,7 +17,7 @@ export class AddressSuggestions extends BaseSuggestions<DaDataAddress, Props> {
   loadSuggestionsUrl = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address';
 
   getLoadSuggestionsData = () => {
-    const { count, filterFromBound, filterToBound, filterLocations, filterLocationsBoost } = this.props;
+    const { count, filterFromBound, filterToBound, filterLocations, filterLocationsBoost, filterLanguage } = this.props;
     const { query } = this.state;
 
     const requestPayload: any = {
@@ -28,6 +29,11 @@ export class AddressSuggestions extends BaseSuggestions<DaDataAddress, Props> {
     if (filterFromBound && filterToBound) {
       requestPayload.from_bound = { value: filterFromBound };
       requestPayload.to_bound = { value: filterToBound };
+    }
+
+    // Язык подсказок
+    if (filterLanguage) {
+      requestPayload.language = filterLanguage;
     }
 
     // Сужение области поиска

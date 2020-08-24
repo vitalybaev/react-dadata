@@ -276,6 +276,7 @@ describe('AddressSuggestions', () => {
       <AddressSuggestions
         token="TEST_TOKEN"
         count={20}
+        filterLanguage="en"
         filterFromBound="country"
         filterToBound="street"
         filterLocations={[{ kladr_id: "65" }]}
@@ -290,6 +291,7 @@ describe('AddressSuggestions', () => {
     input.simulate('change', { target: { value: 'Мо' } });
     expect(requestCalls.length).toBe(2);
     expect(requestCalls[1].data.json.query).toBe('Мо');
+    expect(requestCalls[1].data.json.language).toBe('en');
     expect(requestCalls[1].data.json.from_bound).toEqual({ value: "country" });
     expect(requestCalls[1].data.json.to_bound).toEqual({ value: "street" });
     expect(requestCalls[1].data.json.locations).toEqual([{ kladr_id: "65" }]);
