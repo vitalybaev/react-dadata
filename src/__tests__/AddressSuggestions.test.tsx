@@ -1,8 +1,9 @@
-import React, { HTMLProps } from 'react';
+import React, { HTMLProps, ReactNode } from 'react';
 import { mount } from 'enzyme';
 import { AddressSuggestions } from '../AddressSuggestions';
 import { addressMockKrasnodar, requestCalls } from './mocks';
 import 'jest-enzyme';
+import { DaDataSuggestion, DaDataAddress } from '../types';
 
 beforeEach(() => {
   requestCalls.length = 0;
@@ -335,5 +336,21 @@ describe('AddressSuggestions', () => {
     );
     wrapper.update();
     wrapper.instance().focus();
+  });
+
+  it('correctly renders with renderOption', async () => {
+    const renderOption: (suggestion: DaDataSuggestion<DaDataAddress>) => ReactNode = (suggestion) => {
+      return <span className="test-class">{suggestion.data.country}</span>;
+    }
+    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" renderOption={renderOption} />);
+    const input = wrapper.find('input.react-dadata__input');
+    input.simulate('focus');
+    input.simulate('change', { target: { value: 'Мо' } });
+    await delay(10);
+    wrapper.update();
+    const suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
+    expect(suggestionsWrapper.exists()).toBe(true);
+    expect(suggestionsWrapper.find('button.react-dadata__suggestion').at(0).html())
+      .toBe("<button class=\"react-dadata__suggestion\"><span class=\"test-class\">Россия</span></button>");
   });
 });
