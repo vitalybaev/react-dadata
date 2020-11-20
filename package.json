@@ -5,7 +5,6 @@
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
-  "sideEffects": false,
   "scripts": {
     "prepublishOnly": "npm run test && npm run build",
     "clean": "rimraf dist",
