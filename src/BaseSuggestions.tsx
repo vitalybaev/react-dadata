@@ -279,20 +279,23 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
       suggestionsClassName,
       suggestionClassName,
       currentSuggestionClassName,
+      customInput,
       children,
     } = this.props;
     const { query, isFocused, suggestions, suggestionIndex, displaySuggestions } = this.state;
 
+    const Component = typeof customInput !== 'undefined' ? customInput : 'input';
+
     return (
       <div className={containerClassName || 'react-dadata react-dadata__container'}>
         <div>
-          <input
+          <Component
             autoComplete="off"
             className="react-dadata__input"
             {...inputProps}
             value={query}
-            ref={(input) => {
-              this.textInput = input as HTMLInputElement;
+            ref={(input: HTMLInputElement) => {
+              this.textInput = input;
             }}
             onChange={this.handleInputChange}
             onKeyPress={this.handleInputKeyPress}

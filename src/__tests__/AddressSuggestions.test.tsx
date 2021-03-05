@@ -1,4 +1,4 @@
-import React, { HTMLProps, ReactNode } from 'react';
+import React, { FC, HTMLProps, ReactNode } from 'react';
 import { mount } from 'enzyme';
 import { AddressSuggestions } from '../AddressSuggestions';
 import { addressMockKrasnodar, requestCalls } from './mocks';
@@ -64,7 +64,6 @@ describe('AddressSuggestions', () => {
     const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" inputProps={{ onFocus: handleFocusMock }} />);
     const input = wrapper.find('input.react-dadata__input');
     input.simulate('focus');
-    await delay(10);
     wrapper.update();
     expect(wrapper).toHaveState('isFocused', true);
     expect(handleFocusMock.mock.calls.length).toBe(1);
@@ -352,5 +351,15 @@ describe('AddressSuggestions', () => {
     expect(suggestionsWrapper.exists()).toBe(true);
     expect(suggestionsWrapper.find('button.react-dadata__suggestion').at(0).html())
       .toBe("<button class=\"react-dadata__suggestion\"><span class=\"test-class\">Россия</span></button>");
+  });
+
+  it('correctly renders with customInput', async () => {
+    const CustomInput: FC<HTMLProps<HTMLInputElement>> = (props) => {
+      return <input {...props} data-some-attr="foo" />
+    }
+
+    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" customInput={CustomInput} />);
+    const input = wrapper.find('input.react-dadata__input[data-some-attr="foo"]');
+    expect(input.exists()).toBe(true);
   });
 });

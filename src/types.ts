@@ -21,6 +21,7 @@ export interface CommonProps<SuggestionType> {
   hintClassName?: string;
   highlightClassName?: string;
   minChars?: number;
+  customInput?: any;
 }
 
 type Nullable<T> = T | null;
