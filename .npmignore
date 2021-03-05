@@ -16,3 +16,4 @@ babel.config.js
 jest.config.js
 .github
 coverage/
+example/
