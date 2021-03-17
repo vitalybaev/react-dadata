@@ -86,8 +86,8 @@
     "typescript": "^3.8.3"
   },
   "peerDependencies": {
-    "react": "^15.6.0 || ^16.0.0",
-    "react-dom": "^15.6.0 || ^16.0"
+    "react": "^15.6 || ^16.0 || ^17.0",
+    "react-dom": "^15.6 || ^16.0 || ^17.0"
   },
   "size-limit": [
     {
