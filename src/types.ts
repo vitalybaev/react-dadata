@@ -13,7 +13,7 @@ export interface CommonProps<SuggestionType> {
   onChange?: (suggestion?: DaDataSuggestion<SuggestionType>) => void;
   inputProps?: HTMLProps<HTMLInputElement>;
   hintText?: ReactNode;
-  renderOption?: (suggestion: DaDataSuggestion<SuggestionType>) => ReactNode;
+  renderOption?: (suggestion: DaDataSuggestion<SuggestionType>, inputValue: string) => ReactNode;
   containerClassName?: string;
   suggestionsClassName?: string;
   suggestionClassName?: string;

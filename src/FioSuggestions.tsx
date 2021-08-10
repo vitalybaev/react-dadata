@@ -40,9 +40,10 @@ export class FioSuggestions extends BaseSuggestions<DaDataFio, Props> {
 
   protected renderOption = (suggestion: DaDataSuggestion<DaDataFio>) => {
     const { renderOption, highlightClassName } = this.props;
+    const { query } = this.state;
 
     return renderOption ? (
-      renderOption(suggestion)
+      renderOption(suggestion, query)
     ) : (
       <div>
         <HighlightWords

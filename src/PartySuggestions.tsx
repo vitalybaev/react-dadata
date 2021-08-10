@@ -51,9 +51,10 @@ export class PartySuggestions extends BaseSuggestions<DaDataParty, Props> {
 
   protected renderOption = (suggestion: DaDataSuggestion<DaDataParty>) => {
     const { renderOption, highlightClassName } = this.props;
+    const { query } = this.state;
 
     return renderOption ? (
-      renderOption(suggestion)
+      renderOption(suggestion, query)
     ) : (
       <div>
         <div

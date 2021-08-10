@@ -51,9 +51,10 @@ export class BankSuggestions extends BaseSuggestions<DaDataBank, Props> {
 
   protected renderOption = (suggestion: DaDataSuggestion<DaDataBank>) => {
     const { renderOption, highlightClassName } = this.props;
+    const { query } = this.state;
 
     return renderOption ? (
-      renderOption(suggestion)
+      renderOption(suggestion, query)
     ) : (
       <div>
         <div

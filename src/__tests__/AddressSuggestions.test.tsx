@@ -362,4 +362,21 @@ describe('AddressSuggestions', () => {
     const input = wrapper.find('input.react-dadata__input[data-some-attr="foo"]');
     expect(input.exists()).toBe(true);
   });
+
+  it('passes current input value to renderOption', async () => {
+    const renderOption = jest.fn((suggestion: DaDataSuggestion<DaDataAddress>, inputValue: string): ReactNode => {
+      return suggestion.value
+    });
+    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" renderOption={renderOption} />);
+    const input = wrapper.find('input.react-dadata__input');
+    input.simulate('focus');
+    input.simulate('change', { target: { value: 'Мо' } });
+    await delay(0);
+
+    expect(renderOption.mock.calls[renderOption.mock.calls.length - 1][1]).toBe('Мо');
+
+    input.simulate('change', { target: { value: 'Мос' } });
+    await delay(0);
+    expect(renderOption.mock.calls[renderOption.mock.calls.length - 1][1]).toBe('Мос');
+  });
 });

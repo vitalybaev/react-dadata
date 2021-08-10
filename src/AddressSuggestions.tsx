@@ -52,8 +52,9 @@ export class AddressSuggestions extends BaseSuggestions<DaDataAddress, Props> {
 
   protected renderOption = (suggestion: DaDataSuggestion<DaDataAddress>) => {
     const { renderOption, highlightClassName } = this.props;
+    const { query } = this.state;
 
-    return renderOption ? renderOption(suggestion) : (
+    return renderOption ? renderOption(suggestion, query) : (
       <HighlightWords
         highlightClassName={highlightClassName || 'react-dadata--highlighted'}
         words={this.getHighlightWords()}
