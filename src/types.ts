@@ -1,4 +1,4 @@
-import { HTMLProps, ReactNode } from 'react';
+import { ElementType, HTMLProps, ReactNode } from 'react';
 
 /**
  * Общие пропсы для всех видов компонента подсказов
@@ -21,7 +21,7 @@ export interface CommonProps<SuggestionType> {
   hintClassName?: string;
   highlightClassName?: string;
   minChars?: number;
-  customInput?: any;
+  customInput?: ElementType;
 }
 
 type Nullable<T> = T | null;

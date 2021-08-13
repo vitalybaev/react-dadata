@@ -1,4 +1,4 @@
-import React, { ChangeEvent, MouseEvent, FocusEvent, ReactNode } from 'react';
+import React, { ChangeEvent, MouseEvent, FocusEvent, ReactNode, ElementType } from 'react';
 import shallowEqual from 'shallowequal';
 import debounce from 'lodash.debounce';
 import { CommonProps, DaDataSuggestion } from './types';
@@ -284,7 +284,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
     } = this.props;
     const { query, isFocused, suggestions, suggestionIndex, displaySuggestions } = this.state;
 
-    const Component = typeof customInput !== 'undefined' ? customInput : 'input';
+    const Component = typeof customInput !== 'undefined' ? customInput as ElementType : 'input';
 
     return (
       <div className={containerClassName || 'react-dadata react-dadata__container'}>
