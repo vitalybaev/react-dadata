@@ -364,7 +364,7 @@ describe('AddressSuggestions', () => {
   });
 
   it('passes current input value to renderOption', async () => {
-    const renderOption = jest.fn((suggestion: DaDataSuggestion<DaDataAddress>, inputValue: string): ReactNode => {
+    const renderOption = jest.fn<React.ReactNode, [DaDataSuggestion<DaDataAddress>, string]>((suggestion: DaDataSuggestion<DaDataAddress>): ReactNode => {
       return suggestion.value
     });
     const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" renderOption={renderOption} />);
