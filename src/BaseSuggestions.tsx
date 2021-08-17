@@ -67,7 +67,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
     };
   }
 
-  componentDidUpdate(prevProps: Readonly<BaseProps<SuggestionType> & OwnProps>) {
+  componentDidUpdate(prevProps: Readonly<BaseProps<SuggestionType> & OwnProps>): void {
     const { value, delay } = this.props;
     const { query, inputQuery } = this.state;
     if (!shallowEqual(prevProps.value, value)) {
@@ -82,20 +82,20 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
     }
   }
 
-  protected setupDebounce = (delay: number | undefined) => {
+  protected setupDebounce = (delay: number | undefined): void => {
     if (typeof delay === 'number' && delay > 0) {
       this.fetchSuggestions = debounce(this.performFetchSuggestions, delay);
     } else {
       this.fetchSuggestions = this.performFetchSuggestions;
     }
-  }
+  };
 
   /**
    * Функция, которая вернет данные для отправки для получения подсказок
    */
-  protected abstract getLoadSuggestionsData(): any;
+  protected abstract getLoadSuggestionsData(): unknown;
 
-  protected fetchSuggestions = () => {
+  protected fetchSuggestions = (): void => {
     //
   };
 
@@ -147,7 +147,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
     if (inputProps && inputProps.onKeyDown) {
       inputProps.onKeyDown(event);
     }
-  }
+  };
 
   private handleInputKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     this.handleKeyboard(event);
@@ -195,16 +195,21 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
       return;
     }
 
-    makeRequest('POST', this.loadSuggestionsUrl, {
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Token ${token}`,
-        'Content-Type': 'application/json',
+    makeRequest(
+      'POST',
+      this.loadSuggestionsUrl,
+      {
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Token ${token}`,
+          'Content-Type': 'application/json',
+        },
+        json: this.getLoadSuggestionsData() || {},
       },
-      json: this.getLoadSuggestionsData() || {},
-    }, (suggestions) => {
-      this.setState({ suggestions, suggestionIndex: -1 });
-    });
+      (suggestions) => {
+        this.setState({ suggestions, suggestionIndex: -1 });
+      },
+    );
   };
 
   private onSuggestionClick = (index: number, event: MouseEvent<HTMLButtonElement>) => {
@@ -258,19 +263,19 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
    */
   protected getSuggestionKey = (suggestion: DaDataSuggestion<SuggestionType>): string => suggestion.value;
 
-  public focus = () => {
+  public focus = (): void => {
     if (this.textInput) {
       this.textInput.focus();
     }
   };
 
-  public setInputValue = (value?: string) => {
+  public setInputValue = (value?: string): void => {
     this.setState({ query: value || '', inputQuery: value || '' });
   };
 
-  protected abstract renderOption (suggestion: DaDataSuggestion<SuggestionType>): ReactNode;
+  protected abstract renderOption(suggestion: DaDataSuggestion<SuggestionType>): ReactNode;
 
-  public render() {
+  public render(): ReactNode {
     const {
       inputProps,
       hintText,
@@ -284,7 +289,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
     } = this.props;
     const { query, isFocused, suggestions, suggestionIndex, displaySuggestions } = this.state;
 
-    const Component = typeof customInput !== 'undefined' ? customInput as ElementType : 'input';
+    const Component = typeof customInput !== 'undefined' ? (customInput as ElementType) : 'input';
 
     return (
       <div className={containerClassName || 'react-dadata react-dadata__container'}>

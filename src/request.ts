@@ -5,7 +5,12 @@ export interface RequestOptions {
 
 let xhr: XMLHttpRequest;
 
-export const makeRequest = (method: string, endpoint: string, data: RequestOptions, onReceiveData: (response: any) => void) => {
+export const makeRequest = (
+  method: string,
+  endpoint: string,
+  data: RequestOptions,
+  onReceiveData: (response: any) => void,
+): void => {
   if (xhr) {
     xhr.abort();
   }

@@ -2,7 +2,7 @@
 import { DaDataAddress, DaDataSuggestion } from '../types';
 import { RequestOptions } from '../request';
 
-export const addressMockMoscow: DaDataSuggestion<DaDataAddress> =     {
+export const addressMockMoscow: DaDataSuggestion<DaDataAddress> = {
   value: 'г Москва',
   unrestricted_value: 'г Москва',
   data: {
@@ -2016,18 +2016,20 @@ const addressMocks: { [query: string]: DaDataSuggestion<DaDataAddress>[] } = {
 
 export const requestCalls: any[] = [];
 
-export const createAddressMock = (wait?: number) => (method: string, endpoint: string, data: RequestOptions, onReceiveData: (response: any) => void) => {
-  requestCalls.push({ method, endpoint, data });
+export const createAddressMock =
+  (wait?: number) =>
+  (method: string, endpoint: string, data: RequestOptions, onReceiveData: (response: any) => void): void => {
+    requestCalls.push({ method, endpoint, data });
 
-  if (data.json.query) {
-    if (addressMocks[data.json.query]) {
-      setTimeout(() => {
-        onReceiveData(addressMocks[data.json.query]);
-      }, wait);
-      return;
+    if (data.json.query) {
+      if (addressMocks[data.json.query]) {
+        setTimeout(() => {
+          onReceiveData(addressMocks[data.json.query]);
+        }, wait);
+        return;
+      }
     }
-  }
-  setTimeout(() => {
-    onReceiveData([]);
-  }, wait);
-}
+    setTimeout(() => {
+      onReceiveData([]);
+    }, wait);
+  };

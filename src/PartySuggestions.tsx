@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { BaseProps, BaseSuggestions } from './BaseSuggestions';
 import { DaDataParty, DaDataPartyStatus, DaDataPartyType, DaDataSuggestion } from './types';
 import { HighlightWords } from './HighlightWords';
@@ -15,7 +15,7 @@ interface Props extends BaseProps<DaDataParty> {
 export class PartySuggestions extends BaseSuggestions<DaDataParty, Props> {
   loadSuggestionsUrl = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/party';
 
-  getLoadSuggestionsData = () => {
+  getLoadSuggestionsData = (): unknown => {
     const { count, filterStatus, filterType, filterLocations, filterLocationsBoost } = this.props;
     const { query } = this.state;
 
@@ -47,9 +47,9 @@ export class PartySuggestions extends BaseSuggestions<DaDataParty, Props> {
     return requestPayload;
   };
 
-  protected getSuggestionKey = (suggestion: DaDataSuggestion<DaDataParty>) => `${suggestion.data.inn}`;
+  protected getSuggestionKey = (suggestion: DaDataSuggestion<DaDataParty>): string => `${suggestion.data.inn}`;
 
-  protected renderOption = (suggestion: DaDataSuggestion<DaDataParty>) => {
+  protected renderOption = (suggestion: DaDataSuggestion<DaDataParty>): ReactNode => {
     const { renderOption, highlightClassName } = this.props;
     const { query } = this.state;
 

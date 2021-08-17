@@ -106,7 +106,6 @@
     "extends": [
       "airbnb",
       "prettier",
-      "prettier/react",
       "plugin:@typescript-eslint/eslint-recommended",
       "plugin:@typescript-eslint/recommended"
     ],
@@ -157,6 +156,7 @@
           ]
         }
       ],
+      "no-use-before-define": "off",
       "no-restricted-syntax": "warn",
       "react/style-prop-object": "warn",
       "react/prop-types": "off",
@@ -169,7 +169,7 @@
       "@typescript-eslint/interface-name-prefix": "off",
       "@typescript-eslint/camelcase": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
-      "@typescript-eslint/no-use-before-define": "off"
+      "@typescript-eslint/no-use-before-define": "error"
     },
     "settings": {
       "import/parsers": {

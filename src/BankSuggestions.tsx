@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { BaseProps, BaseSuggestions } from './BaseSuggestions';
 import { DaDataBank, DaDataBankStatus, DaDataBankType, DaDataSuggestion } from './types';
 import { HighlightWords } from './HighlightWords';
@@ -15,7 +15,7 @@ interface Props extends BaseProps<DaDataBank> {
 export class BankSuggestions extends BaseSuggestions<DaDataBank, Props> {
   loadSuggestionsUrl = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/bank';
 
-  getLoadSuggestionsData = () => {
+  getLoadSuggestionsData = (): unknown => {
     const { count, filterStatus, filterType, filterLocations, filterLocationsBoost } = this.props;
     const { query } = this.state;
 
@@ -47,9 +47,9 @@ export class BankSuggestions extends BaseSuggestions<DaDataBank, Props> {
     return requestPayload;
   };
 
-  protected getSuggestionKey = (suggestion: DaDataSuggestion<DaDataBank>) => `${suggestion.data.bic}`;
+  protected getSuggestionKey = (suggestion: DaDataSuggestion<DaDataBank>): string => `${suggestion.data.bic}`;
 
-  protected renderOption = (suggestion: DaDataSuggestion<DaDataBank>) => {
+  protected renderOption = (suggestion: DaDataSuggestion<DaDataBank>): ReactNode => {
     const { renderOption, highlightClassName } = this.props;
     const { query } = this.state;
 

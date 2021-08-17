@@ -1,4 +1,4 @@
-import React, { ElementType, PureComponent } from 'react';
+import React, { ElementType, PureComponent, ReactNode } from 'react';
 import highlightWords from 'highlight-words';
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 }
 
 export class HighlightWords extends PureComponent<Props> {
-  render() {
+  render(): ReactNode {
     const { text, words, highlightClassName, tagName = 'span' } = this.props;
     const query = typeof words === 'string' ? words : words.join(' ');
 

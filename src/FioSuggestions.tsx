@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { BaseProps, BaseSuggestions } from './BaseSuggestions';
 import { DaDataFio, DaDataGender, DaDataSuggestion } from './types';
 import { HighlightWords } from './HighlightWords';
@@ -11,7 +11,7 @@ interface Props extends BaseProps<DaDataFio> {
 export class FioSuggestions extends BaseSuggestions<DaDataFio, Props> {
   loadSuggestionsUrl = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fio';
 
-  getLoadSuggestionsData = () => {
+  getLoadSuggestionsData = (): unknown => {
     const { count, filterGender, filterParts } = this.props;
     const { query } = this.state;
 
@@ -33,12 +33,12 @@ export class FioSuggestions extends BaseSuggestions<DaDataFio, Props> {
     return requestPayload;
   };
 
-  protected getSuggestionKey = (suggestion: DaDataSuggestion<DaDataFio>) =>
+  protected getSuggestionKey = (suggestion: DaDataSuggestion<DaDataFio>): string =>
     `name:${suggestion.data.name || ''}surname:${suggestion.data.surname || ''}patronymic:${
       suggestion.data.patronymic || ''
     }`;
 
-  protected renderOption = (suggestion: DaDataSuggestion<DaDataFio>) => {
+  protected renderOption = (suggestion: DaDataSuggestion<DaDataFio>): ReactNode => {
     const { renderOption, highlightClassName } = this.props;
     const { query } = this.state;
 

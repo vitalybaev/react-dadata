@@ -1,4 +1,13 @@
+/* eslint-disable camelcase */
 import { ElementType, HTMLProps, ReactNode } from 'react';
+
+type Nullable<T> = T | null;
+
+export interface DaDataSuggestion<T> {
+  value: string;
+  unrestricted_value: string;
+  data: T;
+}
 
 /**
  * Общие пропсы для всех видов компонента подсказов
@@ -22,14 +31,6 @@ export interface CommonProps<SuggestionType> {
   highlightClassName?: string;
   minChars?: number;
   customInput?: ElementType;
-}
-
-type Nullable<T> = T | null;
-
-export interface DaDataSuggestion<T> {
-  value: string;
-  unrestricted_value: string;
-  data: T;
 }
 
 export interface DaDataAddressMetro {

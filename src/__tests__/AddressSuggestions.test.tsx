@@ -14,11 +14,11 @@ jest.mock('../request', () => {
   const mocks = require('./mocks');
   return {
     makeRequest: mocks.createAddressMock(),
-  }
+  };
 });
 
 const delay = (ms: number) => {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
 describe('AddressSuggestions', () => {
@@ -88,7 +88,9 @@ describe('AddressSuggestions', () => {
 
   it('correctly show 0 suggestions with minChars', async () => {
     const handleFocusMock = jest.fn();
-    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" inputProps={{ onFocus: handleFocusMock }} minChars={3} />);
+    const wrapper = mount(
+      <AddressSuggestions token="TEST_TOKEN" inputProps={{ onFocus: handleFocusMock }} minChars={3} />,
+    );
     const input = wrapper.find('input.react-dadata__input');
     input.simulate('focus');
     expect(handleFocusMock.mock.calls.length).toBe(1);
@@ -150,7 +152,9 @@ describe('AddressSuggestions', () => {
     wrapper.update();
     expect(wrapper).toHaveState('suggestionIndex', 0);
     suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
-    expect(suggestionsWrapper.find('button.react-dadata__suggestion').at(0)).toHaveClassName('react-dadata__suggestion--current');
+    expect(suggestionsWrapper.find('button.react-dadata__suggestion').at(0)).toHaveClassName(
+      'react-dadata__suggestion--current',
+    );
     input = wrapper.find('input.react-dadata__input');
     expect(input).toHaveValue('г Москва');
     input.simulate('keypress', { which: 40 });
@@ -158,7 +162,9 @@ describe('AddressSuggestions', () => {
     wrapper.update();
     expect(wrapper).toHaveState('suggestionIndex', 1);
     suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
-    expect(suggestionsWrapper.find('button.react-dadata__suggestion').at(1)).toHaveClassName('react-dadata__suggestion--current');
+    expect(suggestionsWrapper.find('button.react-dadata__suggestion').at(1)).toHaveClassName(
+      'react-dadata__suggestion--current',
+    );
     input = wrapper.find('input.react-dadata__input');
     expect(input).toHaveValue('Московская обл');
     input.simulate('keypress', { which: 40 });
@@ -173,7 +179,9 @@ describe('AddressSuggestions', () => {
     wrapper.update();
     expect(wrapper).toHaveState('suggestionIndex', 6);
     suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
-    expect(suggestionsWrapper.find('button.react-dadata__suggestion').at(6)).toHaveClassName('react-dadata__suggestion--current');
+    expect(suggestionsWrapper.find('button.react-dadata__suggestion').at(6)).toHaveClassName(
+      'react-dadata__suggestion--current',
+    );
     input = wrapper.find('input.react-dadata__input');
     expect(input).toHaveValue('Удмуртская Респ, г Можга');
   });
@@ -188,7 +196,7 @@ describe('AddressSuggestions', () => {
           onKeyDown: handleKeyDownMock,
           onKeyPress: handleKeyPressMock,
         }}
-      />
+      />,
     );
     const input = wrapper.find('input.react-dadata__input');
     input.simulate('focus');
@@ -214,7 +222,9 @@ describe('AddressSuggestions', () => {
     wrapper.update();
     expect(wrapper).toHaveState('suggestionIndex', 0);
     suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
-    expect(suggestionsWrapper.find('button.react-dadata__suggestion').at(0)).toHaveClassName('react-dadata__suggestion--current');
+    expect(suggestionsWrapper.find('button.react-dadata__suggestion').at(0)).toHaveClassName(
+      'react-dadata__suggestion--current',
+    );
     input = wrapper.find('input.react-dadata__input');
     expect(input).toHaveValue('г Москва');
     input.simulate('keypress', { which: 38 });
@@ -279,9 +289,9 @@ describe('AddressSuggestions', () => {
         filterLanguage="en"
         filterFromBound="country"
         filterToBound="street"
-        filterLocations={[{ kladr_id: "65" }]}
-        filterLocationsBoost={[{ kladr_id: "77" }]}
-      />
+        filterLocations={[{ kladr_id: '65' }]}
+        filterLocationsBoost={[{ kladr_id: '77' }]}
+      />,
     );
     const input = wrapper.find('input.react-dadata__input');
     input.simulate('focus');
@@ -292,10 +302,10 @@ describe('AddressSuggestions', () => {
     expect(requestCalls.length).toBe(2);
     expect(requestCalls[1].data.json.query).toBe('Мо');
     expect(requestCalls[1].data.json.language).toBe('en');
-    expect(requestCalls[1].data.json.from_bound).toEqual({ value: "country" });
-    expect(requestCalls[1].data.json.to_bound).toEqual({ value: "street" });
-    expect(requestCalls[1].data.json.locations).toEqual([{ kladr_id: "65" }]);
-    expect(requestCalls[1].data.json.locations_boost).toEqual([{ kladr_id: "77" }]);
+    expect(requestCalls[1].data.json.from_bound).toEqual({ value: 'country' });
+    expect(requestCalls[1].data.json.to_bound).toEqual({ value: 'street' });
+    expect(requestCalls[1].data.json.locations).toEqual([{ kladr_id: '65' }]);
+    expect(requestCalls[1].data.json.locations_boost).toEqual([{ kladr_id: '77' }]);
   });
 
   it('respects debounce', async () => {
@@ -331,7 +341,7 @@ describe('AddressSuggestions', () => {
         inputProps={{
           onFocus: handleFocusMock,
         }}
-      />
+      />,
     );
     wrapper.update();
     wrapper.instance().focus();
@@ -340,7 +350,7 @@ describe('AddressSuggestions', () => {
   it('correctly renders with renderOption', async () => {
     const renderOption: (suggestion: DaDataSuggestion<DaDataAddress>) => ReactNode = (suggestion) => {
       return <span className="test-class">{suggestion.data.country}</span>;
-    }
+    };
     const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" renderOption={renderOption} />);
     const input = wrapper.find('input.react-dadata__input');
     input.simulate('focus');
@@ -349,14 +359,15 @@ describe('AddressSuggestions', () => {
     wrapper.update();
     const suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
     expect(suggestionsWrapper.exists()).toBe(true);
-    expect(suggestionsWrapper.find('button.react-dadata__suggestion').at(0).html())
-      .toBe("<button class=\"react-dadata__suggestion\"><span class=\"test-class\">Россия</span></button>");
+    expect(suggestionsWrapper.find('button.react-dadata__suggestion').at(0).html()).toBe(
+      '<button class="react-dadata__suggestion"><span class="test-class">Россия</span></button>',
+    );
   });
 
   it('correctly renders with customInput', async () => {
     const CustomInput: FC<HTMLProps<HTMLInputElement>> = (props) => {
-      return <input {...props} data-some-attr="foo" />
-    }
+      return <input {...props} data-some-attr="foo" />;
+    };
 
     const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" customInput={CustomInput} />);
     const input = wrapper.find('input.react-dadata__input[data-some-attr="foo"]');
@@ -364,9 +375,11 @@ describe('AddressSuggestions', () => {
   });
 
   it('passes current input value to renderOption', async () => {
-    const renderOption = jest.fn<React.ReactNode, [DaDataSuggestion<DaDataAddress>, string]>((suggestion: DaDataSuggestion<DaDataAddress>): ReactNode => {
-      return suggestion.value
-    });
+    const renderOption = jest.fn<React.ReactNode, [DaDataSuggestion<DaDataAddress>, string]>(
+      (suggestion: DaDataSuggestion<DaDataAddress>): ReactNode => {
+        return suggestion.value;
+      },
+    );
     const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" renderOption={renderOption} />);
     const input = wrapper.find('input.react-dadata__input');
     input.simulate('focus');

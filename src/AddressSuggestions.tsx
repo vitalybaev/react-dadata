@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { BaseProps, BaseSuggestions } from './BaseSuggestions';
 import { DaDataAddress, DaDataAddressBounds, DaDataSuggestion } from './types';
 import { HighlightWords } from './HighlightWords';
@@ -16,7 +16,7 @@ interface Props extends BaseProps<DaDataAddress> {
 export class AddressSuggestions extends BaseSuggestions<DaDataAddress, Props> {
   loadSuggestionsUrl = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address';
 
-  getLoadSuggestionsData = () => {
+  getLoadSuggestionsData = (): unknown => {
     const { count, filterFromBound, filterToBound, filterLocations, filterLocationsBoost, filterLanguage } = this.props;
     const { query } = this.state;
 
@@ -47,14 +47,15 @@ export class AddressSuggestions extends BaseSuggestions<DaDataAddress, Props> {
     }
 
     return requestPayload;
-  }
+  };
 
-
-  protected renderOption = (suggestion: DaDataSuggestion<DaDataAddress>) => {
+  protected renderOption = (suggestion: DaDataSuggestion<DaDataAddress>): ReactNode => {
     const { renderOption, highlightClassName } = this.props;
     const { query } = this.state;
 
-    return renderOption ? renderOption(suggestion, query) : (
+    return renderOption ? (
+      renderOption(suggestion, query)
+    ) : (
       <HighlightWords
         highlightClassName={highlightClassName || 'react-dadata--highlighted'}
         words={this.getHighlightWords()}
