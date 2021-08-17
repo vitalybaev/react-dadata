@@ -18,11 +18,9 @@ export const makeRequest = (
   xhr = new XMLHttpRequest();
   xhr.open(method, endpoint);
   if (data.headers) {
-    for (const header in data.headers) {
-      if (data.headers[header]) {
-        xhr.setRequestHeader(header, data.headers[header]);
-      }
-    }
+    Object.entries(data.headers).forEach(([header, headerValue]) => {
+      xhr.setRequestHeader(header, headerValue);
+    });
   }
   xhr.send(JSON.stringify(data.json));
 
