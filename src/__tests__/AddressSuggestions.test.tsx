@@ -309,6 +309,7 @@ describe('AddressSuggestions', () => {
   });
 
   it('respects debounce', async () => {
+    jest.useFakeTimers();
     const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" />);
     const input = wrapper.find('input.react-dadata__input');
     input.simulate('focus');
@@ -320,9 +321,10 @@ describe('AddressSuggestions', () => {
     input.simulate('change', { target: { value: 'М' } });
     input.simulate('change', { target: { value: 'Мо' } });
     expect(requestCalls.length).toBe(3);
-    await delay(50);
+    jest.advanceTimersByTime(50);
     expect(requestCalls.length).toBe(4);
     expect(requestCalls[3].data.json.query).toBe('Мо');
+    jest.useRealTimers();
   });
 
   it('fires ref method setInputValue fired', async () => {
