@@ -1,20 +1,22 @@
 import React, { FC, HTMLProps, ReactNode } from 'react';
 import { mount } from 'enzyme';
 import { AddressSuggestions } from '../AddressSuggestions';
-import { addressMockKrasnodar, requestCalls } from './mocks';
+import { createAddressMock, addressMockKrasnodar, requestCalls } from './mocks';
 import 'jest-enzyme';
+import * as requestModule from '../request';
 import { DaDataSuggestion, DaDataAddress } from '../types';
+
+let makeRequestMock: jest.SpyInstance;
 
 beforeEach(() => {
   requestCalls.length = 0;
+
+  makeRequestMock = jest.spyOn(requestModule, 'makeRequest');
+  makeRequestMock.mockImplementation(createAddressMock());
 });
 
-jest.mock('../request', () => {
-  // eslint-disable-next-line
-  const mocks = require('./mocks');
-  return {
-    makeRequest: mocks.createAddressMock(),
-  };
+afterEach(() => {
+  makeRequestMock.mockReset();
 });
 
 const delay = (ms: number) => {
