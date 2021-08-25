@@ -369,9 +369,9 @@ describe('AddressSuggestions', () => {
   });
 
   it('correctly renders with customInput', async () => {
-    const CustomInput: FC<HTMLProps<HTMLInputElement>> = (props) => {
-      return <input {...props} data-some-attr="foo" />;
-    };
+    const CustomInput = React.forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>>((props, ref) => (
+      <input ref={ref} {...props} data-some-attr="foo" />
+    ));
 
     const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" customInput={CustomInput} />);
     const input = wrapper.find('input.react-dadata__input[data-some-attr="foo"]');
