@@ -396,4 +396,14 @@ describe('AddressSuggestions', () => {
     await delay(0);
     expect(renderOption.mock.calls[renderOption.mock.calls.length - 1][1]).toBe('Мос');
   });
+
+  it('uses url property if provided', async () => {
+    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" url="https://example.com" />);
+    const input = wrapper.find('input.react-dadata__input');
+    input.simulate('focus');
+    input.simulate('change', { target: { value: 'Мо' } });
+    await delay(0);
+
+    expect(makeRequestMock.mock.calls[makeRequestMock.mock.calls.length - 1][1]).toBe('https://example.com');
+  });
 });

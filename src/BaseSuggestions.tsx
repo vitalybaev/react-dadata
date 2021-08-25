@@ -82,6 +82,12 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
     }
   }
 
+  protected getSuggestionsUrl = (): string => {
+    const { url } = this.props;
+
+    return url || this.loadSuggestionsUrl;
+  };
+
   protected setupDebounce = (delay: number | undefined): void => {
     if (typeof delay === 'number' && delay > 0) {
       this.fetchSuggestions = debounce(this.performFetchSuggestions, delay);
@@ -197,7 +203,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
 
     makeRequest(
       'POST',
-      this.loadSuggestionsUrl,
+      this.getSuggestionsUrl(),
       {
         headers: {
           Accept: 'application/json',

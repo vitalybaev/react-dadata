@@ -15,6 +15,7 @@ export interface DaDataSuggestion<T> {
 export interface CommonProps<SuggestionType> {
   token: string;
   value?: DaDataSuggestion<SuggestionType>;
+  url?: string;
   defaultQuery?: string;
   autoload?: boolean;
   delay?: number;
