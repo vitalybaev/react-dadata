@@ -238,7 +238,7 @@ const [value, setValue] = useState<DaDataSuggestion<DaDataAddress> | undefined>(
 ```
 The MIT License
 
-Copyright (c) 2016 Vitaly Baev <hello@vitalybaev.ru>, vitalybaev.ru
+Copyright (c) 2016 Vitaly Baev <ping@baev.dev>, baev.dev
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
