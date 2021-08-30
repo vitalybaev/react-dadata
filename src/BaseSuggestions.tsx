@@ -297,8 +297,13 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
 
     const Component = typeof customInput !== 'undefined' ? (customInput as ElementType) : 'input';
 
+    const optionsExpanded = isFocused && suggestions && displaySuggestions && suggestions.length > 0;
     return (
-      <div className={containerClassName || 'react-dadata react-dadata__container'}>
+      <div
+        role="combobox"
+        aria-expanded={optionsExpanded}
+        className={containerClassName || 'react-dadata react-dadata__container'}
+      >
         <div>
           <Component
             autoComplete="off"
@@ -315,7 +320,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
             onBlur={this.handleInputBlur}
           />
         </div>
-        {isFocused && suggestions && displaySuggestions && suggestions.length > 0 && (
+        {optionsExpanded && (
           <div className={suggestionsClassName || 'react-dadata__suggestions'}>
             {typeof hintText !== 'undefined' && (
               <div className={hintClassName || 'react-dadata__suggestion-note'}>{hintText}</div>
