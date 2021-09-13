@@ -32,6 +32,7 @@ export interface CommonProps<SuggestionType> {
   highlightClassName?: string;
   minChars?: number;
   customInput?: ElementType;
+  selectOnBlur?: boolean;
 }
 
 export interface DaDataAddressMetro {

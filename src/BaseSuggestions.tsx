@@ -122,13 +122,19 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
 
   private handleInputBlur = (event: FocusEvent<HTMLInputElement>) => {
     const { suggestions } = this.state;
+    const { selectOnBlur, inputProps } = this.props;
 
     this.setState({ isFocused: false });
     if (suggestions.length === 0) {
       this.fetchSuggestions();
     }
 
-    const { inputProps } = this.props;
+    if (selectOnBlur) {
+      if (suggestions.length > 0) {
+        this.selectSuggestion(0, true);
+      }
+    }
+
     if (inputProps && inputProps.onBlur) {
       inputProps.onBlur(event);
     }
@@ -223,15 +229,17 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
     this.selectSuggestion(index);
   };
 
-  private selectSuggestion = (index: number) => {
+  private selectSuggestion = (index: number, isSilent = false) => {
     const { suggestions } = this.state;
     const { onChange } = this.props;
 
     if (suggestions.length >= index - 1) {
       const suggestion = suggestions[index];
       this.setState({ query: suggestion.value, inputQuery: suggestion.value, displaySuggestions: false }, () => {
-        this.fetchSuggestions();
-        setTimeout(() => this.setCursorToEnd(this.textInput));
+        if (!isSilent) {
+          this.fetchSuggestions();
+          setTimeout(() => this.setCursorToEnd(this.textInput));
+        }
       });
 
       if (onChange) {
