@@ -197,7 +197,8 @@
   },
   "eslintIgnore": [
     "dist/*",
-    "setupTests.ts"
+    "setupTests.ts",
+    "vite.config.ts"
   ],
   "prettier": {
     "printWidth": 120,
