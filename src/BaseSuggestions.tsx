@@ -44,6 +44,8 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
    */
   protected loadSuggestionsUrl = '';
 
+  protected dontPerformBlurHandler = false;
+
   /**
    * HTML-input
    */
@@ -121,7 +123,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
   };
 
   private handleInputBlur = (event: FocusEvent<HTMLInputElement>) => {
-    const { suggestions } = this.state;
+    const { suggestions, suggestionIndex } = this.state;
     const { selectOnBlur, inputProps } = this.props;
 
     this.setState({ isFocused: false });
@@ -129,11 +131,15 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
       this.fetchSuggestions();
     }
 
-    if (selectOnBlur) {
+    if (selectOnBlur && !this.dontPerformBlurHandler) {
       if (suggestions.length > 0) {
-        this.selectSuggestion(0, true);
+        const suggestionIndexToSelect =
+          suggestionIndex >= 0 && suggestionIndex < suggestions.length ? suggestionIndex : 0;
+        this.selectSuggestion(suggestionIndexToSelect, true);
       }
     }
+
+    this.dontPerformBlurHandler = false;
 
     if (inputProps && inputProps.onBlur) {
       inputProps.onBlur(event);
@@ -143,7 +149,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
   private handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     const { inputProps } = this.props;
-    this.setState({ query: value, inputQuery: value, displaySuggestions: true }, () => {
+    this.setState({ query: value, inputQuery: value, displaySuggestions: !!value }, () => {
       this.fetchSuggestions();
     });
 
@@ -231,10 +237,13 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
 
   private selectSuggestion = (index: number, isSilent = false) => {
     const { suggestions } = this.state;
-    const { onChange } = this.props;
+    const { selectOnBlur, onChange } = this.props;
 
     if (suggestions.length >= index - 1) {
       const suggestion = suggestions[index];
+      if (selectOnBlur) {
+        this.dontPerformBlurHandler = true;
+      }
       this.setState({ query: suggestion.value, inputQuery: suggestion.value, displaySuggestions: false }, () => {
         if (!isSilent) {
           this.fetchSuggestions();

@@ -406,4 +406,17 @@ describe('AddressSuggestions', () => {
 
     expect(makeRequestMock.mock.calls[makeRequestMock.mock.calls.length - 1][1]).toBe('https://example.com');
   });
+
+  it('respects selectOnBlur prop', async () => {
+    const handleChangeMock = jest.fn();
+    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" onChange={handleChangeMock} selectOnBlur />);
+    const input = wrapper.find('input.react-dadata__input');
+    input.simulate('focus');
+    input.simulate('change', { target: { value: 'Мо' } });
+    await delay(10);
+    wrapper.update();
+    input.simulate('blur');
+    expect(handleChangeMock.mock.calls.length).toBe(1);
+    expect(handleChangeMock.mock.calls[0][0].value).toBe('г Москва');
+  });
 });
