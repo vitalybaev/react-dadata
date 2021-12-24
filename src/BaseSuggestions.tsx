@@ -1,6 +1,6 @@
 import React, { ChangeEvent, MouseEvent, FocusEvent, ReactNode, ElementType } from 'react';
 import shallowEqual from 'shallowequal';
-import debounce from 'lodash.debounce';
+import { debounce } from 'debounce';
 import { CommonProps, DaDataSuggestion } from './types';
 import { makeRequest } from './request';
 

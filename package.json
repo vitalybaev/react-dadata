@@ -39,8 +39,8 @@
   },
   "homepage": "https://vitalybaev.github.io/react-dadata/",
   "dependencies": {
+    "debounce": "^1.2.1",
     "highlight-words": "^1.0.6",
-    "lodash.debounce": "^4.0.8",
     "shallowequal": "^1.1.0"
   },
   "devDependencies": {
@@ -50,9 +50,9 @@
     "@babel/preset-react": "^7.10.1",
     "@babel/preset-typescript": "^7.10.1",
     "@size-limit/preset-small-lib": "^5.0.3",
+    "@types/debounce": "^1.2.1",
     "@types/enzyme": "^3.10.5",
     "@types/jest": "^27.0.0",
-    "@types/lodash.debounce": "^4.0.6",
     "@types/react": "^17.0.17",
     "@types/shallowequal": "^1.1.1",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
@@ -73,7 +73,6 @@
     "eslint-plugin-react": "^7.20.0",
     "jest": "^27.0.6",
     "jest-enzyme": "^7.1.2",
-    "lodash": "^4.17.19",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.3.6",
     "postcss-cli": "^8.3.1",
