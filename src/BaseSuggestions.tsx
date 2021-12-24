@@ -316,11 +316,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
 
     const optionsExpanded = isFocused && suggestions && displaySuggestions && suggestions.length > 0;
     return (
-      <div
-        role="combobox"
-        aria-expanded={optionsExpanded}
-        className={containerClassName || 'react-dadata react-dadata__container'}
-      >
+      <div className={containerClassName || 'react-dadata react-dadata__container'}>
         <div>
           <Component
             autoComplete="off"
