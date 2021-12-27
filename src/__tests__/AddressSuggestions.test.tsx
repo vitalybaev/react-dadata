@@ -32,7 +32,7 @@ describe('AddressSuggestions', () => {
     const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" />);
     expect(wrapper.find('div.react-dadata.react-dadata__container')).toExist();
     expect(wrapper.find('input.react-dadata__input')).toExist();
-    expect(wrapper.find('div.react-dadata__suggestions')).not.toExist();
+    expect(wrapper.find('ul.react-dadata__suggestions')).not.toExist();
   });
 
   it('input renders correctly with props', () => {
@@ -72,7 +72,7 @@ describe('AddressSuggestions', () => {
     input.simulate('change', { target: { value: 'Мо' } });
     await delay(10);
     wrapper.update();
-    const suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
+    const suggestionsWrapper = wrapper.find('ul.react-dadata__suggestions');
     expect(suggestionsWrapper).toExist();
     expect(suggestionsWrapper.find('button.react-dadata__suggestion').length).toBe(7);
   });
@@ -99,13 +99,13 @@ describe('AddressSuggestions', () => {
     input.simulate('change', { target: { value: 'Мо' } });
     await delay(10);
     wrapper.update();
-    let suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
+    let suggestionsWrapper = wrapper.find('ul.react-dadata__suggestions');
     expect(suggestionsWrapper.exists()).toBe(false);
 
     input.simulate('change', { target: { value: 'Мос' } });
     await delay(10);
     wrapper.update();
-    suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
+    suggestionsWrapper = wrapper.find('ul.react-dadata__suggestions');
     expect(suggestionsWrapper.exists()).toBe(true);
     expect(suggestionsWrapper.find('button.react-dadata__suggestion').length).toBe(7);
   });
@@ -146,14 +146,14 @@ describe('AddressSuggestions', () => {
     await delay(10);
     wrapper.update();
     expect(wrapper).toHaveState('suggestionIndex', -1);
-    let suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
+    let suggestionsWrapper = wrapper.find('ul.react-dadata__suggestions');
     expect(suggestionsWrapper.exists()).toBe(true);
     expect(suggestionsWrapper.find('button.react-dadata__suggestion').length).toBe(7);
     input.simulate('keypress', { which: 40 });
     await delay(10);
     wrapper.update();
     expect(wrapper).toHaveState('suggestionIndex', 0);
-    suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
+    suggestionsWrapper = wrapper.find('ul.react-dadata__suggestions');
     expect(suggestionsWrapper.find('button.react-dadata__suggestion').at(0)).toHaveClassName(
       'react-dadata__suggestion--current',
     );
@@ -163,7 +163,7 @@ describe('AddressSuggestions', () => {
     await delay(10);
     wrapper.update();
     expect(wrapper).toHaveState('suggestionIndex', 1);
-    suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
+    suggestionsWrapper = wrapper.find('ul.react-dadata__suggestions');
     expect(suggestionsWrapper.find('button.react-dadata__suggestion').at(1)).toHaveClassName(
       'react-dadata__suggestion--current',
     );
@@ -180,7 +180,7 @@ describe('AddressSuggestions', () => {
     await delay(10);
     wrapper.update();
     expect(wrapper).toHaveState('suggestionIndex', 6);
-    suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
+    suggestionsWrapper = wrapper.find('ul.react-dadata__suggestions');
     expect(suggestionsWrapper.find('button.react-dadata__suggestion').at(6)).toHaveClassName(
       'react-dadata__suggestion--current',
     );
@@ -216,14 +216,14 @@ describe('AddressSuggestions', () => {
     input.simulate('change', { target: { value: 'Мо' } });
     await delay(10);
     wrapper.update();
-    let suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
+    let suggestionsWrapper = wrapper.find('ul.react-dadata__suggestions');
     expect(suggestionsWrapper.exists()).toBe(true);
     expect(suggestionsWrapper.find('button.react-dadata__suggestion').length).toBe(7);
     input.simulate('keypress', { which: 40 });
     await delay(10);
     wrapper.update();
     expect(wrapper).toHaveState('suggestionIndex', 0);
-    suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
+    suggestionsWrapper = wrapper.find('ul.react-dadata__suggestions');
     expect(suggestionsWrapper.find('button.react-dadata__suggestion').at(0)).toHaveClassName(
       'react-dadata__suggestion--current',
     );
@@ -252,7 +252,7 @@ describe('AddressSuggestions', () => {
     input.simulate('change', { target: { value: 'Мо' } });
     await delay(10);
     wrapper.update();
-    const suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
+    const suggestionsWrapper = wrapper.find('ul.react-dadata__suggestions');
     expect(suggestionsWrapper.exists()).toBe(true);
     expect(suggestionsWrapper.find('button.react-dadata__suggestion').length).toBe(7);
     input.simulate('keypress', { which: 13 });
@@ -274,7 +274,7 @@ describe('AddressSuggestions', () => {
     input.simulate('change', { target: { value: 'Мо' } });
     await delay(10);
     wrapper.update();
-    const suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
+    const suggestionsWrapper = wrapper.find('ul.react-dadata__suggestions');
     expect(suggestionsWrapper.exists()).toBe(true);
     expect(suggestionsWrapper.find('button.react-dadata__suggestion').length).toBe(7);
     const firstSuggestion = suggestionsWrapper.find('button.react-dadata__suggestion').at(1);
@@ -361,10 +361,10 @@ describe('AddressSuggestions', () => {
     input.simulate('change', { target: { value: 'Мо' } });
     await delay(10);
     wrapper.update();
-    const suggestionsWrapper = wrapper.find('div.react-dadata__suggestions');
+    const suggestionsWrapper = wrapper.find('ul.react-dadata__suggestions');
     expect(suggestionsWrapper.exists()).toBe(true);
     expect(suggestionsWrapper.find('button.react-dadata__suggestion').at(0).html()).toBe(
-      '<button class="react-dadata__suggestion"><span class="test-class">Россия</span></button>',
+      '<button role="option" aria-selected="false" class="react-dadata__suggestion"><span class="test-class">Россия</span></button>',
     );
   });
 
