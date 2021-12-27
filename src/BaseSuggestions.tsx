@@ -1,6 +1,7 @@
 import React, { ChangeEvent, MouseEvent, FocusEvent, ReactNode, ElementType } from 'react';
 import shallowEqual from 'shallowequal';
 import { debounce } from 'debounce';
+import { nanoid } from 'nanoid';
 import { CommonProps, DaDataSuggestion } from './types';
 import { makeRequest } from './request';
 
@@ -46,6 +47,8 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
 
   protected dontPerformBlurHandler = false;
 
+  protected uid: string;
+
   /**
    * HTML-input
    */
@@ -53,6 +56,8 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
 
   constructor(props: BaseProps<SuggestionType> & OwnProps) {
     super(props);
+
+    this.uid = nanoid();
 
     const { defaultQuery, value, delay } = this.props;
     const valueQuery = value ? value.value : undefined;
@@ -316,7 +321,14 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
 
     const optionsExpanded = isFocused && suggestions && displaySuggestions && suggestions.length > 0;
     return (
-      <div className={containerClassName || 'react-dadata react-dadata__container'}>
+      <div
+        role="combobox"
+        aria-expanded={optionsExpanded ? 'true' : 'false'}
+        aria-owns={this.uid}
+        aria-controls={this.uid}
+        aria-haspopup="listbox"
+        className={containerClassName || 'react-dadata react-dadata__container'}
+      >
         <div>
           <Component
             autoComplete="off"
@@ -334,7 +346,12 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
           />
         </div>
         {optionsExpanded && (
-          <div className={suggestionsClassName || 'react-dadata__suggestions'}>
+          <ul
+            id={this.uid}
+            aria-expanded
+            role="listbox"
+            className={suggestionsClassName || 'react-dadata__suggestions'}
+          >
             {typeof hintText !== 'undefined' && (
               <div className={hintClassName || 'react-dadata__suggestion-note'}>{hintText}</div>
             )}
@@ -345,6 +362,8 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
               }
               return (
                 <button
+                  role="option"
+                  aria-selected={index === suggestionIndex ? 'true' : 'false'}
                   key={this.getSuggestionKey(suggestion)}
                   onMouseDown={this.onSuggestionClick.bind(this, index)}
                   className={suggestionClass}
@@ -353,7 +372,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
                 </button>
               );
             })}
-          </div>
+          </ul>
         )}
         {children}
       </div>
