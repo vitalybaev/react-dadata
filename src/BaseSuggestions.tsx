@@ -49,6 +49,8 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
 
   protected uid: string;
 
+  protected didMount: boolean;
+
   /**
    * HTML-input
    */
@@ -58,6 +60,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
     super(props);
 
     this.uid = nanoid();
+    this.didMount = false;
 
     const { defaultQuery, value, delay } = this.props;
     const valueQuery = value ? value.value : undefined;
@@ -74,6 +77,10 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
     };
   }
 
+  componentDidMount() {
+    this.didMount = true;
+  }
+
   componentDidUpdate(prevProps: Readonly<BaseProps<SuggestionType> & OwnProps>): void {
     const { value, delay } = this.props;
     const { query, inputQuery } = this.state;
@@ -87,6 +94,10 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
     if (delay !== prevProps.delay) {
       this.setupDebounce(delay);
     }
+  }
+
+  componentWillUnmount() {
+    this.didMount = false;
   }
 
   protected getSuggestionsUrl = (): string => {
@@ -154,9 +165,11 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
   private handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     const { inputProps } = this.props;
-    this.setState({ query: value, inputQuery: value, displaySuggestions: !!value }, () => {
-      this.fetchSuggestions();
-    });
+    if (this.didMount) {
+      this.setState({ query: value, inputQuery: value, displaySuggestions: !!value }, () => {
+        this.fetchSuggestions();
+      });
+    }
 
     if (inputProps && inputProps.onChange) {
       inputProps.onChange(event);
@@ -189,7 +202,9 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
       if (suggestionIndex < suggestions.length - 1) {
         const newSuggestionIndex = suggestionIndex + 1;
         const newInputQuery = suggestions[newSuggestionIndex].value;
-        this.setState({ suggestionIndex: newSuggestionIndex, query: newInputQuery });
+        if (this.didMount) {
+          this.setState({ suggestionIndex: newSuggestionIndex, query: newInputQuery });
+        }
       }
     } else if (event.which === 38) {
       // Arrow up
@@ -197,7 +212,9 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
       if (suggestionIndex >= 0) {
         const newSuggestionIndex = suggestionIndex - 1;
         const newInputQuery = newSuggestionIndex === -1 ? inputQuery : suggestions[newSuggestionIndex].value;
-        this.setState({ suggestionIndex: newSuggestionIndex, query: newInputQuery });
+        if (this.didMount) {
+          this.setState({ suggestionIndex: newSuggestionIndex, query: newInputQuery });
+        }
       }
     } else if (event.which === 13) {
       // Enter
@@ -230,7 +247,9 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
         json: this.getLoadSuggestionsData() || {},
       },
       (suggestions) => {
-        this.setState({ suggestions, suggestionIndex: -1 });
+        if (this.didMount) {
+          this.setState({ suggestions, suggestionIndex: -1 });
+        }
       },
     );
   };

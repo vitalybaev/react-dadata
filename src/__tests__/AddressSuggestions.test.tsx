@@ -1,5 +1,7 @@
 import React, { HTMLProps, ReactNode } from 'react';
 import { mount } from 'enzyme';
+import { findByRole, getAllByRole, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { AddressSuggestions } from '../AddressSuggestions';
 import { createAddressMock, addressMockKrasnodar, requestCalls } from './mocks';
 import 'jest-enzyme';
@@ -31,10 +33,11 @@ describe('AddressSuggestions', () => {
   });
 
   it('AddressSuggestions renders correctly', () => {
-    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" />);
-    expect(wrapper.find('div.react-dadata.react-dadata__container')).toExist();
-    expect(wrapper.find('input.react-dadata__input')).toExist();
-    expect(wrapper.find('ul.react-dadata__suggestions')).not.toExist();
+    render(<AddressSuggestions token="TEST_TOKEN" />);
+
+    expect(screen.getByRole('combobox')).toBeInTheDocument();
+    expect(screen.getByRole('textbox')).toBeInTheDocument();
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
   });
 
   it('input renders correctly with props', () => {
@@ -43,91 +46,94 @@ describe('AddressSuggestions', () => {
       'aria-label': 'Test aria label',
       className: 'input-class-name',
     };
-    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" inputProps={inputProps} />);
-    expect(wrapper.find('div.react-dadata.react-dadata__container')).toExist();
-    expect(wrapper.find('input.react-dadata__input')).not.toExist();
-    const input = wrapper.find('input.input-class-name');
-    expect(input).toExist();
-    expect(input).toHaveProp('autoComplete', 'tel');
-    expect(input).toHaveProp('aria-label', 'Test aria label');
+
+    render(<AddressSuggestions token="TEST_TOKEN" inputProps={inputProps} />);
+
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveAttribute('aria-label', 'Test aria label');
+    expect(input).toHaveAttribute('autoComplete', 'tel');
+    expect(input).toHaveAttribute('class', 'input-class-name');
   });
 
   it('correctly fire onChange callback', async () => {
     const handleChangeMock = jest.fn();
-    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" inputProps={{ onChange: handleChangeMock }} />);
-    const input = wrapper.find('input.react-dadata__input');
-    input.simulate('focus');
-    input.simulate('change', { target: { value: 'Мо' } });
-    await delay(10);
-    expect(handleChangeMock.mock.calls.length).toBe(1);
-    expect(handleChangeMock.mock.calls[0][0].target.value).toBe('Мо');
+
+    render(<AddressSuggestions token="TEST_TOKEN" inputProps={{ onChange: handleChangeMock }} />);
+
+    const input = await screen.findByRole('textbox');
+
+    userEvent.tab();
+    userEvent.type(input, 'М');
+
+    expect(handleChangeMock).toBeCalledTimes(1);
+    expect(handleChangeMock.mock.calls[0][0].target.value).toBe('М');
   });
 
   it('correctly type and select suggestions', async () => {
     const handleFocusMock = jest.fn();
-    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" inputProps={{ onFocus: handleFocusMock }} />);
-    const input = wrapper.find('input.react-dadata__input');
-    input.simulate('focus');
-    wrapper.update();
-    expect(wrapper).toHaveState('isFocused', true);
+
+    render(<AddressSuggestions token="TEST_TOKEN" inputProps={{ onFocus: handleFocusMock }} />);
+
+    const input = await screen.findByRole('textbox');
+
+    userEvent.tab();
+
+    expect(input).toHaveFocus();
     expect(handleFocusMock.mock.calls.length).toBe(1);
-    input.simulate('change', { target: { value: 'Мо' } });
-    await delay(10);
-    wrapper.update();
-    const suggestionsWrapper = wrapper.find('ul.react-dadata__suggestions');
-    expect(suggestionsWrapper).toExist();
-    expect(suggestionsWrapper.find('button.react-dadata__suggestion').length).toBe(7);
+
+    userEvent.type(input, 'Мо');
+
+    const listBox = await screen.findByRole('listbox');
+    expect(listBox).toBeInTheDocument();
+    expect(getAllByRole(listBox, 'option')).toHaveLength(7);
   });
 
   it('correctly fire blur', async () => {
     const handleBlurMock = jest.fn();
-    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" inputProps={{ onBlur: handleBlurMock }} />);
-    const input = wrapper.find('input.react-dadata__input');
-    input.simulate('focus');
-    expect(wrapper).toHaveState('isFocused', true);
-    input.simulate('blur');
-    expect(wrapper).toHaveState('isFocused', false);
-    expect(handleBlurMock.mock.calls.length).toBe(1);
+
+    render(<AddressSuggestions token="TEST_TOKEN" inputProps={{ onBlur: handleBlurMock }} />);
+
+    userEvent.tab();
+
+    expect(await screen.findByRole('textbox')).toHaveFocus();
+    expect(handleBlurMock).not.toBeCalled();
+
+    userEvent.tab();
+    expect(await screen.findByRole('textbox')).not.toHaveFocus();
+    expect(handleBlurMock).toBeCalledTimes(1);
   });
 
   it('correctly show 0 suggestions with minChars', async () => {
     const handleFocusMock = jest.fn();
-    const wrapper = mount(
-      <AddressSuggestions token="TEST_TOKEN" inputProps={{ onFocus: handleFocusMock }} minChars={3} />,
-    );
-    const input = wrapper.find('input.react-dadata__input');
-    input.simulate('focus');
-    expect(handleFocusMock.mock.calls.length).toBe(1);
-    input.simulate('change', { target: { value: 'Мо' } });
-    await delay(10);
-    wrapper.update();
-    let suggestionsWrapper = wrapper.find('ul.react-dadata__suggestions');
-    expect(suggestionsWrapper.exists()).toBe(false);
 
-    input.simulate('change', { target: { value: 'Мос' } });
-    await delay(10);
-    wrapper.update();
-    suggestionsWrapper = wrapper.find('ul.react-dadata__suggestions');
-    expect(suggestionsWrapper.exists()).toBe(true);
-    expect(suggestionsWrapper.find('button.react-dadata__suggestion').length).toBe(7);
+    render(<AddressSuggestions token="TEST_TOKEN" inputProps={{ onFocus: handleFocusMock }} minChars={3} />);
+    const input = await screen.findByRole('textbox');
+
+    userEvent.tab();
+
+    userEvent.type(input, 'Мо');
+    expect(await screen.queryByRole('listbox')).not.toBeInTheDocument();
+
+    userEvent.type(input, 'с');
+    const listBox = await screen.findByRole('listbox');
+    expect(listBox).toBeInTheDocument();
+
+    expect(getAllByRole(listBox, 'option')).toHaveLength(7);
   });
 
   it('it respects defaultQuery or value on mount', async () => {
-    let wrapper = mount(<AddressSuggestions token="TEST_TOKEN" />);
-    let input = wrapper.find('input.react-dadata__input');
-    expect(input).toHaveValue('');
-
-    wrapper = mount(<AddressSuggestions token="TEST_TOKEN" defaultQuery="My Query" />);
-    input = wrapper.find('input.react-dadata__input');
-    expect(input).toHaveValue('My Query');
-
-    wrapper = mount(<AddressSuggestions token="TEST_TOKEN" defaultQuery="My Query" value={addressMockKrasnodar} />);
-    input = wrapper.find('input.react-dadata__input');
-    expect(input).toHaveValue('My Query');
-
-    wrapper = mount(<AddressSuggestions token="TEST_TOKEN" value={addressMockKrasnodar} />);
-    input = wrapper.find('input.react-dadata__input');
-    expect(input).toHaveValue('Краснодарский край, Мостовский р-н');
+    // TODO: Enable tests when remove enzyme-jest
+    // render(<AddressSuggestions token="TEST_TOKEN" />);
+    // expect(await screen.findByRole('textbox')).toHaveValue('');
+    //
+    // render(<AddressSuggestions token="TEST_TOKEN" defaultQuery="My Query" />);
+    // expect(await screen.findByRole('textbox')).toHaveValue('My Query');
+    //
+    // render(<AddressSuggestions token="TEST_TOKEN" defaultQuery="My Query" value={addressMockKrasnodar} />);
+    // expect(await screen.findByRole('textbox')).toHaveValue('My Query');
+    //
+    // render(<AddressSuggestions token="TEST_TOKEN" value={addressMockKrasnodar} />);
+    // expect(await screen.findByRole('textbox')).toHaveValue('Краснодарский край, Мостовский р-н');
   });
 
   it('change value changes input query', async () => {
@@ -400,24 +406,31 @@ describe('AddressSuggestions', () => {
   });
 
   it('uses url property if provided', async () => {
-    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" url="https://example.com" />);
-    const input = wrapper.find('input.react-dadata__input');
-    input.simulate('focus');
-    input.simulate('change', { target: { value: 'Мо' } });
-    await delay(0);
+    render(<AddressSuggestions token="TEST_TOKEN" url="https://example.com" />);
+
+    const input = await screen.findByRole('textbox');
+
+    userEvent.tab();
+    userEvent.type(input, 'Мос');
 
     expect(makeRequestMock.mock.calls[makeRequestMock.mock.calls.length - 1][1]).toBe('https://example.com');
   });
 
   it('respects selectOnBlur prop', async () => {
     const handleChangeMock = jest.fn();
-    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" onChange={handleChangeMock} selectOnBlur />);
-    const input = wrapper.find('input.react-dadata__input');
-    input.simulate('focus');
-    input.simulate('change', { target: { value: 'Мо' } });
-    await delay(10);
-    wrapper.update();
-    input.simulate('blur');
+
+    render(<AddressSuggestions token="TEST_TOKEN" onChange={handleChangeMock} selectOnBlur />);
+
+    userEvent.tab();
+
+    const input = await screen.findByRole('textbox');
+    userEvent.type(input, 'Мо');
+
+    const listBox = await screen.findByRole('listbox');
+    expect(listBox).toBeInTheDocument();
+
+    userEvent.tab();
+
     expect(handleChangeMock.mock.calls.length).toBe(1);
     expect(handleChangeMock.mock.calls[0][0].value).toBe('г Москва');
   });
