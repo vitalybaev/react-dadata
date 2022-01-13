@@ -1,6 +1,5 @@
 node_modules/
 .idea/
-yarn-error.log
 dist
 coverage
 .DS_Store
