@@ -1,4 +1,4 @@
-import React, { FC, HTMLProps, ReactNode } from 'react';
+import React, { HTMLProps, ReactNode } from 'react';
 import { mount } from 'enzyme';
 import { AddressSuggestions } from '../AddressSuggestions';
 import { createAddressMock, addressMockKrasnodar, requestCalls } from './mocks';
@@ -20,7 +20,9 @@ afterEach(() => {
 });
 
 const delay = (ms: number) => {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 };
 
 describe('AddressSuggestions', () => {
