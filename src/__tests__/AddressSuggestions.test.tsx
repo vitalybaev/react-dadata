@@ -1,6 +1,6 @@
-import React, { HTMLProps, ReactNode } from 'react';
+import React, { createRef, HTMLProps, ReactNode } from 'react';
 import { mount } from 'enzyme';
-import { findByRole, fireEvent, getAllByRole, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, findByRole, fireEvent, getAllByRole, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { AddressSuggestions } from '../AddressSuggestions';
 import { createAddressMock, addressMockKrasnodar, requestCalls } from './mocks';
@@ -122,18 +122,24 @@ describe('AddressSuggestions', () => {
   });
 
   it('it respects defaultQuery or value on mount', async () => {
-    // TODO: Enable tests when remove enzyme-jest
-    // render(<AddressSuggestions token="TEST_TOKEN" />);
-    // expect(await screen.findByRole('textbox')).toHaveValue('');
-    //
-    // render(<AddressSuggestions token="TEST_TOKEN" defaultQuery="My Query" />);
-    // expect(await screen.findByRole('textbox')).toHaveValue('My Query');
-    //
-    // render(<AddressSuggestions token="TEST_TOKEN" defaultQuery="My Query" value={addressMockKrasnodar} />);
-    // expect(await screen.findByRole('textbox')).toHaveValue('My Query');
-    //
-    // render(<AddressSuggestions token="TEST_TOKEN" value={addressMockKrasnodar} />);
-    // expect(await screen.findByRole('textbox')).toHaveValue('Краснодарский край, Мостовский р-н');
+    render(<AddressSuggestions token="TEST_TOKEN" />);
+    // TODO: Replace with .toHaveValue() when remove enzyme matchers
+    expect(await screen.findByRole('textbox')).toHaveAttribute('value', '');
+    cleanup();
+
+    render(<AddressSuggestions token="TEST_TOKEN" defaultQuery="My Query" />);
+    // TODO: Replace with .toHaveValue() when remove enzyme matchers
+    expect(await screen.findByRole('textbox')).toHaveAttribute('value', 'My Query');
+    cleanup();
+
+    render(<AddressSuggestions token="TEST_TOKEN" defaultQuery="My Query" value={addressMockKrasnodar} />);
+    // TODO: Replace with .toHaveValue() when remove enzyme matchers
+    expect(await screen.findByRole('textbox')).toHaveAttribute('value', 'My Query');
+    cleanup();
+
+    render(<AddressSuggestions token="TEST_TOKEN" value={addressMockKrasnodar} />);
+    // TODO: Replace with .toHaveValue() when remove enzyme matchers
+    expect(await screen.findByRole('textbox')).toHaveAttribute('value', 'Краснодарский край, Мостовский р-н');
   });
 
   it('change value changes input query', async () => {
@@ -291,7 +297,7 @@ describe('AddressSuggestions', () => {
   });
 
   it('correctly send http parameters', async () => {
-    const wrapper = mount(
+    render(
       <AddressSuggestions
         token="TEST_TOKEN"
         count={20}
@@ -302,33 +308,42 @@ describe('AddressSuggestions', () => {
         filterLocationsBoost={[{ kladr_id: '77' }]}
       />,
     );
-    const input = wrapper.find('input.react-dadata__input');
-    input.simulate('focus');
+
+    const input = await screen.findByRole('textbox');
+    userEvent.tab();
+
     expect(requestCalls.length).toBe(1);
     expect(requestCalls[0].data.json.query).toBe('');
     expect(requestCalls[0].endpoint).toBe('https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address');
-    input.simulate('change', { target: { value: 'Мо' } });
-    expect(requestCalls.length).toBe(2);
-    expect(requestCalls[1].data.json.query).toBe('Мо');
-    expect(requestCalls[1].data.json.language).toBe('en');
-    expect(requestCalls[1].data.json.from_bound).toEqual({ value: 'country' });
-    expect(requestCalls[1].data.json.to_bound).toEqual({ value: 'street' });
-    expect(requestCalls[1].data.json.locations).toEqual([{ kladr_id: '65' }]);
-    expect(requestCalls[1].data.json.locations_boost).toEqual([{ kladr_id: '77' }]);
+
+    userEvent.type(input, 'Мо');
+
+    expect(requestCalls.length).toBe(3);
+    expect(requestCalls[2].data.json.query).toBe('Мо');
+    expect(requestCalls[2].data.json.language).toBe('en');
+    expect(requestCalls[2].data.json.from_bound).toEqual({ value: 'country' });
+    expect(requestCalls[2].data.json.to_bound).toEqual({ value: 'street' });
+    expect(requestCalls[2].data.json.locations).toEqual([{ kladr_id: '65' }]);
+    expect(requestCalls[2].data.json.locations_boost).toEqual([{ kladr_id: '77' }]);
   });
 
   it('respects debounce', async () => {
     jest.useFakeTimers();
-    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" />);
-    const input = wrapper.find('input.react-dadata__input');
-    input.simulate('focus');
-    input.simulate('change', { target: { value: 'М' } });
-    input.simulate('change', { target: { value: 'Мо' } });
+
+    render(<AddressSuggestions token="TEST_TOKEN" />);
+    const input = await screen.findByRole('textbox');
+
+    userEvent.tab();
+    userEvent.type(input, 'Мо');
+
     expect(requestCalls.length).toBe(3);
 
-    wrapper.setProps({ delay: 50 });
-    input.simulate('change', { target: { value: 'М' } });
-    input.simulate('change', { target: { value: 'Мо' } });
+    cleanup();
+    render(<AddressSuggestions token="TEST_TOKEN" delay={50} />);
+
+    userEvent.tab();
+    userEvent.type(input, 'Мо');
+
     expect(requestCalls.length).toBe(3);
     jest.advanceTimersByTime(50);
     expect(requestCalls.length).toBe(4);
@@ -337,25 +352,21 @@ describe('AddressSuggestions', () => {
   });
 
   it('fires ref method setInputValue fired', async () => {
-    const wrapper = mount<AddressSuggestions>(<AddressSuggestions token="TEST_TOKEN" />);
-    wrapper.instance().setInputValue('Test Value');
-    wrapper.update();
-    const input = wrapper.find('input.react-dadata__input');
-    expect(input).toHaveValue('Test Value');
+    const ref = createRef<AddressSuggestions>();
+    render(<AddressSuggestions token="TEST_TOKEN" ref={ref} />);
+
+    ref.current?.setInputValue('Test Value');
+    // TODO: Replace with .toHaveValue() when remove enzyme matchers
+    expect(await screen.findByRole('textbox')).toHaveAttribute('value', 'Test Value');
   });
 
   it('fires ref method focus fired', async () => {
-    const handleFocusMock = jest.fn();
-    const wrapper = mount<AddressSuggestions>(
-      <AddressSuggestions
-        token="TEST_TOKEN"
-        inputProps={{
-          onFocus: handleFocusMock,
-        }}
-      />,
-    );
-    wrapper.update();
-    wrapper.instance().focus();
+    const ref = createRef<AddressSuggestions>();
+
+    render(<AddressSuggestions token="TEST_TOKEN" ref={ref} />);
+
+    ref.current?.focus();
+    expect(screen.getByRole('textbox')).toHaveFocus();
   });
 
   it('correctly renders with renderOption', async () => {
@@ -380,9 +391,10 @@ describe('AddressSuggestions', () => {
       <input ref={ref} {...props} data-some-attr="foo" />
     ));
 
-    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" customInput={CustomInput} />);
-    const input = wrapper.find('input.react-dadata__input[data-some-attr="foo"]');
-    expect(input.exists()).toBe(true);
+    render(<AddressSuggestions token="TEST_TOKEN" customInput={CustomInput} />);
+    const input = await screen.findByRole('textbox');
+
+    expect(input).toHaveAttribute('data-some-attr', 'foo');
   });
 
   it('passes current input value to renderOption', async () => {
