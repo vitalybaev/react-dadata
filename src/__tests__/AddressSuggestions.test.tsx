@@ -70,7 +70,7 @@ describe('AddressSuggestions', () => {
     expect(input).toHaveAttribute('class', 'input-class-name');
   });
 
-  it('correctly fire onChange callback', async () => {
+  it('correctly fires onChange callback', async () => {
     const handleChangeMock = jest.fn();
 
     render(<AddressSuggestions token="TEST_TOKEN" inputProps={{ onChange: handleChangeMock }} />);
@@ -84,7 +84,7 @@ describe('AddressSuggestions', () => {
     expect(handleChangeMock.mock.calls[0][0].target.value).toBe('М');
   });
 
-  it('correctly type and select suggestions', async () => {
+  it('correctly types and selects suggestions', async () => {
     const handleFocusMock = jest.fn();
 
     render(<AddressSuggestions token="TEST_TOKEN" inputProps={{ onFocus: handleFocusMock }} />);
@@ -103,7 +103,7 @@ describe('AddressSuggestions', () => {
     expect(getAllByRole(listBox, 'option')).toHaveLength(7);
   });
 
-  it('correctly fire blur', async () => {
+  it('correctly fires blur', async () => {
     const handleBlurMock = jest.fn();
 
     render(<AddressSuggestions token="TEST_TOKEN" inputProps={{ onBlur: handleBlurMock }} />);
@@ -118,7 +118,7 @@ describe('AddressSuggestions', () => {
     expect(handleBlurMock).toBeCalledTimes(1);
   });
 
-  it('correctly show 0 suggestions with minChars', async () => {
+  it('correctly shows 0 suggestions with minChars', async () => {
     const handleFocusMock = jest.fn();
 
     render(<AddressSuggestions token="TEST_TOKEN" inputProps={{ onFocus: handleFocusMock }} minChars={3} />);
@@ -153,7 +153,7 @@ describe('AddressSuggestions', () => {
     expect(await screen.findByRole('textbox')).toHaveValue('Краснодарский край, Мостовский р-н');
   });
 
-  it('change value changes input query', async () => {
+  it('changes value changes input query', async () => {
     const { rerender } = render(<AddressSuggestions token="TEST_TOKEN" />);
 
     expect(await screen.findByRole('textbox')).toHaveValue('');
@@ -162,7 +162,7 @@ describe('AddressSuggestions', () => {
     expect(await screen.findByRole('textbox')).toHaveValue('Краснодарский край, Мостовский р-н');
   });
 
-  it('correctly navigate by keyboard up and down arrows', async () => {
+  it('correctly navigates by keyboard up and down arrows', async () => {
     render(<AddressSuggestions token="TEST_TOKEN" />);
 
     const input = await screen.findByRole('textbox');
@@ -203,7 +203,7 @@ describe('AddressSuggestions', () => {
     expect(input).toHaveValue('Магаданская обл');
   });
 
-  it('correctly fire onKeyDown and onKeyPress', async () => {
+  it('correctly fires onKeyDown and onKeyPress', async () => {
     const handleKeyDownMock = jest.fn();
     const handleKeyPressMock = jest.fn();
     render(
@@ -225,7 +225,7 @@ describe('AddressSuggestions', () => {
     expect(handleKeyDownMock).toHaveBeenCalledTimes(1);
   });
 
-  it('correctly fire onChange by Enter', async () => {
+  it('correctly fires onChange by Enter', async () => {
     const handleChangeMock = jest.fn();
 
     render(<AddressSuggestions token="TEST_TOKEN" onChange={handleChangeMock} />);
@@ -245,7 +245,7 @@ describe('AddressSuggestions', () => {
     expect(handleChangeMock.mock.calls[0][0].value).toBe('г Москва');
   });
 
-  it('correctly fire onChange by suggestion click', async () => {
+  it('correctly fires onChange by suggestion click', async () => {
     const handleChangeMock = jest.fn();
 
     render(<AddressSuggestions token="TEST_TOKEN" onChange={handleChangeMock} />);
@@ -264,7 +264,7 @@ describe('AddressSuggestions', () => {
     expect(handleChangeMock).toHaveBeenCalledWith(addressMocks['Мо'][1]);
   });
 
-  it('correctly send http parameters', async () => {
+  it('correctly sends http parameters', async () => {
     render(
       <AddressSuggestions
         token="TEST_TOKEN"
