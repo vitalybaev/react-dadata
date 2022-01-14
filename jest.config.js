@@ -123,11 +123,7 @@ module.exports = {
   // setupFiles: [],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
-  setupFilesAfterEnv: [
-    '@testing-library/jest-dom/extend-expect',
-    './node_modules/jest-enzyme/lib/index.js',
-    './setupTests.ts',
-  ],
+  setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect', './setupTests.ts'],
 
   // A list of paths to snapshot serializer modules Jest should use for snapshot testing
   // snapshotSerializers: [],

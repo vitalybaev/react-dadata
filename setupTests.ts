@@ -1,5 +1,2 @@
-import Enzyme from 'enzyme';
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
-import 'jest-enzyme';
-
-Enzyme.configure({ adapter: new Adapter() });
+// This file was used to setup the tests with Enzyme.
+// Since Enzyme was not used, this file is still here for possible future use.

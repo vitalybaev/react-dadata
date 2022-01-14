@@ -178,7 +178,7 @@ export const addressMockKrasnodar: DaDataSuggestion<DaDataAddress> = {
   },
 };
 
-const addressMocks: { [query: string]: DaDataSuggestion<DaDataAddress>[] } = {
+export const addressMocks: { [query: string]: DaDataSuggestion<DaDataAddress>[] } = {
   М: [
     {
       value: 'г Москва',

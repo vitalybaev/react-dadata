@@ -1,10 +1,16 @@
 import React, { createRef, HTMLProps, ReactNode } from 'react';
-import { mount } from 'enzyme';
-import { cleanup, findByRole, fireEvent, getAllByRole, render, screen, waitFor } from '@testing-library/react';
+import {
+  cleanup,
+  findAllByRole,
+  fireEvent,
+  getAllByRole,
+  queryAllByRole,
+  render,
+  screen,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { AddressSuggestions } from '../AddressSuggestions';
-import { createAddressMock, addressMockKrasnodar, requestCalls } from './mocks';
-import 'jest-enzyme';
+import { createAddressMock, addressMockKrasnodar, requestCalls, addressMocks } from './mocks';
 import * as requestModule from '../request';
 import { DaDataSuggestion, DaDataAddress } from '../types';
 
@@ -20,12 +26,6 @@ beforeEach(() => {
 afterEach(() => {
   makeRequestMock.mockReset();
 });
-
-const delay = (ms: number) => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-};
 
 describe('AddressSuggestions', () => {
   it('is truthy', () => {
@@ -123,83 +123,69 @@ describe('AddressSuggestions', () => {
 
   it('it respects defaultQuery or value on mount', async () => {
     render(<AddressSuggestions token="TEST_TOKEN" />);
-    // TODO: Replace with .toHaveValue() when remove enzyme matchers
-    expect(await screen.findByRole('textbox')).toHaveAttribute('value', '');
+    expect(await screen.findByRole('textbox')).toHaveValue('');
     cleanup();
 
     render(<AddressSuggestions token="TEST_TOKEN" defaultQuery="My Query" />);
-    // TODO: Replace with .toHaveValue() when remove enzyme matchers
-    expect(await screen.findByRole('textbox')).toHaveAttribute('value', 'My Query');
+    expect(await screen.findByRole('textbox')).toHaveValue('My Query');
     cleanup();
 
     render(<AddressSuggestions token="TEST_TOKEN" defaultQuery="My Query" value={addressMockKrasnodar} />);
-    // TODO: Replace with .toHaveValue() when remove enzyme matchers
-    expect(await screen.findByRole('textbox')).toHaveAttribute('value', 'My Query');
+    expect(await screen.findByRole('textbox')).toHaveValue('My Query');
     cleanup();
 
     render(<AddressSuggestions token="TEST_TOKEN" value={addressMockKrasnodar} />);
-    // TODO: Replace with .toHaveValue() when remove enzyme matchers
-    expect(await screen.findByRole('textbox')).toHaveAttribute('value', 'Краснодарский край, Мостовский р-н');
+    expect(await screen.findByRole('textbox')).toHaveValue('Краснодарский край, Мостовский р-н');
   });
 
   it('change value changes input query', async () => {
-    const wrapper = mount<AddressSuggestions>(<AddressSuggestions token="TEST_TOKEN" />);
-    let input = wrapper.find('input.react-dadata__input');
-    expect(input).toHaveValue('');
-    wrapper.setProps({ value: addressMockKrasnodar });
-    wrapper.update();
-    input = wrapper.find('input.react-dadata__input');
-    expect(input).toHaveValue('Краснодарский край, Мостовский р-н');
+    const { rerender } = render(<AddressSuggestions token="TEST_TOKEN" />);
+
+    expect(await screen.findByRole('textbox')).toHaveValue('');
+
+    rerender(<AddressSuggestions token="TEST_TOKEN" value={addressMockKrasnodar} />);
+    expect(await screen.findByRole('textbox')).toHaveValue('Краснодарский край, Мостовский р-н');
   });
 
-  it('correctly navigate by keyboard down arrow', async () => {
-    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" />);
-    let input = wrapper.find('input.react-dadata__input');
-    input.simulate('focus');
-    input.simulate('change', { target: { value: 'Мо' } });
-    await delay(10);
-    wrapper.update();
-    expect(wrapper).toHaveState('suggestionIndex', -1);
-    let suggestionsWrapper = wrapper.find('ul.react-dadata__suggestions');
-    expect(suggestionsWrapper.exists()).toBe(true);
-    expect(suggestionsWrapper.find('button.react-dadata__suggestion').length).toBe(7);
-    input.simulate('keypress', { which: 40 });
-    await delay(10);
-    wrapper.update();
-    expect(wrapper).toHaveState('suggestionIndex', 0);
-    suggestionsWrapper = wrapper.find('ul.react-dadata__suggestions');
-    expect(suggestionsWrapper.find('button.react-dadata__suggestion').at(0)).toHaveClassName(
-      'react-dadata__suggestion--current',
-    );
-    input = wrapper.find('input.react-dadata__input');
+  it('correctly navigate by keyboard up and down arrows', async () => {
+    render(<AddressSuggestions token="TEST_TOKEN" />);
+
+    const input = await screen.findByRole('textbox');
+    userEvent.tab();
+    userEvent.type(input, 'М');
+
+    expect(await screen.findByRole('listbox')).toBeInTheDocument();
+    expect(screen.queryAllByRole('option')).toHaveLength(7);
+    expect(screen.queryByRole('option', { selected: true })).not.toBeInTheDocument();
+
+    userEvent.type(input, '{arrowdown}');
+    expect(screen.getByRole('option', { selected: true })).toBeInTheDocument();
+    expect(screen.getByRole('option', { selected: true })).toHaveTextContent('г Москва');
     expect(input).toHaveValue('г Москва');
-    input.simulate('keypress', { which: 40 });
-    await delay(10);
-    wrapper.update();
-    expect(wrapper).toHaveState('suggestionIndex', 1);
-    suggestionsWrapper = wrapper.find('ul.react-dadata__suggestions');
-    expect(suggestionsWrapper.find('button.react-dadata__suggestion').at(1)).toHaveClassName(
-      'react-dadata__suggestion--current',
-    );
-    input = wrapper.find('input.react-dadata__input');
+
+    userEvent.type(input, '{arrowdown}');
+    expect(screen.getByRole('option', { selected: true })).toHaveTextContent('Московская обл');
     expect(input).toHaveValue('Московская обл');
-    input.simulate('keypress', { which: 40 });
-    input.simulate('keypress', { which: 40 });
-    input.simulate('keypress', { which: 40 });
-    input.simulate('keypress', { which: 40 });
-    input.simulate('keypress', { which: 40 });
-    input.simulate('keypress', { which: 40 });
-    input.simulate('keypress', { which: 40 });
-    input.simulate('keypress', { which: 40 });
-    await delay(10);
-    wrapper.update();
-    expect(wrapper).toHaveState('suggestionIndex', 6);
-    suggestionsWrapper = wrapper.find('ul.react-dadata__suggestions');
-    expect(suggestionsWrapper.find('button.react-dadata__suggestion').at(6)).toHaveClassName(
-      'react-dadata__suggestion--current',
-    );
-    input = wrapper.find('input.react-dadata__input');
-    expect(input).toHaveValue('Удмуртская Респ, г Можга');
+
+    userEvent.type(input, '{arrowup}');
+    expect(screen.getByRole('option', { selected: true })).toHaveTextContent('г Москва');
+    expect(input).toHaveValue('г Москва');
+
+    userEvent.type(input, '{arrowdown}');
+    userEvent.type(input, '{arrowdown}');
+    userEvent.type(input, '{arrowdown}');
+    userEvent.type(input, '{arrowdown}');
+    userEvent.type(input, '{arrowdown}');
+    userEvent.type(input, '{arrowdown}');
+    userEvent.type(input, '{arrowdown}');
+    userEvent.type(input, '{arrowdown}');
+    userEvent.type(input, '{arrowdown}');
+    expect(screen.getByRole('option', { selected: true })).toHaveTextContent('Магаданская обл');
+    expect(input).toHaveValue('Магаданская обл');
+
+    userEvent.type(input, '{arrowdown}');
+    expect(screen.getByRole('option', { selected: true })).toHaveTextContent('Магаданская обл');
+    expect(input).toHaveValue('Магаданская обл');
   });
 
   it('correctly fire onKeyDown and onKeyPress', async () => {
@@ -224,41 +210,6 @@ describe('AddressSuggestions', () => {
     expect(handleKeyDownMock).toHaveBeenCalledTimes(1);
   });
 
-  it('correctly navigate by keyboard up arrow', async () => {
-    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" />);
-    let input = wrapper.find('input.react-dadata__input');
-    input.simulate('focus');
-    input.simulate('change', { target: { value: 'Мо' } });
-    await delay(10);
-    wrapper.update();
-    let suggestionsWrapper = wrapper.find('ul.react-dadata__suggestions');
-    expect(suggestionsWrapper.exists()).toBe(true);
-    expect(suggestionsWrapper.find('button.react-dadata__suggestion').length).toBe(7);
-    input.simulate('keypress', { which: 40 });
-    await delay(10);
-    wrapper.update();
-    expect(wrapper).toHaveState('suggestionIndex', 0);
-    suggestionsWrapper = wrapper.find('ul.react-dadata__suggestions');
-    expect(suggestionsWrapper.find('button.react-dadata__suggestion').at(0)).toHaveClassName(
-      'react-dadata__suggestion--current',
-    );
-    input = wrapper.find('input.react-dadata__input');
-    expect(input).toHaveValue('г Москва');
-    input.simulate('keypress', { which: 38 });
-    await delay(10);
-    wrapper.update();
-    input = wrapper.find('input.react-dadata__input');
-    expect(input).toHaveValue('Мо');
-    expect(wrapper).toHaveState('suggestionIndex', -1);
-    input.simulate('keypress', { which: 38 });
-    input.simulate('keypress', { which: 38 });
-    await delay(10);
-    wrapper.update();
-    input = wrapper.find('input.react-dadata__input');
-    expect(input).toHaveValue('Мо');
-    expect(wrapper).toHaveState('suggestionIndex', -1);
-  });
-
   it('correctly fire onChange by Enter', async () => {
     const handleChangeMock = jest.fn();
 
@@ -281,19 +232,21 @@ describe('AddressSuggestions', () => {
 
   it('correctly fire onChange by suggestion click', async () => {
     const handleChangeMock = jest.fn();
-    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" onChange={handleChangeMock} />);
-    const input = wrapper.find('input.react-dadata__input');
-    input.simulate('focus');
-    input.simulate('change', { target: { value: 'Мо' } });
-    await delay(10);
-    wrapper.update();
-    const suggestionsWrapper = wrapper.find('ul.react-dadata__suggestions');
-    expect(suggestionsWrapper.exists()).toBe(true);
-    expect(suggestionsWrapper.find('button.react-dadata__suggestion').length).toBe(7);
-    const firstSuggestion = suggestionsWrapper.find('button.react-dadata__suggestion').at(1);
-    firstSuggestion.simulate('mousedown');
-    expect(handleChangeMock.mock.calls.length).toBe(1);
-    expect(handleChangeMock.mock.calls[0][0].value).toBe('Московская обл');
+
+    render(<AddressSuggestions token="TEST_TOKEN" onChange={handleChangeMock} />);
+    const input = await screen.findByRole('textbox');
+
+    userEvent.tab();
+    userEvent.type(input, 'Мо', { delay: 0 });
+
+    const listBox = await screen.findByRole('listbox');
+    expect(listBox).toBeInTheDocument();
+
+    const options = queryAllByRole(listBox, 'option');
+
+    userEvent.click(options[1]);
+    expect(handleChangeMock).toHaveBeenCalledTimes(1);
+    expect(handleChangeMock).toHaveBeenCalledWith(addressMocks['Мо'][1]);
   });
 
   it('correctly send http parameters', async () => {
@@ -356,8 +309,7 @@ describe('AddressSuggestions', () => {
     render(<AddressSuggestions token="TEST_TOKEN" ref={ref} />);
 
     ref.current?.setInputValue('Test Value');
-    // TODO: Replace with .toHaveValue() when remove enzyme matchers
-    expect(await screen.findByRole('textbox')).toHaveAttribute('value', 'Test Value');
+    expect(await screen.findByRole('textbox')).toHaveValue('Test Value');
   });
 
   it('fires ref method focus fired', async () => {
@@ -371,19 +323,22 @@ describe('AddressSuggestions', () => {
 
   it('correctly renders with renderOption', async () => {
     const renderOption: (suggestion: DaDataSuggestion<DaDataAddress>) => ReactNode = (suggestion) => {
-      return <span className="test-class">{suggestion.data.country}</span>;
+      return <span className="test-class">RenderOption {suggestion.data.country}</span>;
     };
-    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" renderOption={renderOption} />);
-    const input = wrapper.find('input.react-dadata__input');
-    input.simulate('focus');
-    input.simulate('change', { target: { value: 'Мо' } });
-    await delay(10);
-    wrapper.update();
-    const suggestionsWrapper = wrapper.find('ul.react-dadata__suggestions');
-    expect(suggestionsWrapper.exists()).toBe(true);
-    expect(suggestionsWrapper.find('button.react-dadata__suggestion').at(0).html()).toBe(
-      '<button role="option" aria-selected="false" class="react-dadata__suggestion"><span class="test-class">Россия</span></button>',
-    );
+
+    render(<AddressSuggestions token="TEST_TOKEN" renderOption={renderOption} />);
+
+    const input = await screen.findByRole('textbox');
+    userEvent.tab();
+    userEvent.type(input, 'Мо');
+
+    const listBox = await screen.findByRole('listbox');
+    expect(listBox).toBeInTheDocument();
+
+    const suggestions = await findAllByRole(listBox, 'option');
+    expect(suggestions).toHaveLength(7);
+
+    expect(suggestions[0]).toHaveTextContent('RenderOption Россия');
   });
 
   it('correctly renders with customInput', async () => {
