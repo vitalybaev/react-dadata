@@ -20,6 +20,12 @@ import { DaDataSuggestion, DaDataAddress } from '../types';
 let server: SetupServerApi;
 let requestCalls: any[] = [];
 
+const delay = (ms: number) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+};
+
 beforeEach(() => {
   requestCalls = [];
 
@@ -86,8 +92,11 @@ describe('AddressSuggestions', () => {
 
   it('correctly types and selects suggestions', async () => {
     const handleFocusMock = jest.fn();
+    const handleChangeMock = jest.fn();
 
-    render(<AddressSuggestions token="TEST_TOKEN" inputProps={{ onFocus: handleFocusMock }} />);
+    render(
+      <AddressSuggestions token="TEST_TOKEN" onChange={handleChangeMock} inputProps={{ onFocus: handleFocusMock }} />,
+    );
 
     const input = await screen.findByRole('textbox');
 
@@ -101,6 +110,9 @@ describe('AddressSuggestions', () => {
     const listBox = await screen.findByRole('listbox');
     expect(listBox).toBeInTheDocument();
     expect(getAllByRole(listBox, 'option')).toHaveLength(7);
+    fireEvent.mouseDown(screen.getAllByRole('option')[0]);
+    expect(input).toHaveFocus();
+    await delay(50);
   });
 
   it('correctly fires blur', async () => {
