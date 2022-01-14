@@ -20,6 +20,7 @@ export class AddressSuggestions extends BaseSuggestions<DaDataAddress, Props> {
     const { count, filterFromBound, filterToBound, filterLocations, filterLocationsBoost, filterLanguage } = this.props;
     const { query } = this.state;
 
+    // TODO: Type this params
     const requestPayload: any = {
       query,
       count: count || 10,

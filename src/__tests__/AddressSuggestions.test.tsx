@@ -7,24 +7,39 @@ import {
   queryAllByRole,
   render,
   screen,
+  waitFor,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { rest } from 'msw';
+import { setupServer, SetupServerApi } from 'msw/node';
 import { AddressSuggestions } from '../AddressSuggestions';
-import { createAddressMock, addressMockKrasnodar, requestCalls, addressMocks } from './mocks';
 import * as requestModule from '../request';
+import { addressMockKrasnodar, addressMocks, createAddressMock, mockedRequestCalls } from './mocks';
 import { DaDataSuggestion, DaDataAddress } from '../types';
 
-let makeRequestMock: jest.SpyInstance;
+let server: SetupServerApi;
+let requestCalls: any[] = [];
 
 beforeEach(() => {
-  requestCalls.length = 0;
+  requestCalls = [];
 
-  makeRequestMock = jest.spyOn(requestModule, 'makeRequest');
-  makeRequestMock.mockImplementation(createAddressMock());
+  server = setupServer(
+    rest.post<{ query?: string }>('*/suggestions/api/4_1/rs/suggest/address', (req, res, ctx) => {
+      requestCalls.push({ method: req.method, endpoint: req.url.toString(), data: req.body });
+
+      const { query } = req.body;
+      if (query && typeof query === 'string') {
+        return res(ctx.json({ suggestions: addressMocks[query] }));
+      }
+      return res(ctx.json({ suggestions: [] }));
+    }),
+  );
+
+  server.listen();
 });
 
 afterEach(() => {
-  makeRequestMock.mockReset();
+  server.close();
 });
 
 describe('AddressSuggestions', () => {
@@ -265,22 +280,30 @@ describe('AddressSuggestions', () => {
     const input = await screen.findByRole('textbox');
     userEvent.tab();
 
-    expect(requestCalls.length).toBe(1);
-    expect(requestCalls[0].data.json.query).toBe('');
-    expect(requestCalls[0].endpoint).toBe('https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address');
+    await waitFor(() => {
+      expect(requestCalls.length).toBe(1);
+      expect(requestCalls.length).toBe(1);
+      expect(requestCalls[0].data.query).toBe('');
+      expect(requestCalls[0].endpoint).toBe('https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address');
+    });
 
     userEvent.type(input, 'Мо');
 
-    expect(requestCalls.length).toBe(3);
-    expect(requestCalls[2].data.json.query).toBe('Мо');
-    expect(requestCalls[2].data.json.language).toBe('en');
-    expect(requestCalls[2].data.json.from_bound).toEqual({ value: 'country' });
-    expect(requestCalls[2].data.json.to_bound).toEqual({ value: 'street' });
-    expect(requestCalls[2].data.json.locations).toEqual([{ kladr_id: '65' }]);
-    expect(requestCalls[2].data.json.locations_boost).toEqual([{ kladr_id: '77' }]);
+    await waitFor(() => {
+      expect(requestCalls.length).toBe(3);
+      expect(requestCalls[2].data.query).toBe('Мо');
+      expect(requestCalls[2].data.language).toBe('en');
+      expect(requestCalls[2].data.from_bound).toEqual({ value: 'country' });
+      expect(requestCalls[2].data.to_bound).toEqual({ value: 'street' });
+      expect(requestCalls[2].data.locations).toEqual([{ kladr_id: '65' }]);
+      expect(requestCalls[2].data.locations_boost).toEqual([{ kladr_id: '77' }]);
+    });
   });
 
   it('respects debounce', async () => {
+    const makeRequestMock = jest.spyOn(requestModule, 'makeRequest');
+    makeRequestMock.mockImplementation(createAddressMock());
+
     jest.useFakeTimers();
 
     render(<AddressSuggestions token="TEST_TOKEN" />);
@@ -289,18 +312,29 @@ describe('AddressSuggestions', () => {
     userEvent.tab();
     userEvent.type(input, 'Мо');
 
-    expect(requestCalls.length).toBe(3);
+    expect(mockedRequestCalls.length).toBe(3);
 
     cleanup();
-    render(<AddressSuggestions token="TEST_TOKEN" delay={50} />);
+
+    const { rerender } = render(<AddressSuggestions token="TEST_TOKEN" delay={50} />);
 
     userEvent.tab();
     userEvent.type(input, 'Мо');
 
-    expect(requestCalls.length).toBe(3);
+    expect(mockedRequestCalls.length).toBe(3);
     jest.advanceTimersByTime(50);
-    expect(requestCalls.length).toBe(4);
-    expect(requestCalls[3].data.json.query).toBe('Мо');
+    expect(mockedRequestCalls.length).toBe(4);
+    expect(mockedRequestCalls[3].data.json.query).toBe('Мо');
+
+    rerender(<AddressSuggestions token="TEST_TOKEN" delay={100} />);
+    userEvent.type(input, 'ск');
+    expect(mockedRequestCalls.length).toBe(4);
+    jest.advanceTimersByTime(50);
+    expect(mockedRequestCalls.length).toBe(4);
+    jest.advanceTimersByTime(50);
+    expect(mockedRequestCalls.length).toBe(5);
+    expect(mockedRequestCalls[4].data.json.query).toBe('Моск');
+
     jest.useRealTimers();
   });
 
@@ -375,14 +409,18 @@ describe('AddressSuggestions', () => {
   });
 
   it('uses url property if provided', async () => {
-    render(<AddressSuggestions token="TEST_TOKEN" url="https://example.com" />);
+    const makeRequestMock = jest.spyOn(requestModule, 'makeRequest');
+
+    render(<AddressSuggestions token="TEST_TOKEN" url="https://example.com/suggestions/api/4_1/rs/suggest/address" />);
 
     const input = await screen.findByRole('textbox');
 
     userEvent.tab();
     userEvent.type(input, 'Мос');
 
-    expect(makeRequestMock.mock.calls[makeRequestMock.mock.calls.length - 1][1]).toBe('https://example.com');
+    expect(makeRequestMock.mock.calls[makeRequestMock.mock.calls.length - 1][1]).toBe(
+      'https://example.com/suggestions/api/4_1/rs/suggest/address',
+    );
   });
 
   it('respects selectOnBlur prop', async () => {
