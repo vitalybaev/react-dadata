@@ -1,6 +1,6 @@
 import React, { HTMLProps, ReactNode } from 'react';
 import { mount } from 'enzyme';
-import { findByRole, getAllByRole, render, screen } from '@testing-library/react';
+import { findByRole, fireEvent, getAllByRole, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { AddressSuggestions } from '../AddressSuggestions';
 import { createAddressMock, addressMockKrasnodar, requestCalls } from './mocks';
@@ -199,7 +199,7 @@ describe('AddressSuggestions', () => {
   it('correctly fire onKeyDown and onKeyPress', async () => {
     const handleKeyDownMock = jest.fn();
     const handleKeyPressMock = jest.fn();
-    const wrapper = mount(
+    render(
       <AddressSuggestions
         token="TEST_TOKEN"
         inputProps={{
@@ -208,13 +208,14 @@ describe('AddressSuggestions', () => {
         }}
       />,
     );
-    const input = wrapper.find('input.react-dadata__input');
-    input.simulate('focus');
-    input.simulate('change', { target: { value: 'Мо' } });
-    input.simulate('keypress', { which: 40 });
-    input.simulate('keydown', { which: 40 });
-    expect(handleKeyDownMock.mock.calls.length).toBe(1);
-    expect(handleKeyPressMock.mock.calls.length).toBe(1);
+
+    const input = await screen.findByRole('textbox');
+
+    fireEvent.keyPress(input, { key: 'ArrowDown', charCode: 40 });
+    expect(handleKeyPressMock).toHaveBeenCalledTimes(1);
+
+    fireEvent.keyDown(input, { key: 'ArrowDown', charCode: 40 });
+    expect(handleKeyDownMock).toHaveBeenCalledTimes(1);
   });
 
   it('correctly navigate by keyboard up arrow', async () => {
@@ -254,22 +255,20 @@ describe('AddressSuggestions', () => {
 
   it('correctly fire onChange by Enter', async () => {
     const handleChangeMock = jest.fn();
-    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" onChange={handleChangeMock} />);
-    let input = wrapper.find('input.react-dadata__input');
-    input.simulate('focus');
-    input.simulate('change', { target: { value: 'Мо' } });
-    await delay(10);
-    wrapper.update();
-    const suggestionsWrapper = wrapper.find('ul.react-dadata__suggestions');
-    expect(suggestionsWrapper.exists()).toBe(true);
-    expect(suggestionsWrapper.find('button.react-dadata__suggestion').length).toBe(7);
-    input.simulate('keypress', { which: 13 });
-    input = wrapper.find('input.react-dadata__input');
-    expect(handleChangeMock.mock.calls.length).toBe(0);
-    input.simulate('keydown', { which: 40 });
-    input = wrapper.find('input.react-dadata__input');
-    input.simulate('keypress', { which: 13 });
-    await delay(10);
+
+    render(<AddressSuggestions token="TEST_TOKEN" onChange={handleChangeMock} />);
+
+    const input = await screen.findByRole('textbox');
+
+    userEvent.tab();
+    userEvent.type(input, 'Мо');
+
+    expect(await screen.findByRole('listbox')).toBeInTheDocument();
+    userEvent.type(input, '{enter}');
+
+    expect(handleChangeMock).toBeCalledTimes(0);
+    userEvent.type(input, '{arrowdown}{enter}');
+
     expect(handleChangeMock.mock.calls.length).toBe(1);
     expect(handleChangeMock.mock.calls[0][0].value).toBe('г Москва');
   });
@@ -392,16 +391,19 @@ describe('AddressSuggestions', () => {
         return suggestion.value;
       },
     );
-    const wrapper = mount(<AddressSuggestions token="TEST_TOKEN" renderOption={renderOption} />);
-    const input = wrapper.find('input.react-dadata__input');
-    input.simulate('focus');
-    input.simulate('change', { target: { value: 'Мо' } });
-    await delay(0);
+
+    render(<AddressSuggestions token="TEST_TOKEN" renderOption={renderOption} />);
+
+    const input = await screen.findByRole('textbox');
+
+    userEvent.tab();
+    userEvent.type(input, 'Мо');
+
+    expect(await screen.findByRole('listbox')).toBeInTheDocument();
 
     expect(renderOption.mock.calls[renderOption.mock.calls.length - 1][1]).toBe('Мо');
 
-    input.simulate('change', { target: { value: 'Мос' } });
-    await delay(0);
+    userEvent.type(input, 'с');
     expect(renderOption.mock.calls[renderOption.mock.calls.length - 1][1]).toBe('Мос');
   });
 
