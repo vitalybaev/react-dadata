@@ -453,4 +453,16 @@ describe('AddressSuggestions', () => {
     expect(handleChangeMock.mock.calls.length).toBe(1);
     expect(handleChangeMock.mock.calls[0][0].value).toBe('г Москва');
   });
+
+  it('uses uid prop', async () => {
+    const { rerender } = render(<AddressSuggestions token="TEST_TOKEN" />);
+
+    const combobox = await screen.findByRole('combobox');
+    expect(combobox.getAttribute('aria-owns')).toBeTruthy();
+    expect(combobox.getAttribute('aria-owns')).toEqual(combobox.getAttribute('aria-controls'));
+
+    rerender(<AddressSuggestions token="TEST_TOKEN" uid="dadata-address-order-page" />);
+    expect(combobox.getAttribute('aria-owns')).toBe('dadata-address-order-page');
+    expect(combobox.getAttribute('aria-controls')).toBe('dadata-address-order-page');
+  });
 });

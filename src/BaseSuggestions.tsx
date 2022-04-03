@@ -47,7 +47,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
 
   protected dontPerformBlurHandler = false;
 
-  protected uid: string;
+  protected _uid?: string;
 
   protected didMount: boolean;
 
@@ -59,7 +59,6 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
   constructor(props: BaseProps<SuggestionType> & OwnProps) {
     super(props);
 
-    this.uid = nanoid();
     this.didMount = false;
 
     const { defaultQuery, value, delay } = this.props;
@@ -98,6 +97,16 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
 
   componentWillUnmount() {
     this.didMount = false;
+  }
+
+  get uid(): string {
+    if (this.props.uid) {
+      return this.props.uid;
+    }
+    if (!this._uid) {
+      this._uid = nanoid();
+    }
+    return this._uid!;
   }
 
   protected getSuggestionsUrl = (): string => {
