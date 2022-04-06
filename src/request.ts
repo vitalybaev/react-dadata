@@ -1,3 +1,5 @@
+import type { HttpCache } from './http-cache';
+
 export interface RequestOptions {
   headers: { [header: string]: string };
   json: any;
@@ -9,12 +11,27 @@ export const makeRequest = (
   method: string,
   endpoint: string,
   data: RequestOptions,
+  cache: HttpCache | null,
   onReceiveData: (response: any) => void,
 ): void => {
   if (xhr) {
     xhr.abort();
   }
 
+  let cacheKey: string;
+  if (cache) {
+    cacheKey = cache.serializeCacheKey({
+      headers: data.headers,
+      body: data.json,
+      url: endpoint,
+      method,
+    });
+    const cachedData = cache.get(cacheKey);
+    if (cachedData) {
+      onReceiveData(cachedData);
+      return;
+    }
+  }
   xhr = new XMLHttpRequest();
   xhr.open(method, endpoint);
   if (data.headers) {
@@ -30,9 +47,10 @@ export const makeRequest = (
     }
 
     if (xhr.status === 200) {
-      const responseJson = JSON.parse(xhr.response);
-      if (responseJson && responseJson.suggestions) {
-        onReceiveData(responseJson.suggestions);
+      const payload = JSON.parse(xhr.response)?.suggestions;
+      if (payload) {
+        cache?.set(cacheKey, payload);
+        onReceiveData(payload);
       }
     }
   };

@@ -2018,7 +2018,7 @@ export const mockedRequestCalls: any[] = [];
 
 export const createAddressMock =
   (wait?: number) =>
-  (method: string, endpoint: string, data: RequestOptions, onReceiveData: (response: any) => void): void => {
+  (method: string, endpoint: string, data: RequestOptions, cache: any, onReceiveData: (response: any) => void): void => {
     mockedRequestCalls.push({ method, endpoint, data });
 
     if (data.json.query) {
