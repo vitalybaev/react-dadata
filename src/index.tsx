@@ -44,3 +44,4 @@ export {
   DaDataFioSuggestion,
   DaDataGender,
 };
+export { HttpCache } from './http-cache';

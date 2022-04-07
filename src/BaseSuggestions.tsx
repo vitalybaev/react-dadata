@@ -4,6 +4,7 @@ import { debounce } from 'debounce';
 import { nanoid } from 'nanoid';
 import { CommonProps, DaDataSuggestion } from './types';
 import { makeRequest } from './request';
+import { DefaultHttpCache, HttpCache } from './http-cache';
 
 export type BaseProps<SuggestionType> = CommonProps<SuggestionType>;
 
@@ -107,6 +108,21 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
       this._uid = nanoid();
     }
     return this._uid!;
+  }
+
+  get httpCache(): HttpCache | null {
+    const { httpCache: cacheProp, httpCacheTtl: ttl } = this.props;
+    if (!cacheProp) {
+      return null;
+    }
+    if (cacheProp instanceof HttpCache) {
+      return cacheProp;
+    }
+    const cache = DefaultHttpCache.shared;
+    if (typeof ttl === 'number') {
+      cache.ttl = ttl;
+    }
+    return cache;
   }
 
   protected getSuggestionsUrl = (): string => {
@@ -255,6 +271,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
         },
         json: this.getLoadSuggestionsData() || {},
       },
+      this.httpCache,
       (suggestions) => {
         if (this.didMount) {
           this.setState({ suggestions, suggestionIndex: -1 });

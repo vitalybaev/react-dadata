@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import { ElementType, HTMLProps, ReactNode } from 'react';
+import type { HttpCache } from './http-cache';
 
 type Nullable<T> = T | null;
 
@@ -34,6 +35,16 @@ export interface CommonProps<SuggestionType> {
   customInput?: ElementType;
   selectOnBlur?: boolean;
   uid?: string;
+  /**
+   * Необходимо ли кешировать HTTP-запросы?
+   * Возможно передать собственный кеш наследующий {@link HttpCache}.
+   */
+  httpCache?: boolean | HttpCache;
+  /**
+   * Время жизни кеша в миллисекундах.
+   * Игнорируется если был передан собственный {@link HttpCache}.
+   */
+  httpCacheTtl?: number;
 }
 
 export interface DaDataAddressMetro {
