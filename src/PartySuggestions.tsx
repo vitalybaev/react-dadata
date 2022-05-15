@@ -8,6 +8,7 @@ type Dictionary = { [key: string]: any };
 interface Props extends BaseProps<DaDataParty> {
   filterStatus?: DaDataPartyStatus[];
   filterType?: DaDataPartyType;
+  filterOkved?: string[];
   filterLocations?: Dictionary[];
   filterLocationsBoost?: Dictionary[];
 }
@@ -15,11 +16,11 @@ interface Props extends BaseProps<DaDataParty> {
 export class PartySuggestions extends BaseSuggestions<DaDataParty, Props> {
   loadSuggestionsUrl = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/party';
 
-  getLoadSuggestionsData = (): unknown => {
-    const { count, filterStatus, filterType, filterLocations, filterLocationsBoost } = this.props;
+  getLoadSuggestionsData = (): Record<string, unknown> => {
+    const { count, filterStatus, filterType, filterOkved, filterLocations, filterLocationsBoost } = this.props;
     const { query } = this.state;
 
-    const requestPayload: any = {
+    const requestPayload: Record<string, unknown> = {
       query,
       count: count || 10,
     };
@@ -27,6 +28,12 @@ export class PartySuggestions extends BaseSuggestions<DaDataParty, Props> {
     // Ограничение по статусу организации
     if (filterStatus) {
       requestPayload.status = filterStatus;
+    }
+
+    // Ограничение по ОКВЭД
+    // @see https://confluence.hflabs.ru/pages/viewpage.action?pageId=1093075333
+    if (filterOkved) {
+      requestPayload.okved = filterOkved;
     }
 
     // Ограничение по типу организации

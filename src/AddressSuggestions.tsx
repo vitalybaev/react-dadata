@@ -16,12 +16,12 @@ interface Props extends BaseProps<DaDataAddress> {
 export class AddressSuggestions extends BaseSuggestions<DaDataAddress, Props> {
   loadSuggestionsUrl = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address';
 
-  getLoadSuggestionsData = (): unknown => {
+  getLoadSuggestionsData = (): Record<string, unknown> => {
     const { count, filterFromBound, filterToBound, filterLocations, filterLocationsBoost, filterLanguage } = this.props;
     const { query } = this.state;
 
     // TODO: Type this params
-    const requestPayload: any = {
+    const requestPayload: Record<string, unknown> = {
       query,
       count: count || 10,
     };
@@ -60,6 +60,7 @@ export class AddressSuggestions extends BaseSuggestions<DaDataAddress, Props> {
       <HighlightWords
         highlightClassName={highlightClassName || 'react-dadata--highlighted'}
         words={this.getHighlightWords()}
+        tagName="mark"
         text={suggestion.value}
       />
     );

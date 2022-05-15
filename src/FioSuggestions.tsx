@@ -11,11 +11,11 @@ interface Props extends BaseProps<DaDataFio> {
 export class FioSuggestions extends BaseSuggestions<DaDataFio, Props> {
   loadSuggestionsUrl = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fio';
 
-  getLoadSuggestionsData = (): unknown => {
+  getLoadSuggestionsData = (): Record<string, unknown> => {
     const { count, filterGender, filterParts } = this.props;
     const { query } = this.state;
 
-    const requestPayload: any = {
+    const requestPayload: Record<string, unknown> = {
       query,
       count: count || 10,
     };

@@ -142,7 +142,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
   /**
    * Функция, которая вернет данные для отправки для получения подсказок
    */
-  protected abstract getLoadSuggestionsData(): unknown;
+  protected abstract getLoadSuggestionsData(): Record<string, unknown>;
 
   protected fetchSuggestions = (): void => {
     //
@@ -269,7 +269,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
           Authorization: `Token ${token}`,
           'Content-Type': 'application/json',
         },
-        json: this.getLoadSuggestionsData() || {},
+        json: this.getLoadSuggestionsData(),
       },
       this.httpCache,
       (suggestions) => {

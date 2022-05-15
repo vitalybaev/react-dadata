@@ -15,11 +15,11 @@ interface Props extends BaseProps<DaDataBank> {
 export class BankSuggestions extends BaseSuggestions<DaDataBank, Props> {
   loadSuggestionsUrl = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/bank';
 
-  getLoadSuggestionsData = (): unknown => {
+  getLoadSuggestionsData = (): Record<string, unknown> => {
     const { count, filterStatus, filterType, filterLocations, filterLocationsBoost } = this.props;
     const { query } = this.state;
 
-    const requestPayload: any = {
+    const requestPayload: Record<string, unknown> = {
       query,
       count: count || 10,
     };

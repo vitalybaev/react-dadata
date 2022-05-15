@@ -157,7 +157,18 @@ export type DaDataPartyType = 'LEGAL' | 'INDIVIDUAL';
 
 export type DaDataPartyBranchType = 'MAIN' | 'BRANCH';
 
-export type DaDataPartyStatus = 'ACTIVE' | 'LIQUIDATING' | 'LIQUIDATED' | 'REORGANIZING';
+export type DaDataPartyStatus = 'ACTIVE' | 'LIQUIDATING' | 'LIQUIDATED' | 'REORGANIZING' | 'BANKRUPT';
+
+/**
+ * @see https://dadata.ru/api/suggest/party/#response
+ */
+interface DaDataPartyAddress
+  extends Omit<DaDataAddress, 'qc' | 'house_cadnum' | 'stead_kladr_id' | 'floor' | 'flat_price'> {
+  qc: '0' | '1' | '3';
+  house_cadnum: Nullable<string>;
+  floor: Nullable<string>;
+  flat_price: Nullable<string>;
+}
 
 export interface DaDataParty {
   inn: string;
@@ -165,6 +176,7 @@ export interface DaDataParty {
   ogrn: string;
   ogrn_date: number;
   hid: string;
+  capital: Nullable<string>;
   type: DaDataPartyType;
   name: {
     full_with_opf: string;
@@ -173,28 +185,57 @@ export interface DaDataParty {
     full: string;
     short: string;
   };
-  okpo: null;
+  okpo: Nullable<string>;
+  okato: Nullable<string>;
+  oktmo: Nullable<string>;
+  okogu: Nullable<string>;
+  okfs: Nullable<string>;
   okved: string;
   okved_type: string;
+  okveds: Nullable<string[]>;
+  authorities: null;
+  documents: null;
+  licenses: null;
+  phones: null;
+  emails: null;
+  employee_count: Nullable<string>;
+  finance: Nullable<{
+    tax_system: Nullable<string>;
+    income: Nullable<string>;
+    expense: Nullable<string>;
+    debt: Nullable<string>;
+    penalty: Nullable<string>;
+    year: Nullable<string>;
+  }>;
   opf: {
     code: string;
     type: string;
     full: string;
     short: string;
   };
-  management?: {
+  management?: Nullable<{
     name: string;
     post: string;
-  };
+    disqualified: Nullable<string>;
+  }>;
+  founders: Nullable<string[]>;
+  managers: Nullable<string[]>;
+  predecessors: Nullable<string[]>;
+  successors: Nullable<string[]>;
   branch_count?: number;
   branch_type?: DaDataPartyBranchType;
-  address: DaDataSuggestion<DaDataAddress>;
+  address: DaDataSuggestion<DaDataPartyAddress>;
   state: {
     actuality_date: number;
     registration_date: number;
     liquidation_date: Nullable<number>;
     status: DaDataPartyStatus;
+    // TODO: Добавить информацию по статусам
+    // https://github.com/hflabs/party-state/blob/master/party-state.csv
+    code: Nullable<string>;
   };
+  source: null;
+  qc: null;
 }
 
 export type DaDataBankType = 'BANK' | 'BANK_BRANCH' | 'NKO' | 'NKO_BRANCH' | 'RKC' | 'OTHER';

@@ -1,4 +1,4 @@
-import React, { createRef, HTMLProps, ReactNode } from 'react';
+import React, { createRef, forwardRef, HTMLProps, ReactNode } from 'react';
 import {
   cleanup,
   findAllByRole,
@@ -76,7 +76,7 @@ describe('AddressSuggestions', () => {
     expect(input).toHaveAttribute('class', 'input-class-name');
   });
 
-  it('correctly fires onChange callback', async () => {
+  it("correctly fires input's onChange callback", async () => {
     const handleChangeMock = jest.fn();
 
     render(<AddressSuggestions token="TEST_TOKEN" inputProps={{ onChange: handleChangeMock }} />);
@@ -110,9 +110,8 @@ describe('AddressSuggestions', () => {
     const listBox = await screen.findByRole('listbox');
     expect(listBox).toBeInTheDocument();
     expect(getAllByRole(listBox, 'option')).toHaveLength(7);
-    fireEvent.mouseDown(screen.getAllByRole('option')[0]);
+    userEvent.click(screen.getAllByRole('option')[0]);
     expect(input).toHaveFocus();
-    await delay(50);
   });
 
   it('correctly fires blur', async () => {
@@ -388,7 +387,7 @@ describe('AddressSuggestions', () => {
   });
 
   it('correctly renders with customInput', async () => {
-    const CustomInput = React.forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>>((props, ref) => (
+    const CustomInput = forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>>((props, ref) => (
       <input ref={ref} {...props} data-some-attr="foo" />
     ));
 
@@ -399,7 +398,7 @@ describe('AddressSuggestions', () => {
   });
 
   it('passes current input value to renderOption', async () => {
-    const renderOption = jest.fn<React.ReactNode, [DaDataSuggestion<DaDataAddress>, string]>(
+    const renderOption = jest.fn<ReactNode, [DaDataSuggestion<DaDataAddress>, string]>(
       (suggestion: DaDataSuggestion<DaDataAddress>): ReactNode => {
         return suggestion.value;
       },
