@@ -53,6 +53,8 @@ export interface DaDataAddressMetro {
   distance: number;
 }
 
+export type DaDataAddressBeltwayHit = 'IN_MKAD' | 'OUT_MKAD' | 'IN_KAD' | 'OUT_KAD';
+
 export interface DaDataAddress {
   area: Nullable<string>;
   area_fias_id: Nullable<string>;
@@ -60,8 +62,8 @@ export interface DaDataAddress {
   area_type: Nullable<string>;
   area_type_full: Nullable<string>;
   area_with_type: Nullable<string>;
-  beltway_distance: null;
-  beltway_hit: null;
+  beltway_distance: Nullable<string>;
+  beltway_hit: Nullable<DaDataAddressBeltwayHit>;
   block: Nullable<string>;
   block_type: Nullable<string>;
   block_type_full: Nullable<string>;
@@ -85,10 +87,12 @@ export interface DaDataAddress {
   fias_id: string;
   fias_level: string;
   flat: Nullable<string>;
-  flat_area: null;
+  flat_area: Nullable<string>;
   flat_price: null;
   flat_type: Nullable<string>;
   flat_type_full: Nullable<string>;
+  flat_fias_id?: Nullable<string>;
+  flat_cadnum?: null;
   geo_lat: Nullable<string>;
   geo_lon: Nullable<string>;
   geoname_id: Nullable<string>;
@@ -98,6 +102,9 @@ export interface DaDataAddress {
   house_kladr_id: Nullable<string>;
   house_type: Nullable<string>;
   house_type_full: Nullable<string>;
+  house_cadnum?: null;
+  entrance?: null;
+  floor?: null;
   kladr_id: string;
   okato: Nullable<string>;
   oktmo: Nullable<string>;
@@ -120,13 +127,19 @@ export interface DaDataAddress {
   settlement_type_full: Nullable<string>;
   settlement_with_type: Nullable<string>;
   source: Nullable<string>;
-  square_meter_price: null;
+  square_meter_price?: Nullable<string>;
   street: Nullable<string>;
   street_fias_id: Nullable<string>;
   street_kladr_id: Nullable<string>;
   street_type: Nullable<string>;
   street_type_full: Nullable<string>;
   street_with_type: Nullable<string>;
+  stead?: Nullable<string>;
+  stead_fias_id?: Nullable<string>;
+  stead_kladr_id?: Nullable<string>;
+  stead_type?: Nullable<string>;
+  stead_type_full?: Nullable<string>;
+  stead_cadnum?: null;
   tax_office: Nullable<string>;
   tax_office_legal: Nullable<string>;
   timezone: Nullable<string>;
@@ -135,6 +148,7 @@ export interface DaDataAddress {
   region_iso_code: string;
   fias_actuality_state: string;
   metro: Nullable<DaDataAddressMetro[]>;
+  divisions?: unknown;
 }
 
 export type DaDataAddressBounds = 'country' | 'region' | 'area' | 'city' | 'settlement' | 'street' | 'houses';
