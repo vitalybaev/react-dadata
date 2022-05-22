@@ -8,7 +8,7 @@
 [![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-dadata)](https://bundlephobia.com/result?p=react-dadata)
 ![licence](https://img.shields.io/npm/l/react-dadata)
 
-Легковесный (**~4 kb min gzip**), типизированный и настраиваемый React компонент для подсказок **адресов, организаций, банков и ФИО** с помощью сервиса DaData.ru
+Лёгкий (**~5 kb min gzip**), типизированный и настраиваемый React компонент для подсказок **адресов, организаций, банков и ФИО** с помощью сервиса DaData.ru
 
 [Демонстрация](https://vitalybaev.github.io/react-dadata/)
 
