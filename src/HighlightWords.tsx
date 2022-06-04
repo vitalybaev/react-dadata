@@ -16,16 +16,16 @@ export class HighlightWords extends PureComponent<Props> {
     const chunks = highlightWords({ text, query });
 
     return (
-      <span>
+      <span aria-label={text}>
         {chunks.map((chunk) => {
           if (!chunk.match) {
-            return <span key={chunk.key}>{chunk.text}</span>;
+            return <span key={chunk.key} aria-hidden>{chunk.text}</span>;
           }
 
           const Component = tagName;
 
           return (
-            <Component key={chunk.key} className={highlightClassName}>
+            <Component key={chunk.key} className={highlightClassName} aria-hidden>
               {chunk.text}
             </Component>
           );
