@@ -282,3 +282,12 @@ export interface DaDataFio {
   qc: '0' | '1';
   source: null;
 }
+
+export interface DaDataEmail {
+  local: Nullable<string>;
+  domain: Nullable<string>;
+  // type, qc и source зарезервированы для стандартизации и приходят как null в подсказках
+  type: null;
+  qc: null;
+  source: null;
+}

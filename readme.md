@@ -8,7 +8,7 @@
 [![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-dadata)](https://bundlephobia.com/result?p=react-dadata)
 ![licence](https://img.shields.io/npm/l/react-dadata)
 
-Лёгкий (**~5 kb min gzip**), типизированный и настраиваемый React компонент для подсказок **адресов, организаций, банков и ФИО** с помощью сервиса DaData.ru
+Лёгкий (**~5 kb min gzip**), типизированный и настраиваемый React компонент для подсказок **адресов, организаций, банков, ФИО и email** с помощью сервиса DaData.ru
 
 [Демонстрация](https://vitalybaev.github.io/react-dadata/)
 
@@ -199,6 +199,17 @@ const [value, setValue] = useState();
 | ------------ | ------------ | ------------------------------ | ---------------------- |
 | filterGender | Нет          | `UNKNOWN`, `MALE` или `FEMALE` | Фильтр по полу         |
 | filterParts  | Нет          | string[]                       | Подсказки по части ФИО |
+
+### Email
+
+```jsx
+import { EmailSuggestions } from 'react-dadata';
+import 'react-dadata/dist/react-dadata.css';
+
+const [value, setValue] = useState();
+
+<EmailSuggestions token="API_KEY" value={value} onChange={setValue} />;
+```
 
 ## Стилизация
 
