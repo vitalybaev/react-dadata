@@ -11,13 +11,22 @@ interface Props extends BaseProps<DaDataAddress> {
   filterToBound?: DaDataAddressBounds;
   filterLocations?: Dictionary[];
   filterLocationsBoost?: Dictionary[];
+  filterRestrictValue?: boolean;
 }
 
 export class AddressSuggestions extends BaseSuggestions<DaDataAddress, Props> {
   loadSuggestionsUrl = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address';
 
   getLoadSuggestionsData = (): Record<string, unknown> => {
-    const { count, filterFromBound, filterToBound, filterLocations, filterLocationsBoost, filterLanguage } = this.props;
+    const {
+      count,
+      filterFromBound,
+      filterToBound,
+      filterLocations,
+      filterLocationsBoost,
+      filterLanguage,
+      filterRestrictValue,
+    } = this.props;
     const { query } = this.state;
 
     // TODO: Type this params
@@ -45,6 +54,11 @@ export class AddressSuggestions extends BaseSuggestions<DaDataAddress, Props> {
     // Приоритет города при ранжировании
     if (filterLocationsBoost) {
       requestPayload.locations_boost = filterLocationsBoost;
+    }
+
+    // @see https://confluence.hflabs.ru/pages/viewpage.action?pageId=1023737934
+    if (filterRestrictValue) {
+      requestPayload.restrict_value = true;
     }
 
     return requestPayload;

@@ -285,6 +285,7 @@ describe('AddressSuggestions', () => {
         filterToBound="street"
         filterLocations={[{ kladr_id: '65' }]}
         filterLocationsBoost={[{ kladr_id: '77' }]}
+        filterRestrictValue
       />,
     );
 
@@ -308,6 +309,7 @@ describe('AddressSuggestions', () => {
       expect(requestCalls[2].data.to_bound).toEqual({ value: 'street' });
       expect(requestCalls[2].data.locations).toEqual([{ kladr_id: '65' }]);
       expect(requestCalls[2].data.locations_boost).toEqual([{ kladr_id: '77' }]);
+      expect(requestCalls[2].data.restrict_value).toBe(true);
     });
   });
 
