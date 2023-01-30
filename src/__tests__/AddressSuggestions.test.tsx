@@ -20,11 +20,11 @@ import { DaDataSuggestion, DaDataAddress } from '../types';
 let server: SetupServerApi;
 let requestCalls: any[] = [];
 
-const delay = (ms: number) => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-};
+// const delay = (ms: number) => {
+//   return new Promise((resolve) => {
+//     setTimeout(resolve, ms);
+//   });
+// };
 
 beforeEach(() => {
   requestCalls = [];
