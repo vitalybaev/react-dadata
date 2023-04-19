@@ -151,7 +151,7 @@ export interface DaDataAddress {
   divisions?: unknown;
 }
 
-export type DaDataAddressBounds = 'country' | 'region' | 'area' | 'city' | 'settlement' | 'street' | 'houses';
+export type DaDataAddressBounds = 'country' | 'region' | 'area' | 'city' | 'settlement' | 'street' | 'house';
 
 export type DaDataPartyType = 'LEGAL' | 'INDIVIDUAL';
 
