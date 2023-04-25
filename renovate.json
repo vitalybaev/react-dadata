@@ -1,28 +1,24 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:base"
-  ],
-  "pnpm": {
-    "enabled": true
-  },
+  "extends": ["config:base"],
+  "pnpm": {"enabled": true},
   "packageRules": [
     {
       "matchManagers": ["pnpm"],
       "rangeStrategy": "bump",
-      "updateTypes": ["minor", "patch"],
+      "matchUpdateTypes": ["minor", "patch"],
       "automergeType": "branch",
       "commitMessagePrefix": "chore(deps):"
     },
     {
       "matchManagers": ["pnpm"],
       "rangeStrategy": "widen",
-      "updateTypes": ["major"],
+      "matchUpdateTypes": ["major"],
       "commitMessagePrefix": "feat(deps):"
     }
   ],
   "labels": ["dependencies"],
-  "stabilityDays": 3,
+  "minimumReleaseAge": "3 days",
   "prConcurrentLimit": 5,
   "prHourlyLimit": 2
 }
