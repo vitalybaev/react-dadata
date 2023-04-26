@@ -45,6 +45,7 @@ export interface CommonProps<SuggestionType> {
    * Игнорируется если был передан собственный {@link HttpCache}.
    */
   httpCacheTtl?: number;
+  children?: ReactNode | undefined
 }
 
 export interface DaDataAddressMetro {
