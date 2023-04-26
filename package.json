@@ -96,13 +96,25 @@
       "name": "AddressSuggestions",
       "path": "dist/esm/index.js",
       "import": "{ AddressSuggestions }",
-      "limit": "3 KB"
+      "limit": "6 KB"
     },
     {
       "name": "PartySuggestions",
       "path": "dist/esm/index.js",
       "import": "{ PartySuggestions }",
-      "limit": "3 KB"
+      "limit": "6 KB"
+    },
+    {
+      "name": "FioSuggestions",
+      "path": "dist/esm/index.js",
+      "import": "{ FioSuggestions }",
+      "limit": "6 KB"
+    },
+    {
+      "name": "BankSuggestions",
+      "path": "dist/esm/index.js",
+      "import": "{ BankSuggestions }",
+      "limit": "6 KB"
     }
   ],
   "eslintConfig": {
