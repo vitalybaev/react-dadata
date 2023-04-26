@@ -103,8 +103,8 @@ devDependencies:
     specifier: ^27.5.1
     version: 27.5.1
   msw:
-    specifier: ^0.46.1
-    version: 0.46.1(typescript@5.0.4)
+    specifier: ^0.49.0
+    version: 0.49.0(typescript@5.0.4)
   npm-run-all:
     specifier: ^4.1.5
     version: 4.1.5
@@ -4708,7 +4708,7 @@ packages:
     engines: {node: '>=12.0.0'}
     dependencies:
       ansi-escapes: 4.3.2
-      chalk: 4.1.1
+      chalk: 4.1.2
       cli-cursor: 3.1.0
       cli-width: 3.0.0
       external-editor: 3.1.0
@@ -5673,7 +5673,7 @@ packages:
     resolution: {integrity: sha512-8XPvpAA8uyhfteu8pIvQxpJZ7SYYdpUivZpGy6sFsBuKRY/7rQGavedeB8aK+Zkyq6upMFVL/9AW6vOYzfRyLg==}
     engines: {node: '>=10'}
     dependencies:
-      chalk: 4.1.1
+      chalk: 4.1.2
       is-unicode-supported: 0.1.0
     dev: true
 
@@ -5787,13 +5787,13 @@ packages:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
     dev: true
 
-  /msw@0.46.1(typescript@5.0.4):
-    resolution: {integrity: sha512-yEKJcHjUbee6oeD/RDakFdr+RcdMtiREH4U4m/8eJnKpsH2kIA5DSU2wvpR1VKOBVVPyvmAIaU/OrPke8jNdTQ==}
+  /msw@0.49.0(typescript@5.0.4):
+    resolution: {integrity: sha512-xX5RMSMjN58j8G/V26Uaf5LP464VltuWyd66TQimLueVYfG47RKydGsd4JW165Jb/gjoaQxh5Tdvv31wdZAOlA==}
     engines: {node: '>=14'}
     hasBin: true
     requiresBuild: true
     peerDependencies:
-      typescript: '>= 4.2.x <= 4.8.x'
+      typescript: '>= 4.4.x <= 4.9.x'
     peerDependenciesMeta:
       typescript:
         optional: true
@@ -5814,7 +5814,6 @@ packages:
       node-fetch: 2.6.9
       outvariant: 1.4.0
       path-to-regexp: 6.2.1
-      statuses: 2.0.1
       strict-event-emitter: 0.2.8
       type-fest: 2.19.0
       typescript: 5.0.4
@@ -6036,7 +6035,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       bl: 4.1.0
-      chalk: 4.1.1
+      chalk: 4.1.2
       cli-cursor: 3.1.0
       cli-spinners: 2.8.0
       is-interactive: 1.0.0
@@ -7340,11 +7339,6 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       escape-string-regexp: 2.0.0
-    dev: true
-
-  /statuses@2.0.1:
-    resolution: {integrity: sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==}
-    engines: {node: '>= 0.8'}
     dev: true
 
   /stop-iteration-iterator@1.0.0:
