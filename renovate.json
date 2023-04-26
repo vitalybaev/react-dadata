@@ -6,15 +6,13 @@
   "repositories": ["vitalybaev/react-dadata"],
   "packageRules": [
     {
-      "matchManagers": ["pnpm"],
-      "rangeStrategy": "bump",
+      "matchManagers": ["npm"],
       "matchUpdateTypes": ["minor", "patch"],
       "automergeType": "branch",
       "commitMessagePrefix": "chore(deps):"
     },
     {
-      "matchManagers": ["pnpm"],
-      "rangeStrategy": "widen",
+      "matchManagers": ["npm"],
       "matchUpdateTypes": ["major"],
       "commitMessagePrefix": "feat(deps):"
     }
