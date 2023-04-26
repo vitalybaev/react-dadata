@@ -31,8 +31,8 @@ devDependencies:
     specifier: ^7.21.4
     version: 7.21.4(@babel/core@7.21.4)
   '@size-limit/preset-small-lib':
-    specifier: ^7.0.8
-    version: 7.0.8(size-limit@7.0.8)
+    specifier: ^8.0.0
+    version: 8.0.0(size-limit@7.0.8)
   '@testing-library/jest-dom':
     specifier: ^5.16.5
     version: 5.16.5
@@ -2041,34 +2041,34 @@ packages:
       '@sinonjs/commons': 1.8.6
     dev: true
 
-  /@size-limit/esbuild@7.0.8(size-limit@7.0.8):
-    resolution: {integrity: sha512-AzCrxJJThDvHrBNoolebYVgXu46c6HuS3fOxoXr3V0YWNM0qz81z5F3j7RruzboZnls8ZgME4WrH6GM5rB9gtA==}
-    engines: {node: ^12.0.0 || ^14.0.0 || >=16.0.0}
+  /@size-limit/esbuild@8.0.0(size-limit@7.0.8):
+    resolution: {integrity: sha512-du3gGKAzeh8fKEbqG0PcHKyyilpHTC+z/e6r0a82G+9KMCQd2PBHfOrTyN+of8u6EZXkrp0zdwgr84nKLp1nPg==}
+    engines: {node: ^14.0.0 || ^16.0.0 || >=18.0.0}
     peerDependencies:
-      size-limit: 7.0.8
+      size-limit: 8.0.0
     dependencies:
       esbuild: 0.14.54
       nanoid: 3.3.6
       size-limit: 7.0.8
     dev: true
 
-  /@size-limit/file@7.0.8(size-limit@7.0.8):
-    resolution: {integrity: sha512-1KeFQuMXIXAH/iELqIX7x+YNYDFvzIvmxcp9PrdwEoSNL0dXdaDIo9WE/yz8xvOmUcKaLfqbWkL75DM0k91WHQ==}
-    engines: {node: ^12.0.0 || ^14.0.0 || >=16.0.0}
+  /@size-limit/file@8.0.0(size-limit@7.0.8):
+    resolution: {integrity: sha512-xd4bBk/YyezsMQfpi2V3/blodCuPNVF5UwMd4L9LxBvon0PK4C1+3zBXxZpvN7AcMvPbJ8RUMS+iHpD4KcwaOg==}
+    engines: {node: ^14.0.0 || ^16.0.0 || >=18.0.0}
     peerDependencies:
-      size-limit: 7.0.8
+      size-limit: 8.0.0
     dependencies:
-      semver: 7.3.5
+      semver: 7.3.7
       size-limit: 7.0.8
     dev: true
 
-  /@size-limit/preset-small-lib@7.0.8(size-limit@7.0.8):
-    resolution: {integrity: sha512-CT8nIYA/c2CSD+X4rAUgwqYccQMahJ6rBnaZxvi3YKFdkXIbuGNXHNjHsYaFksgwG9P4UjG/unyO5L73f3zQBw==}
+  /@size-limit/preset-small-lib@8.0.0(size-limit@7.0.8):
+    resolution: {integrity: sha512-6Q2fJFuPalvANQIoxYAmQLGk1Rxerw/qtqpEi1dhF9czfWxtYxKwlVQgsE/d0j5eum/N7iJxioDeKZQJjzKPrQ==}
     peerDependencies:
-      size-limit: 7.0.8
+      size-limit: 8.0.0
     dependencies:
-      '@size-limit/esbuild': 7.0.8(size-limit@7.0.8)
-      '@size-limit/file': 7.0.8(size-limit@7.0.8)
+      '@size-limit/esbuild': 8.0.0(size-limit@7.0.8)
+      '@size-limit/file': 8.0.0(size-limit@7.0.8)
       size-limit: 7.0.8
     dev: true
 
@@ -7193,8 +7193,8 @@ packages:
     hasBin: true
     dev: true
 
-  /semver@7.3.5:
-    resolution: {integrity: sha512-PoeGJYh8HK4BTO/a9Tf6ZG3veo/A7ZVsYrSA6J8ny9nb3B1VrpkuN+z9OE5wfE5p6H4LchYZsegiQgbJD94ZFQ==}
+  /semver@7.3.7:
+    resolution: {integrity: sha512-QlYTucUYOews+WeEujDoEGziz4K6c47V/Bd+LjSSYcA94p+DmINdf7ncaUinThfvZyu13lN9OY1XDxt8C0Tw0g==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
