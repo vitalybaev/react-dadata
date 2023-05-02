@@ -83,7 +83,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "regenerator-runtime": "^0.13.11",
-    "rimraf": "^3.0.2",
+    "rimraf": "^5.0.0",
     "size-limit": "^8.0.0",
     "typescript": "^5.0.4"
   },
