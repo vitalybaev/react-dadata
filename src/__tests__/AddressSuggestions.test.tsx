@@ -46,8 +46,6 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  process.env.NODE_ENV = 'testing';
-  cleanup();
   server.close();
 });
 

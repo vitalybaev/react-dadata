@@ -1,6 +1,6 @@
 import React from 'react';
 import { describe, it, vi, beforeEach, afterEach, expect } from 'vitest';
-import { cleanup, getAllByRole, render, screen, waitFor } from '@testing-library/react';
+import { getAllByRole, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { setupServer, SetupServerApi } from 'msw/node';
 import { rest } from 'msw';
@@ -29,8 +29,6 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  process.env.NODE_ENV = 'testing';
-  cleanup();
   server.close();
 });
 
