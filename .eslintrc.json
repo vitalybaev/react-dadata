@@ -1,0 +1,107 @@
+{
+  "extends": [
+    "airbnb",
+    "prettier",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": [
+    "prettier",
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "no-alert": "off",
+    "max-len": [
+      "warn",
+      130,
+      2,
+      {
+        "ignoreUrls": true,
+        "ignoreComments": false,
+        "ignoreRegExpLiterals": true,
+        "ignoreStrings": false,
+        "ignoreTemplateLiterals": true
+      }
+    ],
+    "react/no-did-update-set-state": "off",
+    "default-case": "off",
+    "arrow-body-style": "off",
+    "no-restricted-globals": "off",
+    "no-useless-concat": "warn",
+    "no-unused-expressions": "warn",
+    "import/prefer-default-export": "off",
+    "import/no-mutable-exports": "off",
+    "import/extensions": "off",
+    "import/no-unresolved": "off",
+    "import/no-cycle": "off",
+    "import/no-duplicates": "off",
+    "arrow-parens": "off",
+    "spaced-comment": "off",
+    "max-classes-per-file": "off",
+    "no-case-declarations": "off",
+    "jsx-a11y/click-events-have-key-events": 0,
+    "jsx-a11y/no-static-element-interactions": 0,
+    "jsx-a11y/control-has-associated-label": 0,
+    "jsx-a11y/label-has-associated-control": 0,
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".tsx",
+          ".jsx"
+        ]
+      }
+    ],
+    "no-use-before-define": "off",
+    "no-restricted-syntax": "warn",
+    "react/style-prop-object": "warn",
+    "react/prop-types": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/button-has-type": "off",
+    "react/jsx-no-target-blank": "warn",
+    "array-callback-return": "warn",
+    "react/destructuring-assignment": "off",
+    "no-underscore-dangle": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/interface-name-prefix": "off",
+    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-use-before-define": "error",
+    "class-methods-use-this": "off",
+    "react/no-unused-class-component-methods": "off",
+    "react/require-default-props": "off",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "**/*.test.ts",
+          "**/*.test.tsx",
+          "vitest.config.ts"
+        ]
+      }
+    ]
+  },
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [
+        ".ts",
+        ".tsx"
+      ]
+    },
+    "import/resolver": {
+      "typescript": {},
+      "node": {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ],
+        "paths": [
+          "src"
+        ]
+      }
+    }
+  }
+}

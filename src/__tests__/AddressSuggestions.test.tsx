@@ -1,3 +1,4 @@
+import { describe, it, vi, beforeEach, afterEach, expect } from 'vitest';
 import React, { createRef, forwardRef, HTMLProps, ReactNode } from 'react';
 import {
   cleanup,
@@ -45,6 +46,8 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  process.env.NODE_ENV = 'testing';
+  cleanup();
   server.close();
 });
 
@@ -77,7 +80,7 @@ describe('AddressSuggestions', () => {
   });
 
   it("correctly fires input's onChange callback", async () => {
-    const handleChangeMock = jest.fn();
+    const handleChangeMock = vi.fn();
 
     render(<AddressSuggestions token="TEST_TOKEN" inputProps={{ onChange: handleChangeMock }} />);
 
@@ -91,8 +94,8 @@ describe('AddressSuggestions', () => {
   });
 
   it('correctly types and selects suggestions', async () => {
-    const handleFocusMock = jest.fn();
-    const handleChangeMock = jest.fn();
+    const handleFocusMock = vi.fn();
+    const handleChangeMock = vi.fn();
 
     render(
       <AddressSuggestions token="TEST_TOKEN" onChange={handleChangeMock} inputProps={{ onFocus: handleFocusMock }} />,
@@ -115,7 +118,7 @@ describe('AddressSuggestions', () => {
   });
 
   it('correctly fires blur', async () => {
-    const handleBlurMock = jest.fn();
+    const handleBlurMock = vi.fn();
 
     render(<AddressSuggestions token="TEST_TOKEN" inputProps={{ onBlur: handleBlurMock }} />);
 
@@ -130,7 +133,7 @@ describe('AddressSuggestions', () => {
   });
 
   it('correctly shows 0 suggestions with minChars', async () => {
-    const handleFocusMock = jest.fn();
+    const handleFocusMock = vi.fn();
 
     render(<AddressSuggestions token="TEST_TOKEN" inputProps={{ onFocus: handleFocusMock }} minChars={3} />);
     const input = await screen.findByRole('textbox');
@@ -215,8 +218,8 @@ describe('AddressSuggestions', () => {
   });
 
   it('correctly fires onKeyDown and onKeyPress', async () => {
-    const handleKeyDownMock = jest.fn();
-    const handleKeyPressMock = jest.fn();
+    const handleKeyDownMock = vi.fn();
+    const handleKeyPressMock = vi.fn();
     render(
       <AddressSuggestions
         token="TEST_TOKEN"
@@ -237,7 +240,7 @@ describe('AddressSuggestions', () => {
   });
 
   it('correctly fires onChange by Enter', async () => {
-    const handleChangeMock = jest.fn();
+    const handleChangeMock = vi.fn();
 
     render(<AddressSuggestions token="TEST_TOKEN" onChange={handleChangeMock} />);
 
@@ -257,7 +260,7 @@ describe('AddressSuggestions', () => {
   });
 
   it('correctly fires onChange by suggestion click', async () => {
-    const handleChangeMock = jest.fn();
+    const handleChangeMock = vi.fn();
 
     render(<AddressSuggestions token="TEST_TOKEN" onChange={handleChangeMock} />);
     const input = await screen.findByRole('textbox');
@@ -313,11 +316,28 @@ describe('AddressSuggestions', () => {
     });
   });
 
+  it('fires ref method setInputValue fired', async () => {
+    const ref = createRef<AddressSuggestions>();
+    render(<AddressSuggestions token="TEST_TOKEN" ref={ref} />);
+
+    ref.current?.setInputValue('Test Value');
+    expect(await screen.findByRole('textbox')).toHaveValue('Test Value');
+  });
+
+  it('fires ref method focus fired', async () => {
+    const ref = createRef<AddressSuggestions>();
+
+    render(<AddressSuggestions token="TEST_TOKEN" ref={ref} />);
+
+    ref.current?.focus();
+    expect(await screen.findByRole('textbox')).toHaveFocus();
+  });
+
   it('respects debounce', async () => {
-    const makeRequestMock = jest.spyOn(requestModule, 'makeRequest');
+    const makeRequestMock = vi.spyOn(requestModule, 'makeRequest');
     makeRequestMock.mockImplementation(createAddressMock());
 
-    jest.useFakeTimers();
+    vi.useFakeTimers({ shouldAdvanceTime: true });
 
     render(<AddressSuggestions token="TEST_TOKEN" />);
     const input = await screen.findByRole('textbox');
@@ -335,37 +355,21 @@ describe('AddressSuggestions', () => {
     userEvent.type(input, 'Мо');
 
     expect(mockedRequestCalls.length).toBe(3);
-    jest.advanceTimersByTime(50);
+    vi.advanceTimersByTime(50);
     expect(mockedRequestCalls.length).toBe(4);
     expect(mockedRequestCalls[3].data.json.query).toBe('Мо');
 
     rerender(<AddressSuggestions token="TEST_TOKEN" delay={100} />);
     userEvent.type(input, 'ск');
     expect(mockedRequestCalls.length).toBe(4);
-    jest.advanceTimersByTime(50);
+    vi.advanceTimersByTime(50);
     expect(mockedRequestCalls.length).toBe(4);
-    jest.advanceTimersByTime(50);
+    vi.advanceTimersByTime(50);
     expect(mockedRequestCalls.length).toBe(5);
     expect(mockedRequestCalls[4].data.json.query).toBe('Моск');
 
-    jest.useRealTimers();
-  });
-
-  it('fires ref method setInputValue fired', async () => {
-    const ref = createRef<AddressSuggestions>();
-    render(<AddressSuggestions token="TEST_TOKEN" ref={ref} />);
-
-    ref.current?.setInputValue('Test Value');
-    expect(await screen.findByRole('textbox')).toHaveValue('Test Value');
-  });
-
-  it('fires ref method focus fired', async () => {
-    const ref = createRef<AddressSuggestions>();
-
-    render(<AddressSuggestions token="TEST_TOKEN" ref={ref} />);
-
-    ref.current?.focus();
-    expect(screen.getByRole('textbox')).toHaveFocus();
+    // vi.restoreAllMocks();
+    vi.useRealTimers();
   });
 
   it('correctly renders with renderOption', async () => {
@@ -400,7 +404,7 @@ describe('AddressSuggestions', () => {
   });
 
   it('passes current input value to renderOption', async () => {
-    const renderOption = jest.fn<ReactNode, [DaDataSuggestion<DaDataAddress>, string]>(
+    const renderOption = vi.fn<[DaDataSuggestion<DaDataAddress>, string], ReactNode>(
       (suggestion: DaDataSuggestion<DaDataAddress>): ReactNode => {
         return suggestion.value;
       },
@@ -422,7 +426,7 @@ describe('AddressSuggestions', () => {
   });
 
   it('uses url property if provided', async () => {
-    const makeRequestMock = jest.spyOn(requestModule, 'makeRequest');
+    const makeRequestMock = vi.spyOn(requestModule, 'makeRequest');
 
     render(<AddressSuggestions token="TEST_TOKEN" url="https://example.com/suggestions/api/4_1/rs/suggest/address" />);
 
@@ -437,7 +441,7 @@ describe('AddressSuggestions', () => {
   });
 
   it('respects selectOnBlur prop', async () => {
-    const handleChangeMock = jest.fn();
+    const handleChangeMock = vi.fn();
 
     render(<AddressSuggestions token="TEST_TOKEN" onChange={handleChangeMock} selectOnBlur />);
 
