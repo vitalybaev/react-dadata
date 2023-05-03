@@ -1,5 +1,6 @@
 import React from 'react';
-import { getAllByRole, render, screen, waitFor } from '@testing-library/react';
+import { describe, it, vi, beforeEach, afterEach, expect } from 'vitest';
+import { cleanup, getAllByRole, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { setupServer, SetupServerApi } from 'msw/node';
 import { rest } from 'msw';
@@ -28,6 +29,8 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  process.env.NODE_ENV = 'testing';
+  cleanup();
   server.close();
 });
 
@@ -65,7 +68,7 @@ describe('PartySuggestions', () => {
   });
 
   it("correctly fires input's onChange callback", async () => {
-    const handleChangeMock = jest.fn();
+    const handleChangeMock = vi.fn();
 
     render(<PartySuggestions token="TEST_TOKEN" inputProps={{ onChange: handleChangeMock }} />);
 
@@ -79,8 +82,8 @@ describe('PartySuggestions', () => {
   });
 
   it('correctly types and selects suggestions', async () => {
-    const handleFocusMock = jest.fn();
-    const handleChangeMock = jest.fn();
+    const handleFocusMock = vi.fn();
+    const handleChangeMock = vi.fn();
 
     render(
       <PartySuggestions token="TEST_TOKEN" onChange={handleChangeMock} inputProps={{ onFocus: handleFocusMock }} />,
