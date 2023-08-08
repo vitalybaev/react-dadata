@@ -41,7 +41,7 @@
   "dependencies": {
     "debounce": "^1.2.1",
     "highlight-words": "^1.2.1",
-    "nanoid": "^3.3.6",
+    "nanoid": "^4.0.0",
     "shallowequal": "^1.1.0"
   },
   "devDependencies": {
