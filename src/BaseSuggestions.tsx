@@ -220,7 +220,9 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
   };
 
   private handleKeyboard = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const { onChange } = this.props;
     const { suggestions, suggestionIndex, inputQuery } = this.state;
+
     if (event.which === 40) {
       // Arrow down
       event.preventDefault();
@@ -229,6 +231,10 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
         const newInputQuery = suggestions[newSuggestionIndex].value;
         if (this.didMount) {
           this.setState({ suggestionIndex: newSuggestionIndex, query: newInputQuery });
+
+          if (onChange) {
+            onChange(suggestions[newSuggestionIndex]);
+          }
         }
       }
     } else if (event.which === 38) {
@@ -239,6 +245,10 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
         const newInputQuery = newSuggestionIndex === -1 ? inputQuery : suggestions[newSuggestionIndex].value;
         if (this.didMount) {
           this.setState({ suggestionIndex: newSuggestionIndex, query: newInputQuery });
+
+          if (onChange) {
+            onChange(suggestionIndex >= 0 ? suggestions[newSuggestionIndex] : undefined);
+          }
         }
       }
     } else if (event.which === 13) {
