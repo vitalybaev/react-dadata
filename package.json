@@ -71,7 +71,7 @@
     "eslint-import-resolver-typescript": "^3.0.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jsx-a11y": "^6.7.1",
-    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-react": "^7.32.2",
     "jsdom": "^22.0.0",
     "msw": "^1.0.0",
