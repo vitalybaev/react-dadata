@@ -7,11 +7,11 @@ pnpm-lock.yaml
 *.tgz
 
 .idea
+.vscode
 src/
 tsconfig.json
 setupTests.*
 *__tests__*
-babel.config.js
 .github
 coverage/
 example/
