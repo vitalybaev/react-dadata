@@ -1,29 +1,40 @@
 import { getAllByRole, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { type SetupServerApi, setupServer } from 'msw/node';
 import React from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { PartySuggestions } from '../PartySuggestions';
 import { partyMocks } from './mocks';
 
+type RequestLog = {
+  method: string;
+  endpoint: string;
+  data: Record<string, unknown>;
+};
+
 let server: SetupServerApi;
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-let requestCalls: any[] = [];
+let requestCalls: RequestLog[] = [];
 
 beforeEach(() => {
   requestCalls = [];
 
   server = setupServer(
-    rest.post<{ query?: string }>('*/suggestions/api/4_1/rs/suggest/party', (req, res, ctx) => {
-      requestCalls.push({ method: req.method, endpoint: req.url.toString(), data: req.body });
+    http.post<{ query: string }, Record<string, unknown>>(
+      '*/suggestions/api/4_1/rs/suggest/party',
+      async ({ request }) => {
+        const data = await request.json();
 
-      const { query } = req.body;
-      if (query && typeof query === 'string') {
-        return res(ctx.json({ suggestions: partyMocks[query] }));
-      }
-      return res(ctx.json({ suggestions: [] }));
-    }),
+        requestCalls.push({ method: request.method, endpoint: request.url.toString(), data });
+
+        const { query } = data;
+
+        if (query && typeof query === 'string') {
+          return HttpResponse.json({ suggestions: partyMocks[query] });
+        }
+        return HttpResponse.json({ suggestions: [] });
+      },
+    ),
   );
 
   server.listen();
