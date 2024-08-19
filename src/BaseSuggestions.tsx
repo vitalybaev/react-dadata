@@ -1,10 +1,10 @@
-import React, { ChangeEvent, MouseEvent, FocusEvent, ReactNode, ElementType } from 'react';
-import shallowEqual from 'shallowequal';
 import { debounce } from 'debounce';
 import { nanoid } from 'nanoid';
-import { CommonProps, DaDataSuggestion } from './types';
-import { makeRequest } from './request';
+import React, { type ChangeEvent, type MouseEvent, type FocusEvent, type ReactNode, type ElementType } from 'react';
+import shallowEqual from 'shallowequal';
 import { DefaultHttpCache, HttpCache } from './http-cache';
+import { makeRequest } from './request';
+import type { CommonProps, DaDataSuggestion } from './types';
 
 export type BaseProps<SuggestionType> = CommonProps<SuggestionType>;
 
@@ -107,7 +107,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
     if (!this._uid) {
       this._uid = nanoid();
     }
-    return this._uid!;
+    return this._uid as string;
   }
 
   get httpCache(): HttpCache | null {
@@ -158,7 +158,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
     }
 
     const { inputProps } = this.props;
-    if (inputProps && inputProps.onFocus) {
+    if (inputProps?.onFocus) {
       inputProps.onFocus(event);
     }
   };
@@ -182,7 +182,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
 
     this.dontPerformBlurHandler = false;
 
-    if (inputProps && inputProps.onBlur) {
+    if (inputProps?.onBlur) {
       inputProps.onBlur(event);
     }
   };
@@ -196,7 +196,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
       });
     }
 
-    if (inputProps && inputProps.onChange) {
+    if (inputProps?.onChange) {
       inputProps.onChange(event);
     }
   };
@@ -205,7 +205,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
     this.handleKeyboard(event);
 
     const { inputProps } = this.props;
-    if (inputProps && inputProps.onKeyDown) {
+    if (inputProps?.onKeyDown) {
       inputProps.onKeyDown(event);
     }
   };
@@ -214,7 +214,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
     this.handleKeyboard(event);
 
     const { inputProps } = this.props;
-    if (inputProps && inputProps.onKeyPress) {
+    if (inputProps?.onKeyPress) {
       inputProps.onKeyPress(event);
     }
   };
@@ -228,7 +228,10 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
         const newSuggestionIndex = suggestionIndex + 1;
         const newInputQuery = suggestions[newSuggestionIndex].value;
         if (this.didMount) {
-          this.setState({ suggestionIndex: newSuggestionIndex, query: newInputQuery });
+          this.setState({
+            suggestionIndex: newSuggestionIndex,
+            query: newInputQuery,
+          });
         }
       }
     } else if (event.which === 38) {
@@ -238,7 +241,10 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
         const newSuggestionIndex = suggestionIndex - 1;
         const newInputQuery = newSuggestionIndex === -1 ? inputQuery : suggestions[newSuggestionIndex].value;
         if (this.didMount) {
-          this.setState({ suggestionIndex: newSuggestionIndex, query: newInputQuery });
+          this.setState({
+            suggestionIndex: newSuggestionIndex,
+            query: newInputQuery,
+          });
         }
       }
     } else if (event.which === 13) {
@@ -260,7 +266,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
       return;
     }
 
-    makeRequest(
+    makeRequest<SuggestionType>(
       'POST',
       this.getSuggestionsUrl(),
       {
@@ -294,12 +300,19 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
       if (selectOnBlur) {
         this.dontPerformBlurHandler = true;
       }
-      this.setState({ query: suggestion.value, inputQuery: suggestion.value, displaySuggestions: false }, () => {
-        if (!isSilent) {
-          this.fetchSuggestions();
-          setTimeout(() => this.setCursorToEnd(this.textInput));
-        }
-      });
+      this.setState(
+        {
+          query: suggestion.value,
+          inputQuery: suggestion.value,
+          displaySuggestions: false,
+        },
+        () => {
+          if (!isSilent) {
+            this.fetchSuggestions();
+            setTimeout(() => this.setCursorToEnd(this.textInput));
+          }
+        },
+      );
 
       if (onChange) {
         onChange(suggestion);
@@ -311,9 +324,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
     if (element) {
       const valueLength = element.value.length;
       if (element.selectionStart || element.selectionStart === 0) {
-        // eslint-disable-next-line no-param-reassign
         element.selectionStart = valueLength;
-        // eslint-disable-next-line no-param-reassign
         element.selectionEnd = valueLength;
         element.focus();
       }
@@ -394,6 +405,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
           <ul
             id={this.uid}
             aria-expanded
+            // biome-ignore lint/a11y/noNoninteractiveElementToInteractiveRole: <explanation>
             role="listbox"
             className={suggestionsClassName || 'react-dadata__suggestions'}
           >
@@ -408,6 +420,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
               return (
                 <button
                   role="option"
+                  type="button"
                   aria-selected={index === suggestionIndex ? 'true' : 'false'}
                   key={this.getSuggestionKey(suggestion)}
                   onMouseDown={this.onSuggestionClick.bind(this, index)}

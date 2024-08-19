@@ -1,10 +1,10 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { DefaultHttpCache as Cache } from '../http-cache';
 
 describe('DefaultHttpCache', () => {
   const createCacheWithInfinityTtl = () => {
     const cache = new Cache();
-    cache.ttl = Infinity;
+    cache.ttl = Number.POSITIVE_INFINITY;
     return cache;
   };
 
@@ -38,13 +38,13 @@ describe('DefaultHttpCache', () => {
     const cache = new Cache();
     cache.ttl = 0;
     expect(cache.ttl).toBe(0);
-    cache.ttl = Infinity;
-    expect(cache.ttl).toBe(Infinity);
+    cache.ttl = Number.POSITIVE_INFINITY;
+    expect(cache.ttl).toBe(Number.POSITIVE_INFINITY);
     cache.ttl = 10;
     expect(cache.ttl).toBe(10);
     cache.ttl = -1;
     expect(cache.ttl).toBe(10);
-    cache.ttl = true as any;
+    cache.ttl = true as unknown as number;
     expect(cache.ttl).toBe(10);
   });
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
 import 'react-dadata/src/react-dadata.css';
 import { AddressSuggestions } from '../../src/AddressSuggestions';
@@ -11,7 +11,7 @@ function App() {
   }
   return (
     <div className="App">
-      <AddressSuggestions token={DADATA_TOKEN!} selectOnBlur />
+      <AddressSuggestions token={DADATA_TOKEN} selectOnBlur />
     </div>
   );
 }

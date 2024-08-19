@@ -1,5 +1,5 @@
-import React, { ElementType, PureComponent, ReactNode } from 'react';
 import highlightWords from 'highlight-words';
+import React, { type ElementType, PureComponent, type ReactNode } from 'react';
 
 interface Props {
   text: string;
@@ -19,7 +19,11 @@ export class HighlightWords extends PureComponent<Props> {
       <span aria-label={text}>
         {chunks.map((chunk) => {
           if (!chunk.match) {
-            return <span key={chunk.key} aria-hidden>{chunk.text}</span>;
+            return (
+              <span key={chunk.key} aria-hidden>
+                {chunk.text}
+              </span>
+            );
           }
 
           const Component = tagName;

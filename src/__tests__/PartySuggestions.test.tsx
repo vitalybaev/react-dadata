@@ -1,13 +1,14 @@
-import React from 'react';
-import { describe, it, vi, beforeEach, afterEach, expect } from 'vitest';
 import { getAllByRole, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { setupServer, SetupServerApi } from 'msw/node';
 import { rest } from 'msw';
+import { type SetupServerApi, setupServer } from 'msw/node';
+import React from 'react';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { PartySuggestions } from '../PartySuggestions';
 import { partyMocks } from './mocks';
 
 let server: SetupServerApi;
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 let requestCalls: any[] = [];
 
 beforeEach(() => {
@@ -101,7 +102,7 @@ describe('PartySuggestions', () => {
     expect(getAllByRole(listBox, 'option')).toHaveLength(7);
     userEvent.click(screen.getByRole('option', { name: /ЖИЛЦЕНТР/i }));
     expect(input).toHaveFocus();
-    expect(handleChangeMock).toHaveBeenCalledWith(partyMocks['ск'][0]);
+    expect(handleChangeMock).toHaveBeenCalledWith(partyMocks.ск[0]);
   });
 
   it('correctly sends http parameters', async () => {

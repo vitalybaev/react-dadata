@@ -54,7 +54,7 @@ export class DefaultHttpCache extends HttpCache {
     return this._map.size;
   }
 
-  public get<T = any>(key: string) {
+  public get<T = unknown>(key: string) {
     const data = this._map.get(key);
     if (!data) return null;
     if (data.expires <= Date.now()) {
@@ -64,7 +64,7 @@ export class DefaultHttpCache extends HttpCache {
     return data.data as T;
   }
 
-  public set(key: string, data: any): this {
+  public set(key: string, data: unknown): this {
     this._map.set(key, {
       data,
       expires: Date.now() + this.ttl,

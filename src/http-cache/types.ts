@@ -1,5 +1,5 @@
 export interface HttpCacheEntry {
-  data: any;
+  data: unknown;
   expires: number;
 }
 
@@ -7,5 +7,5 @@ export interface SerializeCacheKeyPayload {
   headers?: Record<string, string>;
   method?: string;
   url: string;
-  body?: Record<string, any>;
+  body?: Record<string, unknown>;
 }

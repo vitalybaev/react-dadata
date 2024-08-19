@@ -9,7 +9,7 @@ export abstract class HttpCache {
    * cache.get('key');
    * ```
    */
-  public abstract get<T = any>(key: string): T | null;
+  public abstract get<T = unknown>(key: string): T | null;
 
   /**
    * Добавить данные в кеш
@@ -20,7 +20,7 @@ export abstract class HttpCache {
    * cache.set('key', { ok: true });
    * ```
    */
-  public abstract set(key: string, data: any, ...rest: any): any;
+  public abstract set(key: string, data: unknown, ...rest: unknown[]): unknown;
 
   /**
    * Удалить закешированные данные по ключу
@@ -30,12 +30,12 @@ export abstract class HttpCache {
    * cache.delete('key');
    * ```
    */
-  public abstract delete(key: string): any;
+  public abstract delete(key: string): unknown;
 
   /**
    * Полностью очистить кеш
    */
-  public abstract reset(): any;
+  public abstract reset(): unknown;
 
   /**
    * Сгенерировать уникальный ключ кеша из параметров http-запроса

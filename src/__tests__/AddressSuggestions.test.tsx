@@ -1,5 +1,3 @@
-import { describe, it, vi, beforeEach, afterEach, expect } from 'vitest';
-import React, { createRef, forwardRef, HTMLProps, ReactNode } from 'react';
 import {
   cleanup,
   findAllByRole,
@@ -12,14 +10,16 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { rest } from 'msw';
-import { setupServer, SetupServerApi } from 'msw/node';
+import { type SetupServerApi, setupServer } from 'msw/node';
+import React, { createRef, forwardRef, type HTMLProps, type ReactNode } from 'react';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { AddressSuggestions } from '../AddressSuggestions';
 import * as requestModule from '../request';
+import type { DaDataAddress, DaDataSuggestion } from '../types';
 import { addressMockKrasnodar, addressMocks, createAddressMock, mockedRequestCalls } from './mocks';
-import { DaDataSuggestion, DaDataAddress } from '../types';
 
 let server: SetupServerApi;
-let requestCalls: any[] = [];
+let requestCalls: unknown[] = [];
 
 // const delay = (ms: number) => {
 //   return new Promise((resolve) => {
@@ -273,7 +273,7 @@ describe('AddressSuggestions', () => {
 
     userEvent.click(options[1]);
     expect(handleChangeMock).toHaveBeenCalledTimes(1);
-    expect(handleChangeMock).toHaveBeenCalledWith(addressMocks['Мо'][1]);
+    expect(handleChangeMock).toHaveBeenCalledWith(addressMocks.Мо[1]);
   });
 
   it('correctly sends http parameters', async () => {

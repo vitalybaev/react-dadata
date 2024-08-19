@@ -1,9 +1,9 @@
-import React, { ReactNode } from 'react';
-import { BaseProps, BaseSuggestions } from './BaseSuggestions';
-import { DaDataBank, DaDataBankStatus, DaDataBankType, DaDataSuggestion } from './types';
+import React, { type ReactNode } from 'react';
+import { type BaseProps, BaseSuggestions } from './BaseSuggestions';
 import { HighlightWords } from './HighlightWords';
+import type { DaDataBank, DaDataBankStatus, DaDataBankType, DaDataSuggestion } from './types';
 
-type Dictionary = { [key: string]: any };
+type Dictionary = { [key: string]: unknown };
 
 interface Props extends BaseProps<DaDataBank> {
   filterStatus?: DaDataBankStatus[];
@@ -70,7 +70,7 @@ export class BankSuggestions extends BaseSuggestions<DaDataBank, Props> {
         </div>
         <div className="react-dadata__suggestion-subtitle">
           {suggestion.data.bic && <div className="react-dadata__suggestion-subtitle-item">{suggestion.data.bic}</div>}
-          {suggestion.data.address && suggestion.data.address.value && (
+          {suggestion.data.address?.value && (
             <div className="react-dadata__suggestion-subtitle-item">
               <HighlightWords
                 highlightClassName={highlightClassName || 'react-dadata--highlighted'}

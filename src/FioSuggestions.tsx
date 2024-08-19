@@ -1,7 +1,7 @@
-import React, { ReactNode } from 'react';
-import { BaseProps, BaseSuggestions } from './BaseSuggestions';
-import { DaDataFio, DaDataGender, DaDataSuggestion } from './types';
+import React, { type ReactNode } from 'react';
+import { type BaseProps, BaseSuggestions } from './BaseSuggestions';
 import { HighlightWords } from './HighlightWords';
+import type { DaDataFio, DaDataGender, DaDataSuggestion } from './types';
 
 interface Props extends BaseProps<DaDataFio> {
   filterGender?: DaDataGender[];

@@ -1,18 +1,20 @@
 import type { HttpCache } from './http-cache';
+import type { DaDataSuggestion } from './types';
 
 export interface RequestOptions {
   headers: { [header: string]: string };
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   json: any;
 }
 
 let xhr: XMLHttpRequest;
 
-export const makeRequest = (
+export const makeRequest = <SuggestionType>(
   method: string,
   endpoint: string,
   data: RequestOptions,
   cache: HttpCache | null,
-  onReceiveData: (response: any) => void,
+  onReceiveData: (response: Array<DaDataSuggestion<SuggestionType>>) => void,
 ): void => {
   if (xhr) {
     xhr.abort();
@@ -26,7 +28,7 @@ export const makeRequest = (
       url: endpoint,
       method,
     });
-    const cachedData = cache.get(cacheKey);
+    const cachedData = cache.get(cacheKey) as Array<DaDataSuggestion<SuggestionType>>;
     if (cachedData) {
       onReceiveData(cachedData);
       return;
@@ -35,9 +37,9 @@ export const makeRequest = (
   xhr = new XMLHttpRequest();
   xhr.open(method, endpoint);
   if (data.headers) {
-    Object.entries(data.headers).forEach(([header, headerValue]) => {
+    for (const [header, headerValue] of Object.entries(data.headers)) {
       xhr.setRequestHeader(header, headerValue);
-    });
+    }
   }
   xhr.send(JSON.stringify(data.json));
 

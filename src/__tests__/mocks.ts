@@ -1,6 +1,5 @@
-/* eslint-disable max-len */
-import { DaDataAddress, DaDataParty, DaDataSuggestion } from '../types';
-import { RequestOptions } from '../request';
+import type { RequestOptions } from '../request';
+import type { DaDataAddress, DaDataParty, DaDataSuggestion } from '../types';
 
 export const addressMockKrasnodar: DaDataSuggestion<DaDataAddress> = {
   value: 'Краснодарский край, Мостовский р-н',
@@ -1937,6 +1936,7 @@ export const addressMocks: Record<string, DaDataSuggestion<DaDataAddress>[]> = {
   ],
 };
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export const mockedRequestCalls: any[] = [];
 
 export const createAddressMock =
@@ -1945,7 +1945,9 @@ export const createAddressMock =
     method: string,
     endpoint: string,
     data: RequestOptions,
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     cache: any,
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     onReceiveData: (response: any) => void,
   ): void => {
     mockedRequestCalls.push({ method, endpoint, data });

@@ -1,5 +1,4 @@
-/* eslint-disable camelcase */
-import { ElementType, HTMLProps, ReactNode } from 'react';
+import type { ElementType, HTMLProps, ReactNode } from 'react';
 import type { HttpCache } from './http-cache';
 
 type Nullable<T> = T | null;
@@ -45,7 +44,7 @@ export interface CommonProps<SuggestionType> {
    * Игнорируется если был передан собственный {@link HttpCache}.
    */
   httpCacheTtl?: number;
-  children?: ReactNode | undefined
+  children?: ReactNode | undefined;
 }
 
 export interface DaDataAddressMetro {

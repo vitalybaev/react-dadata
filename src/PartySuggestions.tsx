@@ -1,8 +1,9 @@
-import React, { ReactNode } from 'react';
-import { BaseProps, BaseSuggestions } from './BaseSuggestions';
-import { DaDataParty, DaDataPartyStatus, DaDataPartyType, DaDataSuggestion } from './types';
+import React, { type ReactNode } from 'react';
+import { type BaseProps, BaseSuggestions } from './BaseSuggestions';
 import { HighlightWords } from './HighlightWords';
+import type { DaDataParty, DaDataPartyStatus, DaDataPartyType, DaDataSuggestion } from './types';
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 type Dictionary = { [key: string]: any };
 
 interface Props extends BaseProps<DaDataParty> {
@@ -77,7 +78,7 @@ export class PartySuggestions extends BaseSuggestions<DaDataParty, Props> {
         </div>
         <div className="react-dadata__suggestion-subtitle">
           {suggestion.data.inn && <div className="react-dadata__suggestion-subtitle-item">{suggestion.data.inn}</div>}
-          {suggestion.data.address && suggestion.data.address.value && (
+          {suggestion.data.address?.value && (
             <div className="react-dadata__suggestion-subtitle-item">
               <HighlightWords
                 highlightClassName={highlightClassName || 'react-dadata--highlighted'}

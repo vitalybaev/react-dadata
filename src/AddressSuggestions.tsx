@@ -1,9 +1,9 @@
-import React, { ReactNode } from 'react';
-import { BaseProps, BaseSuggestions } from './BaseSuggestions';
-import { DaDataAddress, DaDataAddressBounds, DaDataSuggestion } from './types';
+import React, { type ReactNode } from 'react';
+import { type BaseProps, BaseSuggestions } from './BaseSuggestions';
 import { HighlightWords } from './HighlightWords';
+import type { DaDataAddress, DaDataAddressBounds, DaDataSuggestion } from './types';
 
-type Dictionary = { [key: string]: any };
+type Dictionary = { [key: string]: unknown };
 
 interface Props extends BaseProps<DaDataAddress> {
   filterLanguage?: 'ru' | 'en';

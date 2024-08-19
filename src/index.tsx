@@ -1,23 +1,23 @@
+import { AddressSuggestions } from './AddressSuggestions';
+import { BankSuggestions } from './BankSuggestions';
+import { EmailSuggestions } from './EmailSuggestions';
+import { FioSuggestions } from './FioSuggestions';
+import { PartySuggestions } from './PartySuggestions';
 import {
   DaDataAddress,
-  DaDataParty,
-  DaDataSuggestion,
   DaDataAddressBounds,
-  DaDataPartyType,
-  DaDataPartyBranchType,
-  DaDataPartyStatus,
   DaDataBank,
   DaDataBankStatus,
   DaDataBankType,
+  DaDataEmail,
   DaDataFio,
   DaDataGender,
-  DaDataEmail,
+  DaDataParty,
+  DaDataPartyBranchType,
+  DaDataPartyStatus,
+  DaDataPartyType,
+  DaDataSuggestion,
 } from './types';
-import { AddressSuggestions } from './AddressSuggestions';
-import { PartySuggestions } from './PartySuggestions';
-import { BankSuggestions } from './BankSuggestions';
-import { FioSuggestions } from './FioSuggestions';
-import { EmailSuggestions } from './EmailSuggestions';
 
 type DaDataAddressSuggestion = DaDataSuggestion<DaDataAddress>;
 type DaDataPartySuggestion = DaDataSuggestion<DaDataParty>;
@@ -33,9 +33,9 @@ export {
   FioSuggestions,
   EmailSuggestions,
   DaDataAddress,
-  DaDataAddressSuggestion,
+  type DaDataAddressSuggestion,
   DaDataParty,
-  DaDataPartySuggestion,
+  type DaDataPartySuggestion,
   DaDataAddressBounds,
   DaDataPartyType,
   DaDataPartyBranchType,
@@ -43,11 +43,11 @@ export {
   DaDataBank,
   DaDataBankStatus,
   DaDataBankType,
-  DaDataBankSuggestion,
+  type DaDataBankSuggestion,
   DaDataFio,
-  DaDataFioSuggestion,
+  type DaDataFioSuggestion,
   DaDataGender,
   DaDataEmail,
-  DaDataEmailSuggestion,
+  type DaDataEmailSuggestion,
 };
 export { HttpCache } from './http-cache';
