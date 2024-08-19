@@ -18,8 +18,14 @@ import * as requestModule from '../request';
 import type { DaDataAddress, DaDataSuggestion } from '../types';
 import { addressMockKrasnodar, addressMocks, createAddressMock, mockedRequestCalls } from './mocks';
 
+type RequestLog = {
+  method: string;
+  endpoint: string;
+  data: Record<string, unknown>;
+};
+
 let server: SetupServerApi;
-let requestCalls: unknown[] = [];
+let requestCalls: RequestLog[] = [];
 
 // const delay = (ms: number) => {
 //   return new Promise((resolve) => {
@@ -31,8 +37,8 @@ beforeEach(() => {
   requestCalls = [];
 
   server = setupServer(
-    rest.post<{ query?: string }>('*/suggestions/api/4_1/rs/suggest/address', (req, res, ctx) => {
-      requestCalls.push({ method: req.method, endpoint: req.url.toString(), data: req.body });
+    rest.post<{ query?: string }>('*/suggestions/api/4_1/rs/suggest/address', async (req, res, ctx) => {
+      requestCalls.push({ method: req.method, endpoint: req.url.toString(), data: await req.json() });
 
       const { query } = req.body;
       if (query && typeof query === 'string') {
@@ -402,7 +408,7 @@ describe('AddressSuggestions', () => {
   });
 
   it('passes current input value to renderOption', async () => {
-    const renderOption = vi.fn<[DaDataSuggestion<DaDataAddress>, string], ReactNode>(
+    const renderOption = vi.fn<(suggestion: DaDataSuggestion<DaDataAddress>, query: string) => ReactNode>(
       (suggestion: DaDataSuggestion<DaDataAddress>): ReactNode => {
         return suggestion.value;
       },
