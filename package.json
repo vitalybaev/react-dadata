@@ -69,7 +69,7 @@
 		"regenerator-runtime": "^0.13.11",
 		"rimraf": "^5.0.0",
 		"size-limit": "^8.0.0",
-		"typescript": "^5.0.4",
+		"typescript": "^5.5.4",
 		"vitest": "^2.0.5"
 	},
 	"peerDependencies": {
