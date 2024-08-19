@@ -57,7 +57,7 @@ describe('PartySuggestions', () => {
     render(<PartySuggestions token="TEST_TOKEN" />);
 
     const input = await screen.findByRole('textbox');
-    userEvent.tab();
+    await userEvent.tab();
 
     await waitFor(() => {
       expect(requestCalls.length).toBe(1);
@@ -66,7 +66,7 @@ describe('PartySuggestions', () => {
       expect(requestCalls[0].endpoint).toBe('https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/party');
     });
 
-    userEvent.type(input, 'Ск');
+    await userEvent.type(input, 'Ск');
 
     await waitFor(() => {
       expect(requestCalls.length).toBe(3);
@@ -84,8 +84,8 @@ describe('PartySuggestions', () => {
 
     const input = await screen.findByRole('textbox');
 
-    userEvent.tab();
-    userEvent.type(input, 'С');
+    await userEvent.tab();
+    await userEvent.type(input, 'С');
 
     expect(handleChangeMock).toBeCalledTimes(1);
     expect(handleChangeMock.mock.calls[0][0].target.value).toBe('С');
@@ -101,17 +101,17 @@ describe('PartySuggestions', () => {
 
     const input = await screen.findByRole('textbox');
 
-    userEvent.tab();
+    await userEvent.tab();
 
     expect(input).toHaveFocus();
     expect(handleFocusMock.mock.calls.length).toBe(1);
 
-    userEvent.type(input, 'ск');
+    await userEvent.type(input, 'ск');
 
     const listBox = await screen.findByRole('listbox');
     expect(listBox).toBeInTheDocument();
     expect(getAllByRole(listBox, 'option')).toHaveLength(7);
-    userEvent.click(screen.getByRole('option', { name: /ЖИЛЦЕНТР/i }));
+    await userEvent.click(screen.getByRole('option', { name: /ЖИЛЦЕНТР/i }));
     expect(input).toHaveFocus();
     expect(handleChangeMock).toHaveBeenCalledWith(partyMocks.ск[0]);
   });
@@ -130,7 +130,7 @@ describe('PartySuggestions', () => {
     );
 
     const input = await screen.findByRole('textbox');
-    userEvent.tab();
+    await userEvent.tab();
 
     await waitFor(() => {
       expect(requestCalls.length).toBe(1);
@@ -139,7 +139,7 @@ describe('PartySuggestions', () => {
       expect(requestCalls[0].endpoint).toBe('https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/party');
     });
 
-    userEvent.type(input, 'ск');
+    await userEvent.type(input, 'ск');
 
     await waitFor(() => {
       expect(requestCalls.length).toBe(3);

@@ -9,5 +9,6 @@ export default defineConfig({
 			include: ["src/"],
 			exclude: ["**/__tests__/**/*.*"],
 		},
+    css: true,
 	},
 });

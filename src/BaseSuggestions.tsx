@@ -221,7 +221,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
 
   private handleKeyboard = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const { suggestions, suggestionIndex, inputQuery } = this.state;
-    if (event.which === 40) {
+    if (event.key === 'ArrowDown') {
       // Arrow down
       event.preventDefault();
       if (suggestionIndex < suggestions.length - 1) {
@@ -234,7 +234,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
           });
         }
       }
-    } else if (event.which === 38) {
+    } else if (event.key === 'ArrowUp') {
       // Arrow up
       event.preventDefault();
       if (suggestionIndex >= 0) {
@@ -247,7 +247,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
           });
         }
       }
-    } else if (event.which === 13) {
+    } else if (event.key === 'Enter') {
       // Enter
       event.preventDefault();
       if (suggestionIndex >= 0) {

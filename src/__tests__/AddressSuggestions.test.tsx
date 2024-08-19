@@ -13,6 +13,7 @@ import { http, HttpResponse } from 'msw';
 import { type SetupServerApi, setupServer } from 'msw/node';
 import React, { createRef, forwardRef, type HTMLProps, type ReactNode } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { debug } from 'vitest-preview';
 import { AddressSuggestions } from '../AddressSuggestions';
 import * as requestModule from '../request';
 import type { DaDataAddress, DaDataSuggestion } from '../types';
@@ -96,8 +97,8 @@ describe('AddressSuggestions', () => {
 
     const input = await screen.findByRole('textbox');
 
-    userEvent.tab();
-    userEvent.type(input, 'М');
+    await userEvent.tab();
+    await userEvent.type(input, 'М');
 
     expect(handleChangeMock).toBeCalledTimes(1);
     expect(handleChangeMock.mock.calls[0][0].target.value).toBe('М');
@@ -113,17 +114,18 @@ describe('AddressSuggestions', () => {
 
     const input = await screen.findByRole('textbox');
 
-    userEvent.tab();
+    await userEvent.tab();
 
     expect(input).toHaveFocus();
     expect(handleFocusMock.mock.calls.length).toBe(1);
 
-    userEvent.type(input, 'Мо');
+    await userEvent.type(input, 'Мо');
 
     const listBox = await screen.findByRole('listbox');
     expect(listBox).toBeInTheDocument();
     expect(getAllByRole(listBox, 'option')).toHaveLength(7);
-    userEvent.click(screen.getAllByRole('option')[0]);
+
+    await userEvent.click(screen.getAllByRole('option')[0]);
     expect(input).toHaveFocus();
   });
 
@@ -132,12 +134,12 @@ describe('AddressSuggestions', () => {
 
     render(<AddressSuggestions token="TEST_TOKEN" inputProps={{ onBlur: handleBlurMock }} />);
 
-    userEvent.tab();
+    await userEvent.tab();
 
     expect(await screen.findByRole('textbox')).toHaveFocus();
     expect(handleBlurMock).not.toBeCalled();
 
-    userEvent.tab();
+    await userEvent.tab();
     expect(await screen.findByRole('textbox')).not.toHaveFocus();
     expect(handleBlurMock).toBeCalledTimes(1);
   });
@@ -148,12 +150,12 @@ describe('AddressSuggestions', () => {
     render(<AddressSuggestions token="TEST_TOKEN" inputProps={{ onFocus: handleFocusMock }} minChars={3} />);
     const input = await screen.findByRole('textbox');
 
-    userEvent.tab();
+    await userEvent.tab();
 
-    userEvent.type(input, 'Мо');
+    await userEvent.type(input, 'Мо');
     expect(await screen.queryByRole('listbox')).not.toBeInTheDocument();
 
-    userEvent.type(input, 'с');
+    await userEvent.type(input, 'с');
     const listBox = await screen.findByRole('listbox');
     expect(listBox).toBeInTheDocument();
 
@@ -190,39 +192,39 @@ describe('AddressSuggestions', () => {
     render(<AddressSuggestions token="TEST_TOKEN" />);
 
     const input = await screen.findByRole('textbox');
-    userEvent.tab();
-    userEvent.type(input, 'М');
+    await userEvent.tab();
+    await userEvent.type(input, 'М');
 
     expect(await screen.findByRole('listbox')).toBeInTheDocument();
     expect(screen.queryAllByRole('option')).toHaveLength(7);
     expect(screen.queryByRole('option', { selected: true })).not.toBeInTheDocument();
 
-    userEvent.type(input, '{arrowdown}');
+    await userEvent.type(input, '{arrowdown}');
     expect(screen.getByRole('option', { selected: true })).toBeInTheDocument();
     expect(screen.getByRole('option', { selected: true })).toHaveTextContent('г Москва');
     expect(input).toHaveValue('г Москва');
 
-    userEvent.type(input, '{arrowdown}');
+    await userEvent.type(input, '{arrowdown}');
     expect(screen.getByRole('option', { selected: true })).toHaveTextContent('Московская обл');
     expect(input).toHaveValue('Московская обл');
 
-    userEvent.type(input, '{arrowup}');
+    await userEvent.type(input, '{arrowup}');
     expect(screen.getByRole('option', { selected: true })).toHaveTextContent('г Москва');
     expect(input).toHaveValue('г Москва');
 
-    userEvent.type(input, '{arrowdown}');
-    userEvent.type(input, '{arrowdown}');
-    userEvent.type(input, '{arrowdown}');
-    userEvent.type(input, '{arrowdown}');
-    userEvent.type(input, '{arrowdown}');
-    userEvent.type(input, '{arrowdown}');
-    userEvent.type(input, '{arrowdown}');
-    userEvent.type(input, '{arrowdown}');
-    userEvent.type(input, '{arrowdown}');
+    await userEvent.type(input, '{arrowdown}');
+    await userEvent.type(input, '{arrowdown}');
+    await userEvent.type(input, '{arrowdown}');
+    await userEvent.type(input, '{arrowdown}');
+    await userEvent.type(input, '{arrowdown}');
+    await userEvent.type(input, '{arrowdown}');
+    await userEvent.type(input, '{arrowdown}');
+    await userEvent.type(input, '{arrowdown}');
+    await userEvent.type(input, '{arrowdown}');
     expect(screen.getByRole('option', { selected: true })).toHaveTextContent('Магаданская обл');
     expect(input).toHaveValue('Магаданская обл');
 
-    userEvent.type(input, '{arrowdown}');
+    await userEvent.type(input, '{arrowdown}');
     expect(screen.getByRole('option', { selected: true })).toHaveTextContent('Магаданская обл');
     expect(input).toHaveValue('Магаданская обл');
   });
@@ -256,14 +258,14 @@ describe('AddressSuggestions', () => {
 
     const input = await screen.findByRole('textbox');
 
-    userEvent.tab();
-    userEvent.type(input, 'Мо');
+    await userEvent.tab();
+    await userEvent.type(input, 'Мо');
 
     expect(await screen.findByRole('listbox')).toBeInTheDocument();
-    userEvent.type(input, '{enter}');
+    await userEvent.type(input, '{Enter}');
 
     expect(handleChangeMock).toBeCalledTimes(0);
-    userEvent.type(input, '{arrowdown}{enter}');
+    await userEvent.type(input, '{ArrowDown}{Enter}');
 
     expect(handleChangeMock.mock.calls.length).toBe(1);
     expect(handleChangeMock.mock.calls[0][0].value).toBe('г Москва');
@@ -275,15 +277,15 @@ describe('AddressSuggestions', () => {
     render(<AddressSuggestions token="TEST_TOKEN" onChange={handleChangeMock} />);
     const input = await screen.findByRole('textbox');
 
-    userEvent.tab();
-    userEvent.type(input, 'Мо', { delay: 0 });
+    await userEvent.tab();
+    await userEvent.type(input, 'Мо', { delay: 0 });
 
     const listBox = await screen.findByRole('listbox');
     expect(listBox).toBeInTheDocument();
 
     const options = queryAllByRole(listBox, 'option');
 
-    userEvent.click(options[1]);
+    await userEvent.click(options[1]);
     expect(handleChangeMock).toHaveBeenCalledTimes(1);
     expect(handleChangeMock).toHaveBeenCalledWith(addressMocks.Мо[1]);
   });
@@ -303,7 +305,7 @@ describe('AddressSuggestions', () => {
     );
 
     const input = await screen.findByRole('textbox');
-    userEvent.tab();
+    await userEvent.tab();
 
     await waitFor(() => {
       expect(requestCalls.length).toBe(1);
@@ -312,7 +314,7 @@ describe('AddressSuggestions', () => {
       expect(requestCalls[0].endpoint).toBe('https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address');
     });
 
-    userEvent.type(input, 'Мо');
+    await userEvent.type(input, 'Мо');
 
     await waitFor(() => {
       expect(requestCalls.length).toBe(3);
@@ -349,11 +351,13 @@ describe('AddressSuggestions', () => {
 
     vi.useFakeTimers({ shouldAdvanceTime: true });
 
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+
     render(<AddressSuggestions token="TEST_TOKEN" />);
     const input = await screen.findByRole('textbox');
 
-    userEvent.tab();
-    userEvent.type(input, 'Мо');
+    await user.tab();
+    await user.type(input, 'Мо');
 
     expect(mockedRequestCalls.length).toBe(3);
 
@@ -361,8 +365,8 @@ describe('AddressSuggestions', () => {
 
     const { rerender } = render(<AddressSuggestions token="TEST_TOKEN" delay={50} />);
 
-    userEvent.tab();
-    userEvent.type(input, 'Мо');
+    await user.tab();
+    await user.type(input, 'Мо');
 
     expect(mockedRequestCalls.length).toBe(3);
     vi.advanceTimersByTime(50);
@@ -370,7 +374,7 @@ describe('AddressSuggestions', () => {
     expect(mockedRequestCalls[3].data.json.query).toBe('Мо');
 
     rerender(<AddressSuggestions token="TEST_TOKEN" delay={100} />);
-    userEvent.type(input, 'ск');
+    await userEvent.type(input, 'ск');
     expect(mockedRequestCalls.length).toBe(4);
     vi.advanceTimersByTime(50);
     expect(mockedRequestCalls.length).toBe(4);
@@ -390,8 +394,8 @@ describe('AddressSuggestions', () => {
     render(<AddressSuggestions token="TEST_TOKEN" renderOption={renderOption} />);
 
     const input = await screen.findByRole('textbox');
-    userEvent.tab();
-    userEvent.type(input, 'Мо');
+    await userEvent.tab();
+    await userEvent.type(input, 'Мо');
 
     const listBox = await screen.findByRole('listbox');
     expect(listBox).toBeInTheDocument();
@@ -424,14 +428,14 @@ describe('AddressSuggestions', () => {
 
     const input = await screen.findByRole('textbox');
 
-    userEvent.tab();
-    userEvent.type(input, 'Мо');
+    await userEvent.tab();
+    await userEvent.type(input, 'Мо');
 
     expect(await screen.findByRole('listbox')).toBeInTheDocument();
 
     expect(renderOption.mock.calls[renderOption.mock.calls.length - 1][1]).toBe('Мо');
 
-    userEvent.type(input, 'с');
+    await userEvent.type(input, 'с');
     expect(renderOption.mock.calls[renderOption.mock.calls.length - 1][1]).toBe('Мос');
   });
 
@@ -442,8 +446,8 @@ describe('AddressSuggestions', () => {
 
     const input = await screen.findByRole('textbox');
 
-    userEvent.tab();
-    userEvent.type(input, 'Мос');
+    await userEvent.tab();
+    await userEvent.type(input, 'Мос');
 
     expect(makeRequestMock.mock.calls[makeRequestMock.mock.calls.length - 1][1]).toBe(
       'https://example.com/suggestions/api/4_1/rs/suggest/address',
@@ -455,15 +459,15 @@ describe('AddressSuggestions', () => {
 
     render(<AddressSuggestions token="TEST_TOKEN" onChange={handleChangeMock} selectOnBlur />);
 
-    userEvent.tab();
+    await userEvent.tab();
 
     const input = await screen.findByRole('textbox');
-    userEvent.type(input, 'Мо');
+    await userEvent.type(input, 'Мо');
 
     const listBox = await screen.findByRole('listbox');
     expect(listBox).toBeInTheDocument();
 
-    userEvent.tab();
+    await userEvent.tab();
 
     expect(handleChangeMock.mock.calls.length).toBe(1);
     expect(handleChangeMock.mock.calls[0][0].value).toBe('г Москва');

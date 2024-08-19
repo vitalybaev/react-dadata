@@ -1,5 +1,6 @@
 node_modules/
 .idea/
-dist
-coverage
+dist/
+coverage/
 .DS_Store
+.vitest-preview/
