@@ -58,6 +58,9 @@ devDependencies:
   lightningcss-cli:
     specifier: ^1.26.0
     version: 1.26.0
+  lightningcss-cli-linux-x64-gnu:
+    specifier: ^1.26.0
+    version: 1.26.0
   msw:
     specifier: ^2.3.5
     version: 2.3.5(typescript@5.5.4)
@@ -2733,7 +2736,6 @@ packages:
     os: [linux]
     requiresBuild: true
     dev: true
-    optional: true
 
   /lightningcss-cli-linux-x64-musl@1.26.0:
     resolution: {integrity: sha512-/0OrCqCGrb1yTKmkKpD5TS6pLzaRo1nfdqQSdj3ljtjePLSLZ4zmlSy8jQzWLj0Rd4neZrn5GTXes1IXeXKCZg==}
