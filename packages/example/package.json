@@ -9,7 +9,7 @@
   "dependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-dadata": ".."
+    "react-dadata": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",

@@ -27,6 +27,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --ignore-scripts
       - name: Run build
-        run: pnpm build
+        run: pnpm --filter=react-dadata build:ci
 
 
