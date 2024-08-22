@@ -30,8 +30,6 @@ jobs:
       - name: Run tests
         run:
           pnpm --filter=react-dadata test
-      - name: Run tests
-        run: cd packages/react-dadata && cat ./coverage/lcov.info
       - name: Coveralls
         uses: coverallsapp/github-action@v2
         with:
