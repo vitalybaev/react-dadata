@@ -27,4 +27,5 @@ jobs:
         with:
           build_script: build:ci
           directory: packages/react-dadata
+          package_manager: pnpm
           github_token: ${{ secrets.GITHUB_TOKEN }}
