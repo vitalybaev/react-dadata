@@ -28,9 +28,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --ignore-scripts
       - name: Run tests
-        run: pnpm --filter=react-dadata test
+        run:
+          pnpm --filter=react-dadata test
+          cd packages/react-dadata && cat ./coverage/lcov.info
       - name: Coveralls
-        uses: coverallsapp/github-action@master
+        uses: coverallsapp/github-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           base-path: packages/react-dadata
