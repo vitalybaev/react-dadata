@@ -11,8 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version:
-          - 20
+        node-version: [20]
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
@@ -21,7 +20,7 @@ jobs:
         with:
           version: latest
       - name: Install Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: pnpm
