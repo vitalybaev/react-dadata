@@ -14,9 +14,6 @@ importers:
       npm-run-all2:
         specifier: ^6.2.2
         version: 6.2.2
-      regenerator-runtime:
-        specifier: ^0.13.11
-        version: 0.13.11
       rimraf:
         specifier: ^5.0.0
         version: 5.0.0
@@ -91,9 +88,6 @@ importers:
       '@vitest/coverage-v8':
         specifier: ^2.0.5
         version: 2.0.5(vitest@2.0.5)
-      core-js:
-        specifier: ^3.30.1
-        version: 3.30.1
       jsdom:
         specifier: ^24.1.1
         version: 24.1.1
@@ -1778,11 +1772,6 @@ packages:
   /cookie@0.6.0:
     resolution: {integrity: sha512-U71cyTamuh1CRNCfpGY6to28lxvNwPG4Guz/EVjgf3Jmzv0vlDp1atT9eS5dDjMYHucpHbWns6Lwf3BKz6svdw==}
     engines: {node: '>= 0.6'}
-    dev: true
-
-  /core-js@3.30.1:
-    resolution: {integrity: sha512-ZNS5nbiSwDTq4hFosEDqm65izl2CWmLz0hARJMyNQBgkUZMIF51cQiMvIQKA6hvuaeWxQDP3hEedM1JZIgTldQ==}
-    requiresBuild: true
     dev: true
 
   /cross-spawn@7.0.3:

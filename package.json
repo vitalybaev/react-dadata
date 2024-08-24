@@ -21,7 +21,6 @@
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
     "npm-run-all2": "^6.2.2",
-    "regenerator-runtime": "^0.13.11",
     "rimraf": "^5.0.0"
   },
   "packageManager": "pnpm@8.6.7"
