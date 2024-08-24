@@ -1,98 +1,99 @@
 {
-	"name": "react-dadata",
-	"version": "2.23.1",
-	"description": "React-компонент для подсказок адресов, организаций и банков с помощью сервиса DaData.ru",
-	"main": "dist/cjs/index.js",
-	"module": "dist/esm/index.js",
-	"types": "dist/index.d.ts",
-	"scripts": {
-		"prepublishOnly": "pnpm run test && pnpm run build",
-		"clean": "rimraf dist",
-		"build:css": "lightningcss --minify --bundle --targets '>0.2%, ie 11' src/react-dadata.css -o dist/react-dadata.css",
-		"build:css:ci": "./node_modules/lightningcss-cli-linux-x64-gnu/lightningcss --minify --bundle --targets '>0.2%, ie 11' src/react-dadata.css -o dist/react-dadata.css",
-		"build:cjs": "tsc --module commonjs --target es5 --outDir dist/cjs",
-		"build:esm": "tsc --module es2015 --target es5 --outDir dist/esm",
-		"build:types": "tsc --declaration --emitDeclarationOnly --outDir dist",
-		"build:ci": "NODE_ENV=production run-s clean build:css:ci build:cjs build:esm build:types",
-		"build": "NODE_ENV=production run-s clean build:css build:cjs build:esm build:types",
-		"size-build": "pnpm build:esm",
-		"test:lint": "biome check src/ example/",
-		"test:size-limit": "pnpm build:esm && size-limit",
-		"test": "vitest --coverage",
-		"vitest-preview": "vitest-preview"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/vitalybaev/react-dadata.git"
-	},
-	"dependencies": {
-		"debounce": "^1.2.1",
-		"highlight-words": "^1.2.1",
-		"nanoid": "^3.3.6",
-		"shallowequal": "^1.1.0"
-	},
-	"devDependencies": {
-		"@size-limit/preset-small-lib": "^8.0.0",
-		"@testing-library/jest-dom": "^6.4.8",
-		"@testing-library/react": "^16.0.0",
-		"@testing-library/user-event": "^14.5.2",
-		"@types/debounce": "^1.2.1",
-		"@types/node": "^18.16.3",
-		"@types/react": "^18.3.3",
-		"@types/shallowequal": "^1.1.1",
-		"@vitest/coverage-v8": "^2.0.5",
-		"jsdom": "^24.1.1",
-		"lightningcss-cli": "^1.26.0",
-		"lightningcss-cli-linux-x64-gnu": "^1.26.0",
-		"msw": "^2.3.5",
-		"react": "^18.3.1",
-		"react-dom": "^18.3.1",
-		"size-limit": "^8.0.0",
-		"typescript": "^5.5.4",
-		"vitest": "^2.0.5",
-		"vitest-preview": "^0.0.1"
-	},
-	"peerDependencies": {
-		"react": "^15.6 || ^16.0 || ^17.0 || ^18.0",
-		"react-dom": "^15.6 || ^16.0 || ^17.0 || ^18.0"
-	},
-	"size-limit": [
-		{
-			"name": "AddressSuggestions",
-			"path": "dist/esm/index.js",
-			"import": "{ AddressSuggestions }",
-			"limit": "6 KB"
-		},
-		{
-			"name": "PartySuggestions",
-			"path": "dist/esm/index.js",
-			"import": "{ PartySuggestions }",
-			"limit": "6 KB"
-		},
-		{
-			"name": "FioSuggestions",
-			"path": "dist/esm/index.js",
-			"import": "{ FioSuggestions }",
-			"limit": "6 KB"
-		},
-		{
-			"name": "BankSuggestions",
-			"path": "dist/esm/index.js",
-			"import": "{ BankSuggestions }",
-			"limit": "6 KB"
-		}
-	],
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"ie 11",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
-	}
+  "name": "react-dadata",
+  "version": "2.23.2",
+  "description": "React-компонент для подсказок адресов, организаций и банков с помощью сервиса DaData.ru",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepublishOnly": "pnpm run test:once && pnpm run build",
+    "clean": "rimraf dist",
+    "build:css": "lightningcss --minify --bundle --targets '>0.2%, ie 11' src/react-dadata.css -o dist/react-dadata.css",
+    "build:css:ci": "./node_modules/lightningcss-cli-linux-x64-gnu/lightningcss --minify --bundle --targets '>0.2%, ie 11' src/react-dadata.css -o dist/react-dadata.css",
+    "build:cjs": "tsc --module commonjs --target es5 --outDir dist/cjs",
+    "build:esm": "tsc --module es2015 --target es5 --outDir dist/esm",
+    "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist",
+    "build:ci": "NODE_ENV=production run-s clean build:css:ci build:cjs build:esm build:types",
+    "build": "NODE_ENV=production run-s clean build:css build:cjs build:esm build:types",
+    "size-build": "pnpm build:esm",
+    "test:lint": "biome check src/ example/",
+    "test:size-limit": "pnpm build:esm && size-limit",
+    "test": "vitest --coverage",
+    "test:once": "vitest run --coverage",
+    "vitest-preview": "vitest-preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vitalybaev/react-dadata.git"
+  },
+  "dependencies": {
+    "debounce": "^1.2.1",
+    "highlight-words": "^1.2.1",
+    "nanoid": "^3.3.6",
+    "shallowequal": "^1.1.0"
+  },
+  "devDependencies": {
+    "@size-limit/preset-small-lib": "^8.0.0",
+    "@testing-library/jest-dom": "^6.4.8",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/debounce": "^1.2.1",
+    "@types/node": "^18.16.3",
+    "@types/react": "^18.3.3",
+    "@types/shallowequal": "^1.1.1",
+    "@vitest/coverage-v8": "^2.0.5",
+    "jsdom": "^24.1.1",
+    "lightningcss-cli": "^1.26.0",
+    "lightningcss-cli-linux-x64-gnu": "^1.26.0",
+    "msw": "^2.3.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "size-limit": "^8.0.0",
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.5",
+    "vitest-preview": "^0.0.1"
+  },
+  "peerDependencies": {
+    "react": "^15.6 || ^16.0 || ^17.0 || ^18.0",
+    "react-dom": "^15.6 || ^16.0 || ^17.0 || ^18.0"
+  },
+  "size-limit": [
+    {
+      "name": "AddressSuggestions",
+      "path": "dist/esm/index.js",
+      "import": "{ AddressSuggestions }",
+      "limit": "6 KB"
+    },
+    {
+      "name": "PartySuggestions",
+      "path": "dist/esm/index.js",
+      "import": "{ PartySuggestions }",
+      "limit": "6 KB"
+    },
+    {
+      "name": "FioSuggestions",
+      "path": "dist/esm/index.js",
+      "import": "{ FioSuggestions }",
+      "limit": "6 KB"
+    },
+    {
+      "name": "BankSuggestions",
+      "path": "dist/esm/index.js",
+      "import": "{ BankSuggestions }",
+      "limit": "6 KB"
+    }
+  ],
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "ie 11",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
