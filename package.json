@@ -1,28 +1,28 @@
 {
-	"name": "@vitalybaev/react-dadata",
-	"private": true,
-	"description": "React-компонент для подсказок адресов, организаций и банков с помощью сервиса DaData.ru",
-	"keywords": [
-		"react",
-		"reactjs",
-		"dadata",
-		"suggestions",
-		"autocomplete",
-		"address",
-		"party",
-		"bank"
-	],
-	"author": "Vitaly Baev <ping@baev.dev>",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/vitalybaev/react-dadata/issues"
-	},
-	"homepage": "https://vitalybaev.github.io/react-dadata/",
-	"devDependencies": {
-		"@biomejs/biome": "1.8.3",
-		"npm-run-all2": "^5.0.0",
-		"regenerator-runtime": "^0.13.11",
-		"rimraf": "^5.0.0"
-	},
-	"packageManager": "pnpm@8.6.7"
+  "name": "@vitalybaev/react-dadata",
+  "private": true,
+  "description": "React-компонент для подсказок адресов, организаций и банков с помощью сервиса DaData.ru",
+  "keywords": [
+    "react",
+    "reactjs",
+    "dadata",
+    "suggestions",
+    "autocomplete",
+    "address",
+    "party",
+    "bank"
+  ],
+  "author": "Vitaly Baev <ping@baev.dev>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vitalybaev/react-dadata/issues"
+  },
+  "homepage": "https://vitalybaev.github.io/react-dadata/",
+  "devDependencies": {
+    "@biomejs/biome": "1.8.3",
+    "npm-run-all2": "^6.2.2",
+    "regenerator-runtime": "^0.13.11",
+    "rimraf": "^5.0.0"
+  },
+  "packageManager": "pnpm@8.6.7"
 }
