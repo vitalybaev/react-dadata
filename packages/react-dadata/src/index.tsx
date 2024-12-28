@@ -3,7 +3,7 @@ import { BankSuggestions } from './BankSuggestions';
 import { EmailSuggestions } from './EmailSuggestions';
 import { FioSuggestions } from './FioSuggestions';
 import { PartySuggestions } from './PartySuggestions';
-import {
+import type {
   DaDataAddress,
   DaDataAddressBounds,
   DaDataBank,
@@ -13,41 +13,55 @@ import {
   DaDataFio,
   DaDataGender,
   DaDataParty,
+  DaDataPartyBelarus,
+  DaDataPartyBelarusStatus,
   DaDataPartyBranchType,
+  DaDataPartyRussia,
+  DaDataPartyRussiaStatus,
   DaDataPartyStatus,
   DaDataPartyType,
   DaDataSuggestion,
 } from './types';
+import { PartyBelarusSuggestions } from './variants/party_belarus/party-belarus';
 
 type DaDataAddressSuggestion = DaDataSuggestion<DaDataAddress>;
 type DaDataPartySuggestion = DaDataSuggestion<DaDataParty>;
+type DaDataPartyRussiaSuggestion = DaDataSuggestion<DaDataPartyRussia>;
+type DaDataPartyBelarusSuggestion = DaDataSuggestion<DaDataPartyBelarus>;
 type DaDataBankSuggestion = DaDataSuggestion<DaDataBank>;
 type DaDataFioSuggestion = DaDataSuggestion<DaDataFio>;
 type DaDataEmailSuggestion = DaDataSuggestion<DaDataEmail>;
 
 export {
-  DaDataSuggestion,
+  type DaDataSuggestion,
   AddressSuggestions,
   PartySuggestions,
+  PartyBelarusSuggestions,
   BankSuggestions,
   FioSuggestions,
   EmailSuggestions,
-  DaDataAddress,
+  type DaDataAddress,
   type DaDataAddressSuggestion,
-  DaDataParty,
+  type DaDataParty,
   type DaDataPartySuggestion,
-  DaDataAddressBounds,
-  DaDataPartyType,
-  DaDataPartyBranchType,
-  DaDataPartyStatus,
-  DaDataBank,
-  DaDataBankStatus,
-  DaDataBankType,
+  type DaDataPartyRussiaSuggestion,
+  type DaDataPartyBelarusSuggestion,
+  type DaDataAddressBounds,
+  type DaDataPartyType,
+  type DaDataPartyRussia,
+  type DaDataPartyRussiaStatus,
+  type DaDataPartyBranchType,
+  type DaDataPartyStatus,
+  type DaDataPartyBelarus,
+  type DaDataPartyBelarusStatus,
+  type DaDataBank,
+  type DaDataBankStatus,
+  type DaDataBankType,
   type DaDataBankSuggestion,
-  DaDataFio,
+  type DaDataFio,
   type DaDataFioSuggestion,
-  DaDataGender,
-  DaDataEmail,
+  type DaDataGender,
+  type DaDataEmail,
   type DaDataEmailSuggestion,
 };
 export { HttpCache } from './http-cache';

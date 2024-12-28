@@ -37,10 +37,11 @@ export interface BaseState<SuggestionType> {
   suggestionIndex: number;
 }
 
-export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.PureComponent<
-  BaseProps<SuggestionType> & OwnProps,
-  BaseState<SuggestionType>
-> {
+export abstract class BaseSuggestions<
+  SuggestionType,
+  OwnProps,
+  RequestPayload extends Record<string, unknown> = Record<string, unknown>,
+> extends React.PureComponent<BaseProps<SuggestionType> & OwnProps, BaseState<SuggestionType>> {
   /**
    * URL для загрузки подсказок, переопределяется в конкретном компоненте
    */
@@ -142,7 +143,7 @@ export abstract class BaseSuggestions<SuggestionType, OwnProps> extends React.Pu
   /**
    * Функция, которая вернет данные для отправки для получения подсказок
    */
-  protected abstract getLoadSuggestionsData(): Record<string, unknown>;
+  protected abstract getLoadSuggestionsData(): RequestPayload;
 
   protected fetchSuggestions = (): void => {
     //

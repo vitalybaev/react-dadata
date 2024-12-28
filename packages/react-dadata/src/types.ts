@@ -154,11 +154,19 @@ export interface DaDataAddress {
 
 export type DaDataAddressBounds = 'country' | 'region' | 'area' | 'city' | 'settlement' | 'street' | 'house';
 
+/**
+ * Общие типы поиска по организациям
+ */
+
 export type DaDataPartyType = 'LEGAL' | 'INDIVIDUAL';
 
-export type DaDataPartyBranchType = 'MAIN' | 'BRANCH';
-
 export type DaDataPartyStatus = 'ACTIVE' | 'LIQUIDATING' | 'LIQUIDATED' | 'REORGANIZING' | 'BANKRUPT';
+
+/**
+ * Типы для подсказок по организациям в России 🇷🇺
+ */
+
+export type DaDataPartyBranchType = 'MAIN' | 'BRANCH';
 
 /**
  * @see https://dadata.ru/api/suggest/party/#response
@@ -237,6 +245,38 @@ export interface DaDataParty {
   };
   source: null;
   qc: null;
+}
+
+/**
+ * Алиасы для типов по организациям в России 🇷🇺 для консистентности с другими странами
+ */
+export type DaDataPartyRussiaStatus = DaDataPartyStatus;
+export type DaDataPartyRussia = DaDataParty;
+
+/**
+ * Типы для подсказок по организациям в Беларуси 🇧🇾
+ */
+
+export type DaDataPartyBelarusStatus = DaDataPartyStatus | 'SUSPENDED';
+
+export interface DaDataPartyBelarus {
+  unp: string;
+  registration_date: string;
+  removal_date: Nullable<string>;
+  actuality_date: string;
+  status: DaDataPartyBelarusStatus;
+  type: DaDataPartyType;
+  full_name_ru: string;
+  full_name_by: Nullable<string>;
+  short_name_ru: Nullable<string>;
+  short_name_by: Nullable<string>;
+  trade_name_ru: Nullable<string>;
+  trade_name_by: Nullable<string>;
+  fio_ru: Nullable<string>;
+  fio_by: Nullable<string>;
+  address: Nullable<string>;
+  oked: string;
+  oked_name: string;
 }
 
 export type DaDataBankType = 'BANK' | 'BANK_BRANCH' | 'NKO' | 'NKO_BRANCH' | 'RKC' | 'OTHER';
