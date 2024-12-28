@@ -1,18 +1,16 @@
 {
   "name": "react-dadata",
-  "version": "2.23.3",
+  "version": "2.24.0",
   "description": "React-компонент для подсказок адресов, организаций и банков с помощью сервиса DaData.ru",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist",
-    "package.json",
-    "../../license",
-    "../../readme.md"
+    "package.json"
   ],
   "scripts": {
-    "prepublishOnly": "pnpm run test:once && pnpm run build",
+    "prepublishOnly": "cp ../../license ./license && pnpm run test:once && pnpm run build",
     "clean": "rimraf dist",
     "build:css": "lightningcss --minify --bundle --targets '>0.2%, ie 11' src/react-dadata.css -o dist/react-dadata.css",
     "build:css:ci": "./node_modules/lightningcss-cli-linux-x64-gnu/lightningcss --minify --bundle --targets '>0.2%, ie 11' src/react-dadata.css -o dist/react-dadata.css",
