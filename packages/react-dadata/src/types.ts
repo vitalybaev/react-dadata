@@ -179,6 +179,15 @@ interface DaDataPartyAddress
   flat_price: Nullable<string>;
 }
 
+export interface DaDataPartyRussiaFio {
+  name: string;
+  patronymic: string;
+  surname: string;
+  gender: null;
+  qc: null;
+  source: null;
+}
+
 export interface DaDataParty {
   inn: string;
   kpp: string;
@@ -187,6 +196,7 @@ export interface DaDataParty {
   hid: string;
   capital: Nullable<string>;
   type: DaDataPartyType;
+  fio?: DaDataPartyRussiaFio;
   name: {
     full_with_opf: string;
     short_with_opf: string;
