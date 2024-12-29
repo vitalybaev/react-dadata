@@ -20,7 +20,6 @@
   "homepage": "https://vitalybaev.github.io/react-dadata/",
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
-    "npm-run-all2": "^6.2.2",
     "rimraf": "^5.0.0"
   },
   "packageManager": "pnpm@9.15.2"
