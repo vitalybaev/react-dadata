@@ -23,11 +23,18 @@ import type {
   DaDataSuggestion,
 } from './types';
 import { PartyBelarusSuggestions } from './variants/party_belarus/party-belarus';
+import { PartyKazakhstanSuggestions } from './variants/party_kazakhstan/party-kazakhstan';
+import type {
+  DaDataPartyKazakhstan,
+  DaDataPartyKazakhstanStatus,
+  DaDataPartyKazakhstanType,
+} from './variants/party_kazakhstan/party-kazakhstan-types';
 
 type DaDataAddressSuggestion = DaDataSuggestion<DaDataAddress>;
 type DaDataPartySuggestion = DaDataSuggestion<DaDataParty>;
 type DaDataPartyRussiaSuggestion = DaDataSuggestion<DaDataPartyRussia>;
 type DaDataPartyBelarusSuggestion = DaDataSuggestion<DaDataPartyBelarus>;
+type DaDataPartyKazakhstanSuggestion = DaDataSuggestion<DaDataPartyKazakhstan>;
 type DaDataBankSuggestion = DaDataSuggestion<DaDataBank>;
 type DaDataFioSuggestion = DaDataSuggestion<DaDataFio>;
 type DaDataEmailSuggestion = DaDataSuggestion<DaDataEmail>;
@@ -37,6 +44,7 @@ export {
   AddressSuggestions,
   PartySuggestions,
   PartyBelarusSuggestions,
+  PartyKazakhstanSuggestions,
   BankSuggestions,
   FioSuggestions,
   EmailSuggestions,
@@ -46,6 +54,7 @@ export {
   type DaDataPartySuggestion,
   type DaDataPartyRussiaSuggestion,
   type DaDataPartyBelarusSuggestion,
+  type DaDataPartyKazakhstanSuggestion,
   type DaDataAddressBounds,
   type DaDataPartyType,
   type DaDataPartyRussia,
@@ -54,6 +63,9 @@ export {
   type DaDataPartyStatus,
   type DaDataPartyBelarus,
   type DaDataPartyBelarusStatus,
+  type DaDataPartyKazakhstan,
+  type DaDataPartyKazakhstanStatus,
+  type DaDataPartyKazakhstanType,
   type DaDataBank,
   type DaDataBankStatus,
   type DaDataBankType,

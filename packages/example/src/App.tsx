@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import './App.css';
 import 'react-dadata/src/react-dadata.css';
-import { AddressSuggestions, PartyBelarusSuggestions, PartySuggestions } from '../../react-dadata/src';
+import {
+  AddressSuggestions,
+  PartyBelarusSuggestions,
+  PartyKazakhstanSuggestions,
+  PartySuggestions,
+} from '../../react-dadata/src';
 
 const DADATA_TOKEN = '3c2e964517d7358776e07d7d699cc2b0626dac54';
 
@@ -10,7 +15,9 @@ function App() {
     return <div className="App">Пожалуйста, установите ваш API токен для DaData в `example/src/App.tsx:5`</div>;
   }
 
-  const [suggestionsType, setSuggestionsType] = useState<'address' | 'party_russia' | 'party_belarus'>('address');
+  const [suggestionsType, setSuggestionsType] = useState<
+    'address' | 'party_russia' | 'party_belarus' | 'party_kazakhstan'
+  >('address');
 
   return (
     <div className="App">
@@ -48,6 +55,17 @@ function App() {
           />
           <label htmlFor="suggestionsType-party_belarus">Компании в Беларуси 🇧🇾</label>
         </div>
+        <div>
+          <input
+            id="suggestionsType-party_kazakhstan"
+            type="radio"
+            name="suggestionsType"
+            value="party_kazakhstan"
+            checked={suggestionsType === 'party_kazakhstan'}
+            onChange={() => setSuggestionsType('party_kazakhstan')}
+          />
+          <label htmlFor="suggestionsType-party_kazakhstan">Компании в Казахстане 🇰🇿</label>
+        </div>
       </div>
       {suggestionsType === 'address' && (
         <AddressSuggestions token={DADATA_TOKEN} inputProps={{ placeholder: 'Введите адрес...' }} selectOnBlur />
@@ -63,6 +81,13 @@ function App() {
         <PartyBelarusSuggestions
           token={DADATA_TOKEN}
           inputProps={{ placeholder: '🇧🇾 Введите название компании, УНП' }}
+          selectOnBlur
+        />
+      )}
+      {suggestionsType === 'party_kazakhstan' && (
+        <PartyKazakhstanSuggestions
+          token={DADATA_TOKEN}
+          inputProps={{ placeholder: '🇰🇿 Введите название компании, БИН' }}
           selectOnBlur
         />
       )}
