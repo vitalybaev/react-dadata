@@ -46,7 +46,7 @@ export class PartyKazakhstanSuggestions extends BaseSuggestions<
   };
 
   // В России ИНН допускает коллизии, и там существует свойство hid
-  // В Беларуси такого свойства нет, поэтому используем БИН + name_kz + registration_date
+  // В Казахстане такого свойства нет, поэтому используем БИН + name_kz + registration_date
   protected getSuggestionKey = (suggestion: DaDataSuggestion<DaDataPartyKazakhstan>): string =>
     suggestion.data.bin + suggestion.data.name_kz + suggestion.data.registration_date;
 
