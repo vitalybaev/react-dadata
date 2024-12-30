@@ -4,7 +4,7 @@ import { http, HttpResponse } from 'msw';
 import { type SetupServerApi, setupServer } from 'msw/node';
 import React from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { PartySuggestions } from '../PartySuggestions';
+import { PartySuggestions } from '../variants/party_russia/party-russia-suggestions';
 import { partyMocks } from './mocks';
 
 type RequestLog = {

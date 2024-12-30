@@ -1,7 +1,7 @@
 import React, { type ReactNode } from 'react';
-import { type BaseProps, BaseSuggestions } from './BaseSuggestions';
-import { HighlightWords } from './HighlightWords';
-import type { DaDataParty, DaDataPartyStatus, DaDataPartyType, DaDataSuggestion } from './types';
+import { type BaseProps, BaseSuggestions } from '../../base-suggestions';
+import { HighlightWords } from '../../highlight-words';
+import type { DaDataParty, DaDataPartyStatus, DaDataPartySuggestion, DaDataPartyType } from './party-russia-types';
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 type Dictionary = { [key: string]: any };
@@ -55,9 +55,9 @@ export class PartySuggestions extends BaseSuggestions<DaDataParty, Props> {
     return requestPayload;
   };
 
-  protected getSuggestionKey = (suggestion: DaDataSuggestion<DaDataParty>): string => suggestion.data.hid;
+  protected getSuggestionKey = (suggestion: DaDataPartySuggestion): string => suggestion.data.hid;
 
-  protected renderOption = (suggestion: DaDataSuggestion<DaDataParty>): ReactNode => {
+  protected renderOption = (suggestion: DaDataPartySuggestion): ReactNode => {
     const { renderOption, highlightClassName } = this.props;
     const { query } = this.state;
 

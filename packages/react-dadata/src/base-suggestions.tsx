@@ -2,9 +2,9 @@ import { debounce } from 'debounce';
 import { nanoid } from 'nanoid';
 import React, { type ChangeEvent, type MouseEvent, type FocusEvent, type ReactNode, type ElementType } from 'react';
 import shallowEqual from 'shallowequal';
+import type { CommonProps, DaDataSuggestion } from './core-types';
 import { DefaultHttpCache, HttpCache } from './http-cache';
 import { makeRequest } from './request';
-import type { CommonProps, DaDataSuggestion } from './types';
 
 export type BaseProps<SuggestionType> = CommonProps<SuggestionType>;
 

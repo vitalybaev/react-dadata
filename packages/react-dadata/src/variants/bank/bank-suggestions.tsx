@@ -1,7 +1,7 @@
 import React, { type ReactNode } from 'react';
-import { type BaseProps, BaseSuggestions } from './BaseSuggestions';
-import { HighlightWords } from './HighlightWords';
-import type { DaDataBank, DaDataBankStatus, DaDataBankType, DaDataSuggestion } from './types';
+import { type BaseProps, BaseSuggestions } from '../../base-suggestions';
+import { HighlightWords } from '../../highlight-words';
+import type { DaDataBank, DaDataBankStatus, DaDataBankSuggestion, DaDataBankType } from './bank-types';
 
 type Dictionary = { [key: string]: unknown };
 
@@ -47,9 +47,9 @@ export class BankSuggestions extends BaseSuggestions<DaDataBank, Props> {
     return requestPayload;
   };
 
-  protected getSuggestionKey = (suggestion: DaDataSuggestion<DaDataBank>): string => `${suggestion.data.bic}`;
+  protected getSuggestionKey = (suggestion: DaDataBankSuggestion): string => `${suggestion.data.bic}`;
 
-  protected renderOption = (suggestion: DaDataSuggestion<DaDataBank>): ReactNode => {
+  protected renderOption = (suggestion: DaDataBankSuggestion): ReactNode => {
     const { renderOption, highlightClassName } = this.props;
     const { query } = this.state;
 

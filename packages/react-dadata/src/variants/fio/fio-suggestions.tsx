@@ -1,7 +1,7 @@
 import React, { type ReactNode } from 'react';
-import { type BaseProps, BaseSuggestions } from './BaseSuggestions';
-import { HighlightWords } from './HighlightWords';
-import type { DaDataFio, DaDataGender, DaDataSuggestion } from './types';
+import { type BaseProps, BaseSuggestions } from '../../base-suggestions';
+import { HighlightWords } from '../../highlight-words';
+import type { DaDataFio, DaDataFioSuggestion, DaDataGender } from './fio-types';
 
 interface Props extends BaseProps<DaDataFio> {
   filterGender?: DaDataGender[];
@@ -33,12 +33,12 @@ export class FioSuggestions extends BaseSuggestions<DaDataFio, Props> {
     return requestPayload;
   };
 
-  protected getSuggestionKey = (suggestion: DaDataSuggestion<DaDataFio>): string =>
+  protected getSuggestionKey = (suggestion: DaDataFioSuggestion): string =>
     `name:${suggestion.data.name || ''}surname:${suggestion.data.surname || ''}patronymic:${
       suggestion.data.patronymic || ''
     }`;
 
-  protected renderOption = (suggestion: DaDataSuggestion<DaDataFio>): ReactNode => {
+  protected renderOption = (suggestion: DaDataFioSuggestion): ReactNode => {
     const { renderOption, highlightClassName } = this.props;
     const { query } = this.state;
 
