@@ -1,6 +1,4 @@
-/**
- * Типы для подсказок по компаниям в Казахстане 🇰🇿
- */
+import type { DaDataSuggestion } from '../../core-types';
 
 export type DaDataPartyKazakhstanStatus = 'ACTIVE' | 'INACTIVE' | 'LIQUIDATING' | 'LIQUIDATED' | 'SUSPENDED';
 
@@ -46,3 +44,5 @@ export interface DaDataPartyKazakhstanRequestPayload extends Record<string, unkn
   count: number;
   filters?: DaDataPartyKazakhstanRequestFilterItem[];
 }
+
+export type DaDataPartyKazakhstanSuggestion = DaDataSuggestion<DaDataPartyKazakhstan>;

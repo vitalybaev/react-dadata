@@ -1,5 +1,5 @@
+import type { DaDataSuggestion } from './core-types';
 import type { HttpCache } from './http-cache';
-import type { DaDataSuggestion } from './types';
 
 export interface RequestOptions {
   headers: { [header: string]: string };

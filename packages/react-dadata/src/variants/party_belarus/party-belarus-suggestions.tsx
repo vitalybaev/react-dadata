@@ -1,12 +1,17 @@
 import React, { type ReactNode } from 'react';
-import { type BaseProps, BaseSuggestions } from '../../BaseSuggestions';
-import { HighlightWords } from '../../HighlightWords';
-import type { DaDataPartyBelarus, DaDataPartyBelarusStatus, DaDataPartyType, DaDataSuggestion } from '../../types';
+import { type BaseProps, BaseSuggestions } from '../../base-suggestions';
+import { HighlightWords } from '../../highlight-words';
+import type {
+  DaDataPartyBelarus,
+  DaDataPartyBelarusStatus,
+  DaDataPartyBelarusSuggestion,
+  DaDataPartyBelarusType,
+} from './party-belarus-types';
 import type { DaDataBelarusRequestPayload } from './party-belarus-types';
 
 interface Props extends BaseProps<DaDataPartyBelarus> {
   filterStatus?: DaDataPartyBelarusStatus[];
-  filterType?: DaDataPartyType[];
+  filterType?: DaDataPartyBelarusType[];
 }
 
 export class PartyBelarusSuggestions extends BaseSuggestions<DaDataPartyBelarus, Props, DaDataBelarusRequestPayload> {
@@ -49,10 +54,10 @@ export class PartyBelarusSuggestions extends BaseSuggestions<DaDataPartyBelarus,
 
   // В России ИНН допускает коллизии, и там существует свойство hid
   // В Беларуси такого свойства нет, поэтому используем UNP + full_name_by + registration_date
-  protected getSuggestionKey = (suggestion: DaDataSuggestion<DaDataPartyBelarus>): string =>
+  protected getSuggestionKey = (suggestion: DaDataPartyBelarusSuggestion): string =>
     suggestion.data.unp + suggestion.data.full_name_by + suggestion.data.registration_date;
 
-  protected renderOption = (suggestion: DaDataSuggestion<DaDataPartyBelarus>): ReactNode => {
+  protected renderOption = (suggestion: DaDataPartyBelarusSuggestion): ReactNode => {
     const { renderOption, highlightClassName } = this.props;
     const { query } = this.state;
 

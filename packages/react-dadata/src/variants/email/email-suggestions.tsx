@@ -1,7 +1,7 @@
 import React, { type ReactNode } from 'react';
-import { type BaseProps, BaseSuggestions } from './BaseSuggestions';
-import { HighlightWords } from './HighlightWords';
-import type { DaDataEmail, DaDataSuggestion } from './types';
+import { type BaseProps, BaseSuggestions } from '../../base-suggestions';
+import { HighlightWords } from '../../highlight-words';
+import type { DaDataEmail, DaDataEmailSuggestion } from './email-types';
 
 type Props = BaseProps<DaDataEmail>;
 
@@ -18,9 +18,9 @@ export class EmailSuggestions extends BaseSuggestions<DaDataEmail, Props> {
     };
   };
 
-  protected getSuggestionKey = (suggestion: DaDataSuggestion<DaDataEmail>): string => suggestion.value;
+  protected getSuggestionKey = (suggestion: DaDataEmailSuggestion): string => suggestion.value;
 
-  protected renderOption = (suggestion: DaDataSuggestion<DaDataEmail>): ReactNode => {
+  protected renderOption = (suggestion: DaDataEmailSuggestion): ReactNode => {
     const { renderOption, highlightClassName } = this.props;
     const { query } = this.state;
 

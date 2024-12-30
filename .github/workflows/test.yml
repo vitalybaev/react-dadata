@@ -24,9 +24,11 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Type Check
+        run: pnpm --filter react-dadata test:type-check
       - name: Run tests
         run:
-          pnpm --filter=react-dadata test
+          pnpm test
       - name: Coveralls
         uses: coverallsapp/github-action@v2
         with:

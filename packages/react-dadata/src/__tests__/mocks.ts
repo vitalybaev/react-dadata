@@ -1,7 +1,8 @@
 import type { RequestOptions } from '../request';
-import type { DaDataAddress, DaDataParty, DaDataSuggestion } from '../types';
+import type { DaDataAddressSuggestion } from '../variants/address/address-types';
+import type { DaDataPartySuggestion } from '../variants/party_russia/party-russia-types';
 
-export const addressMockKrasnodar: DaDataSuggestion<DaDataAddress> = {
+export const addressMockKrasnodar: DaDataAddressSuggestion = {
   value: 'Краснодарский край, Мостовский р-н',
   unrestricted_value: 'Краснодарский край, Мостовский р-н',
   data: {
@@ -100,7 +101,7 @@ export const addressMockKrasnodar: DaDataSuggestion<DaDataAddress> = {
   },
 };
 
-export const addressMocks: Record<string, DaDataSuggestion<DaDataAddress>[]> = {
+export const addressMocks: Record<string, DaDataAddressSuggestion[]> = {
   М: [
     {
       value: 'г Москва',
@@ -1965,7 +1966,7 @@ export const createAddressMock =
     }, wait);
   };
 
-export const partyMocks: Record<string, DaDataSuggestion<DaDataParty>[]> = {
+export const partyMocks: Record<string, DaDataPartySuggestion[]> = {
   с: [
     {
       value: 'САМАРСКИЙ УНИВЕРСИТЕТ',

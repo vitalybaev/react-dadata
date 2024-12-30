@@ -17,6 +17,10 @@
   "bugs": {
     "url": "https://github.com/vitalybaev/react-dadata/issues"
   },
+  "scripts": {
+    "test": "pnpm --filter './packages/**' --if-present test",
+    "test:lint": "pnpm --filter './packages/**' test:lint-package"
+  },
   "homepage": "https://vitalybaev.github.io/react-dadata/",
   "devDependencies": {
     "@biomejs/biome": "1.8.3",

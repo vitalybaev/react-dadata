@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "test:lint-package": "biome check src/"
   },
   "dependencies": {
     "react": "^18.0.0",

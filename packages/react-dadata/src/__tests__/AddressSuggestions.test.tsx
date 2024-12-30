@@ -13,10 +13,10 @@ import { http, HttpResponse } from 'msw';
 import { type SetupServerApi, setupServer } from 'msw/node';
 import React, { createRef, forwardRef, type HTMLProps, type ReactNode } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { debug } from 'vitest-preview';
-import { AddressSuggestions } from '../AddressSuggestions';
+// import { debug } from 'vitest-preview';
 import * as requestModule from '../request';
-import type { DaDataAddress, DaDataSuggestion } from '../types';
+import { AddressSuggestions } from '../variants/address/address-suggestions';
+import type { DaDataAddressSuggestion } from '../variants/address/address-types';
 import { addressMockKrasnodar, addressMocks, createAddressMock, mockedRequestCalls } from './mocks';
 
 type RequestLog = {
@@ -387,7 +387,7 @@ describe('AddressSuggestions', () => {
   });
 
   it('correctly renders with renderOption', async () => {
-    const renderOption: (suggestion: DaDataSuggestion<DaDataAddress>) => ReactNode = (suggestion) => {
+    const renderOption: (suggestion: DaDataAddressSuggestion) => ReactNode = (suggestion) => {
       return <span className="test-class">RenderOption {suggestion.data.country}</span>;
     };
 
@@ -418,8 +418,8 @@ describe('AddressSuggestions', () => {
   });
 
   it('passes current input value to renderOption', async () => {
-    const renderOption = vi.fn<(suggestion: DaDataSuggestion<DaDataAddress>, query: string) => ReactNode>(
-      (suggestion: DaDataSuggestion<DaDataAddress>): ReactNode => {
+    const renderOption = vi.fn<(suggestion: DaDataAddressSuggestion, query: string) => ReactNode>(
+      (suggestion: DaDataAddressSuggestion): ReactNode => {
         return suggestion.value;
       },
     );

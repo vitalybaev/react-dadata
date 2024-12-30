@@ -22,5 +22,5 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --ignore-scripts
       - name: Run tests
-        run: pnpm --filter=react-dadata test:lint
+        run: pnpm test:lint
 
