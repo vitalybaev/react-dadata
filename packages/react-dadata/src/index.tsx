@@ -20,9 +20,13 @@ export type {
   DaDataPartyBranchType,
   DaDataPartyRussiaFio,
   DaDataPartyRussiaSuggestion,
+  DaDataPartyRussiaStatus,
   DaDataPartySuggestion,
 } from './variants/party_russia/party-russia-types';
-export { PartySuggestions } from './variants/party_russia/party-russia-suggestions';
+export {
+  PartySuggestions,
+  PartySuggestions as PartyRussiaSuggestions,
+} from './variants/party_russia/party-russia-suggestions';
 
 /**
  * Организации в Беларуси 🇧🇾
@@ -55,7 +59,7 @@ export { BankSuggestions } from './variants/bank/bank-suggestions';
 /**
  * ФИО
  */
-export type { DaDataFio, DaDataFioSuggestion } from './variants/fio/fio-types';
+export type { DaDataFio, DaDataFioSuggestion, DaDataGender } from './variants/fio/fio-types';
 export { FioSuggestions } from './variants/fio/fio-suggestions';
 
 /**
