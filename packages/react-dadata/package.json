@@ -1,6 +1,6 @@
 {
   "name": "react-dadata",
-  "version": "2.27.0",
+  "version": "2.27.1",
   "description": "React-компонент для подсказок адресов, организаций и банков с помощью сервиса DaData.ru",
   "keywords": [
     "react",
