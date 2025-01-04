@@ -6,6 +6,7 @@
     "moduleResolution": "node",
     "strict": true,
     "target": "esnext",
+    "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -13,6 +14,7 @@
     "typeRoots": ["node_modules/@types", "typings"]
   },
   "include": [
-    "./src/*"
+    "./src/*",
+    "./setupTests.ts"
   ]
 }

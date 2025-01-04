@@ -1,10 +1,10 @@
 import React, { type ReactNode } from 'react';
-import { type BaseProps, BaseSuggestions } from '../../BaseSuggestions';
-import { HighlightWords } from '../../HighlightWords';
-import type { DaDataSuggestion } from '../../types';
+import { type BaseProps, BaseSuggestions } from '../../base-suggestions';
+import { HighlightWords } from '../../highlight-words';
 import type {
   DaDataPartyKazakhstan,
   DaDataPartyKazakhstanRequestPayload,
+  DaDataPartyKazakhstanSuggestion,
   DaDataPartyKazakhstanType,
 } from './party-kazakhstan-types';
 
@@ -46,11 +46,11 @@ export class PartyKazakhstanSuggestions extends BaseSuggestions<
   };
 
   // В России ИНН допускает коллизии, и там существует свойство hid
-  // В Беларуси такого свойства нет, поэтому используем БИН + name_kz + registration_date
-  protected getSuggestionKey = (suggestion: DaDataSuggestion<DaDataPartyKazakhstan>): string =>
+  // В Казахстане такого свойства нет, поэтому используем БИН + name_kz + registration_date
+  protected getSuggestionKey = (suggestion: DaDataPartyKazakhstanSuggestion): string =>
     suggestion.data.bin + suggestion.data.name_kz + suggestion.data.registration_date;
 
-  protected renderOption = (suggestion: DaDataSuggestion<DaDataPartyKazakhstan>): ReactNode => {
+  protected renderOption = (suggestion: DaDataPartyKazakhstanSuggestion): ReactNode => {
     const { renderOption, highlightClassName } = this.props;
     const { query } = this.state;
 

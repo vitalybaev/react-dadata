@@ -1,9 +1,9 @@
 import React, { type ReactNode } from 'react';
-import { type BaseProps, BaseSuggestions } from './BaseSuggestions';
-import { HighlightWords } from './HighlightWords';
-import type { DaDataAddress, DaDataAddressBounds, DaDataSuggestion } from './types';
+import { type BaseProps, BaseSuggestions } from '../../base-suggestions';
+import { HighlightWords } from '../../highlight-words';
+import type { DaDataAddress, DaDataAddressBounds, DaDataAddressSuggestion } from './address-types';
 
-type Dictionary = { [key: string]: unknown };
+type Dictionary = Record<string, unknown>;
 
 interface Props extends BaseProps<DaDataAddress> {
   filterLanguage?: 'ru' | 'en';
@@ -64,7 +64,7 @@ export class AddressSuggestions extends BaseSuggestions<DaDataAddress, Props> {
     return requestPayload;
   };
 
-  protected renderOption = (suggestion: DaDataSuggestion<DaDataAddress>): ReactNode => {
+  protected renderOption = (suggestion: DaDataAddressSuggestion): ReactNode => {
     const { renderOption, highlightClassName } = this.props;
     const { query } = this.state;
 

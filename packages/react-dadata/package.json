@@ -20,8 +20,9 @@
     "build:ci": "NODE_ENV=production pnpm run '/^(clean|build:css:ci|build:cjs|build:esm|build:types)$/'",
     "build": "NODE_ENV=production pnpm run '/^(clean|build:css|build:cjs|build:esm|build:types)$/'",
     "size-build": "pnpm build:esm",
-    "test:lint": "biome check src/ example/",
+    "test:lint-package": "biome check src/",
     "test:size-limit": "pnpm build:esm && size-limit",
+    "test:type-check": "tsc --noEmit",
     "test": "vitest --coverage",
     "test:once": "vitest run --coverage",
     "vitest-preview": "vitest-preview"
