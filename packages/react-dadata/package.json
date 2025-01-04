@@ -2,6 +2,21 @@
   "name": "react-dadata",
   "version": "2.26.1",
   "description": "React-компонент для подсказок адресов, организаций и банков с помощью сервиса DaData.ru",
+  "keywords": [
+    "react",
+    "reactjs",
+    "dadata",
+    "suggestions",
+    "autocomplete",
+    "address",
+    "party",
+    "bank"
+  ],
+  "author": "Vitaly Baev <ping@baev.dev>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vitalybaev/react-dadata/issues"
+  },
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
