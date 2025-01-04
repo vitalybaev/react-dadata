@@ -21,6 +21,6 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --ignore-scripts
-      - name: Run tests
+      - name: Linter
         run: pnpm test:lint
 

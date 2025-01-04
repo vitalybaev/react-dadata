@@ -26,7 +26,7 @@ jobs:
         run: pnpm install --frozen-lockfile --ignore-scripts
       - name: Type Check
         run: pnpm --filter react-dadata test:type-check
-      - name: Run tests
+      - name: Tests
         run:
           pnpm test
       - name: Coveralls

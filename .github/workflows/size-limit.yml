@@ -1,16 +1,17 @@
-name: "Size-Limit"
+name: Size Limit
 
 on:
   pull_request:
+  push:
     branches:
       - main
+
 jobs:
-  size:
+  size-limit:
     runs-on: ubuntu-latest
-    env:
-      CI_JOB_NUMBER: 1
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout the repository
+        uses: actions/checkout@v4
       - name: Install pnpm
         uses: pnpm/action-setup@v4
       - name: Install Node.js
@@ -20,10 +21,6 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --ignore-scripts
-      - name: Size Limit
-        uses: andresz1/size-limit-action@v1
-        with:
-          build_script: build:ci
-          directory: packages/react-dadata
-          package_manager: pnpm
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run Size Limit
+        run: pnpm --filter react-dadata test:size-limit
+
