@@ -1,6 +1,6 @@
 {
   "name": "react-dadata",
-  "version": "2.27.2",
+  "version": "2.27.3",
   "description": "React-компонент для подсказок адресов, организаций и банков с помощью сервиса DaData.ru",
   "keywords": [
     "react",
@@ -29,8 +29,8 @@
     "clean": "rimraf dist",
     "build:css": "lightningcss --minify --bundle --targets '>0.2%, ie 11' src/react-dadata.css -o dist/react-dadata.css",
     "build:css:ci": "./node_modules/lightningcss-cli-linux-x64-gnu/lightningcss --minify --bundle --targets '>0.2%, ie 11' src/react-dadata.css -o dist/react-dadata.css",
-    "build:cjs": "tsc --module commonjs --target es5 --outDir dist/cjs",
-    "build:esm": "tsc --module es2015 --target es5 --outDir dist/esm",
+    "build:cjs": "tsc --project tsconfig.build.json --module commonjs --target es5 --outDir dist/cjs",
+    "build:esm": "tsc --project tsconfig.build.json --module es2015 --target es5 --outDir dist/esm",
     "build:types": "tsc --project tsconfig.types.json",
     "build:ci": "NODE_ENV=production pnpm run --sequential '/^(clean|build:css:ci|build:cjs|build:esm|build:types)$/'",
     "build": "NODE_ENV=production pnpm run --sequential '/^(clean|build:css|build:cjs|build:esm|build:types)$/'",
